@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="400" viewBox="0 0 680 400" role="img" aria-labelledby="pipeline-title pipeline-desc">
+  <title id="pipeline-title">Idempotentny pipeline zamówień</title>
+  <desc id="pipeline-desc">Partia zamówień z identyfikatorem order_id i wersją trafia do warunkowego UPSERT. Nowsza wersja aktualizuje rekord, a ponowienie nie tworzy duplikatów. Starsza lub równa wersja pozostawia stan tabeli bez zmiany.</desc>
+  <rect width="680" height="400" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="100" y="28" width="480" height="82" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="46" width="4" height="46" rx="2" fill="#168a87"/>
+    <text x="146" y="62" font-size="14" font-weight="600">Partia zamówień</text>
+    <text x="146" y="85" font-size="12" fill="#52606b">order_id + version</text>
+
+    <path d="M340 112 V129" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 128 L340 134 L345 128" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="100" y="139" width="480" height="82" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="157" width="4" height="46" rx="2" fill="#7b5aad"/>
+    <text x="146" y="173" font-size="14" font-weight="600">Warunkowy UPSERT</text>
+    <text x="146" y="196" font-size="12" fill="#52606b">Nowsza wersja aktualizuje rekord</text>
+
+    <path d="M340 223 V240" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 239 L340 245 L345 239" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="100" y="250" width="480" height="82" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="268" width="4" height="46" rx="2" fill="#168a87"/>
+    <text x="146" y="284" font-size="14" font-weight="600">Stan tabeli</text>
+    <text x="146" y="307" font-size="12" fill="#52606b">Retry nie tworzy duplikatów</text>
+
+    <text x="340" y="373" text-anchor="middle" font-size="12" fill="#52606b">Starsza lub równa wersja: bez zmiany.</text>
+  </g>
+</svg>
