@@ -1,0 +1,26 @@
+---
+layout: default
+---
+<article class="post">
+  <nav class="breadcrumb" aria-label="Okruszki">
+    <a href="{{ '/' | relative_url }}">Start</a>
+    <span aria-hidden="true">/</span>
+    <a href="{{ '/' | relative_url }}#dziennik">Dziennik</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ page.title | escape }}</span>
+  </nav>
+  <div class="post-meta">
+    {%- if page.categories.size > 0 %}
+    <span class="accent">{{ page.categories.first | replace: "-", " " }}</span>
+    {%- endif %}
+    {%- if page.author %}
+    <span>{{ page.author }}</span>
+    {%- endif %}
+  </div>
+  <div class="hud post-card">
+    <div class="prose">
+{{ content }}
+    </div>
+  </div>
+  <p class="post-back"><a class="link-mono accent" href="{{ '/' | relative_url }}#dziennik">← Wróć do dziennika</a></p>
+</article>
