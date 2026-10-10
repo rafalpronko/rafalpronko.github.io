@@ -1,0 +1,138 @@
+---
+layout: default
+---
+{%- assign latest = site.posts.first -%}
+<!-- HERO -->
+<section id="top" class="hero">
+  <div class="hero-copy">
+    <div class="status"><span class="status-dot pulse" aria-hidden="true"></span><span>System online · Dziennik techniczny</span></div>
+    <h1 class="hero-title">Dzień dobry.<br><span class="glow">Tu Rafał.</span></h1>
+    <p class="lead">Piszę o ML, LLM i Data Engineering — od podstaw po praktyczne przykłady pracy z danymi i modelami.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#moduly">Uruchom moduły</a>
+      <a class="link-mono" href="#dziennik">Otwórz dziennik →</a>
+    </div>
+  </div>
+
+  <!-- REAKTOR -->
+  <div class="reactor-wrap" aria-hidden="true">
+    <div class="reactor">
+      <div class="ring ring-1 spin"></div>
+      <div class="ring ring-2 spin2"></div>
+      <div class="ring ring-3 spin3"></div>
+      <div class="ring ring-4"></div>
+      <div class="ring ring-5 spin2"></div>
+      <div class="ring core">RP</div>
+      <div class="reactor-label reactor-label-bl">PYTHON · SQL</div>
+      <div class="reactor-label reactor-label-tr">ML · LLM</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODUŁY -->
+<section id="moduly" class="section">
+  <div class="section-head"><span class="section-no">// 01</span><h2>Moduły</h2><div class="section-rule" aria-hidden="true"></div></div>
+  <div class="modules">
+    <div class="module-row">
+      <a class="hud module module-lg" href="{% if latest %}{{ latest.url | relative_url }}{% else %}#dziennik{% endif %}">
+        <div class="module-meta"><span>MODUŁ 01</span><span>RDZEŃ</span></div>
+        <div class="module-body">
+          <h3>Data Engineering</h3>
+          <p>Pipeline’y, które można bezpiecznie uruchomić ponownie: klucze, wersje, transakcje i testy stanu danych. Pierwszy wpis w dzienniku: idempotencja w praktyce.</p>
+        </div>
+      </a>
+      <a class="hud module" href="#dziennik">
+        <div class="module-meta"><span>MODUŁ 02</span></div>
+        <div class="module-body">
+          <h3>Machine Learning</h3>
+          <p>Uczenie maszynowe od podstaw do praktyki: dane, modele i ich ocena.</p>
+        </div>
+      </a>
+    </div>
+    <div class="module-row">
+      <a class="hud module module-md" href="#dziennik">
+        <div class="module-meta"><span>MODUŁ 03</span></div>
+        <div class="module-body">
+          <h3>LLM / RAG</h3>
+          <p>Duże modele językowe i wyszukiwanie kontekstu: jak łączyć model z własnymi danymi.</p>
+        </div>
+      </a>
+      <a class="hud module module-md" href="#arsenal">
+        <div class="module-meta"><span>MODUŁ 04</span></div>
+        <div class="module-body">
+          <h3>Narzędzia</h3>
+          <p>Python, SQL i biblioteka standardowa — małe, sprawdzalne przykłady kodu z wpisów.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DZIENNIK -->
+<section id="dziennik" class="section">
+  <div class="section-head"><span class="section-no">// 02</span><h2>Dziennik</h2><div class="section-rule" aria-hidden="true"></div></div>
+  <div class="diary">
+    <div class="hud diary-list">
+      {%- for post in site.posts %}
+      <a class="diary-item" href="{{ post.url | relative_url }}">
+        <div class="diary-meta">
+          {% include date-pl.html date=post.date %}
+          {%- if post.categories.size > 0 %}
+          <span class="diary-cat">{{ post.categories.first | replace: "-", " " }}</span>
+          {%- endif %}
+        </div>
+        <div class="diary-text">
+          <h3>{{ post.title | escape }}</h3>
+          {%- if post.description %}
+          <p>{{ post.description | escape }}</p>
+          {%- endif %}
+        </div>
+      </a>
+      {%- else %}
+      <p class="diary-empty">Brak wpisów.</p>
+      {%- endfor %}
+    </div>
+
+    <aside class="hud sidebar" aria-label="O blogu">
+      <div class="kicker">Transmisja · o blogu</div>
+      <div class="sidebar-item">
+        <span class="sidebar-label">[O MNIE]</span>
+        <span>Nazywam się Rafał Prońko. Piszę o ML, LLM i Data Engineering — od podstaw po praktyczne przykłady pracy z danymi i modelami.</span>
+      </div>
+      {%- if latest %}
+      <div class="sidebar-item">
+        <span class="sidebar-label">[OSTATNI WPIS]&nbsp;·&nbsp;{% include date-pl.html date=latest.date %}</span>
+        <a href="{{ latest.url | relative_url }}">{{ latest.title | escape }}</a>
+      </div>
+      {%- endif %}
+      <div class="sidebar-item">
+        <span class="sidebar-label">[SUBSKRYPCJA]</span>
+        <a href="{{ '/feed.xml' | relative_url }}">Kanał RSS / Atom →</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ARSENAŁ -->
+<section id="arsenal" class="section">
+  <div class="section-head"><span class="section-no">// 03</span><h2>Arsenał</h2><div class="section-rule" aria-hidden="true"></div></div>
+  <div class="arsenal">
+    <div class="arsenal-copy">
+      <p class="lead">Fragmenty kodu z wpisów w dzienniku. Małe, czytelne, do skopiowania.</p>
+      <p class="arsenal-note">Fragment z artykułu „Pipeline, który można uruchomić drugi raz. Idempotencja w praktyce”: warunkowy UPSERT i transakcja dla całej partii.</p>
+      <a class="link-mono accent" href="{{ '/blog/pipeline-idempotencja/' | relative_url }}">Czytaj artykuł →</a>
+      <a class="link-mono accent" href="https://github.com/{{ site.github_username }}/rafalpronko.github.io/blob/master/_posts/2023-10-12-pipeline-idempotencja.md?plain=1#L73-L80">Źródło na GitHubie →</a>
+    </div>
+    <figure class="hud code-card">
+      <figcaption class="code-head"><span>pipeline.py · fragment</span><span class="accent">PYTHON</span></figcaption>
+<pre><code>UPSERT = <span class="t-str">"""INSERT INTO orders VALUES (?, ?, ?)
+    ON CONFLICT (order_id) DO UPDATE SET amount_cents = excluded.amount_cents,
+    version = excluded.version WHERE excluded.version &gt; orders.version"""</span>
+
+
+<span class="t-kw">def</span> load(con: sqlite3.Connection, batch: list[Order]) -&gt; <span class="t-kw">None</span>:
+    <span class="t-kw">with</span> con:  <span class="t-cm"># commit albo rollback; połączenia nie zamyka</span>
+        con.executemany(UPSERT, batch)<span class="blink accent" aria-hidden="true">▍</span></code></pre>
+    </figure>
+  </div>
+</section>

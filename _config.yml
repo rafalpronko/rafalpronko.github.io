@@ -1,4 +1,25 @@
-theme: jekyll-theme-architect
-title: Rafał Pronko
-description: Personal website of Rafał Pronko
-show_downloads: false
+title: Rafał Prońko
+description: Blog o ML, LLM i Data Engineering — od podstaw po praktyczne przykłady pracy z danymi i modelami.
+url: https://rafalpronko.github.io
+baseurl: ""
+lang: pl
+author: Rafał Prońko
+github_username: rafalpronko
+
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-feed
+
+feed:
+  path: feed.xml
+
+exclude:
+  - tests
+  - README.md
+  - Gemfile
+  - Gemfile.lock
