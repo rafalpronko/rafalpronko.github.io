@@ -2,12 +2,12 @@
 layout: default
 ---
 <article class="post">
-  <nav class="breadcrumb" aria-label="Okruszki">
+  <nav class="breadcrumb" aria-label="Okruszki" lang="pl">
     <a href="{{ '/' | relative_url }}">Start</a>
     <span aria-hidden="true">/</span>
     <a href="{{ '/' | relative_url }}#dziennik">Dziennik</a>
     <span aria-hidden="true">/</span>
-    <span aria-current="page">{{ page.title | escape }}</span>
+    <span aria-current="page" lang="{{ page.lang | default: site.lang | default: 'pl' }}">{{ page.title | escape }}</span>
   </nav>
   <div class="post-meta">
     {%- if page.categories.size > 0 %}
@@ -22,5 +22,5 @@ layout: default
 {{ content }}
     </div>
   </div>
-  <p class="post-back"><a class="link-mono accent" href="{{ '/' | relative_url }}#dziennik">← Wróć do dziennika</a></p>
+  <p class="post-back" lang="pl"><a class="link-mono accent" href="{{ '/' | relative_url }}#dziennik">← Wróć do dziennika</a></p>
 </article>

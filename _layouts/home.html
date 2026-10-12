@@ -119,9 +119,9 @@ layout: default
   <div class="arsenal">
     <div class="arsenal-copy">
       <p class="lead">Fragmenty kodu z wpisów w dzienniku. Małe, czytelne, do skopiowania.</p>
-      <p class="arsenal-note">Fragment z artykułu „Pipeline, który można uruchomić drugi raz. Idempotencja w praktyce”: warunkowy UPSERT i transakcja dla całej partii.</p>
+      <p class="arsenal-note">Fragment z artykułu „A pipeline you can run twice. Idempotency in practice”: warunkowy UPSERT i transakcja dla całej partii.</p>
       <a class="link-mono accent" href="{{ '/blog/pipeline-idempotencja/' | relative_url }}">Czytaj artykuł →</a>
-      <a class="link-mono accent" href="https://github.com/{{ site.github_username }}/rafalpronko.github.io/blob/master/_posts/2023-10-12-pipeline-idempotencja.md?plain=1#L73-L80">Źródło na GitHubie →</a>
+      <a class="link-mono accent" href="https://github.com/{{ site.github_username }}/rafalpronko.github.io/blob/master/_posts/2023-10-12-pipeline-idempotencja.md?plain=1#L74-L81">Źródło na GitHubie →</a>
     </div>
     <figure class="hud code-card">
       <figcaption class="code-head"><span>pipeline.py · fragment</span><span class="accent">PYTHON</span></figcaption>
@@ -131,7 +131,7 @@ layout: default
 
 
 <span class="t-kw">def</span> load(con: sqlite3.Connection, batch: list[Order]) -&gt; <span class="t-kw">None</span>:
-    <span class="t-kw">with</span> con:  <span class="t-cm"># commit albo rollback; połączenia nie zamyka</span>
+    <span class="t-kw">with</span> con:  <span class="t-cm"># commit or rollback; does not close the connection</span>
         con.executemany(UPSERT, batch)<span class="blink accent" aria-hidden="true">▍</span></code></pre>
     </figure>
   </div>
