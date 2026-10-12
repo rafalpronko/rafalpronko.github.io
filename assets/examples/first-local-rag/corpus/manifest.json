@@ -1,0 +1,49 @@
+{
+  "documents": [
+    {
+      "id": "rfc9110-9.2.2",
+      "file": "rfc9110-section-9.2.2.txt",
+      "title": "RFC 9110, Section 9.2.2. Idempotent Methods",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-9.2.2",
+      "source_text_url": "https://www.rfc-editor.org/rfc/rfc9110.txt",
+      "source_text_sha256": "21c1cdce6ab0e5509b04d84a28000836c7a087cf786efe6f04877ebfff47232a",
+      "source_lines": [
+        3861,
+        3904
+      ],
+      "sha256": "e18335c986fb3acb13939b61e2c3a2d36efb0e6566b9bb4ce5e7db4a18f51075",
+      "retrieved_utc": "2026-10-12T09:12:09+00:00",
+      "attribution": "Unmodified extract from RFC 9110 (HTTP Semantics), IETF, June 2022. Copyright (c) 2022 IETF Trust and the persons identified as the document authors. All rights reserved. Reproduced under Section 3.c.iii of the IETF Trust Legal Provisions."
+    },
+    {
+      "id": "rfc9110-9.3.1",
+      "file": "rfc9110-section-9.3.1.txt",
+      "title": "RFC 9110, Section 9.3.1. GET",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-9.3.1",
+      "source_text_url": "https://www.rfc-editor.org/rfc/rfc9110.txt",
+      "source_text_sha256": "21c1cdce6ab0e5509b04d84a28000836c7a087cf786efe6f04877ebfff47232a",
+      "source_lines": [
+        3920,
+        3983
+      ],
+      "sha256": "439844c082fe493817e9302837149c1d00925c544becc2dc871690668b1d5ab2",
+      "retrieved_utc": "2026-10-12T09:12:09+00:00",
+      "attribution": "Unmodified extract from RFC 9110 (HTTP Semantics), IETF, June 2022. Copyright (c) 2022 IETF Trust and the persons identified as the document authors. All rights reserved. Reproduced under Section 3.c.iii of the IETF Trust Legal Provisions."
+    },
+    {
+      "id": "rfc9110-9.3.2",
+      "file": "rfc9110-section-9.3.2.txt",
+      "title": "RFC 9110, Section 9.3.2. HEAD",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-9.3.2",
+      "source_text_url": "https://www.rfc-editor.org/rfc/rfc9110.txt",
+      "source_text_sha256": "21c1cdce6ab0e5509b04d84a28000836c7a087cf786efe6f04877ebfff47232a",
+      "source_lines": [
+        3985,
+        4023
+      ],
+      "sha256": "353472567d7553be5d3cb1e4da80689caa948cd64ad7988906dfb10a74b51752",
+      "retrieved_utc": "2026-10-12T09:12:09+00:00",
+      "attribution": "Unmodified extract from RFC 9110 (HTTP Semantics), IETF, June 2022. Copyright (c) 2022 IETF Trust and the persons identified as the document authors. All rights reserved. Reproduced under Section 3.c.iii of the IETF Trust Legal Provisions."
+    }
+  ]
+}

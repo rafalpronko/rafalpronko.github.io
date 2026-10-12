@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="560" viewBox="0 0 680 560" role="img" aria-labelledby="optuna-title optuna-desc">
+  <title id="optuna-title">Hyperparameter search that never looks at the test set</title>
+  <desc id="optuna-desc">The data is split once into development rows and a locked test set. Optuna runs a fixed budget of trials, each scored by the mean ROC AUC of a scaler and logistic regression pipeline over the same three stratified folds of development data. The baseline is scored on the same folds. A rule written in advance picks the tuned parameters only if they beat the baseline by at least 0.005; otherwise the baseline is kept. The chosen model is refitted on all development rows and evaluated once on the test set. The test score is reported and never fed back into the search.</desc>
+  <rect width="680" height="560" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="40" y="24" width="600" height="56" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="38" width="4" height="28" rx="2" fill="#168a87"/>
+    <text x="80" y="50" font-size="14" font-weight="600">1. Split once, before any score</text>
+    <text x="80" y="69" font-size="12" fill="#52606b">750 development rows  |  250 test rows, locked away</text>
+
+    <path d="M250 82 V99" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M245 98 L250 104 L255 98" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="108" width="420" height="138" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="122" width="4" height="110" rx="2" fill="#7b5aad"/>
+    <text x="80" y="134" font-size="14" font-weight="600">2. Search on development data only</text>
+    <text x="80" y="156" font-size="12" fill="#52606b">3 fixed stratified folds, reused by every trial</text>
+    <text x="80" y="176" font-size="12" fill="#52606b">Pipeline: StandardScaler fitted inside each fold</text>
+    <text x="80" y="196" font-size="12" fill="#52606b">Optuna TPE: 16 trials, first 6 random, maximise</text>
+    <text x="80" y="216" font-size="12" fill="#52606b">Baseline (C=1, L2) scored on the same folds</text>
+    <text x="80" y="236" font-size="12" fill="#52606b">Score: mean ROC AUC across the folds</text>
+
+    <rect x="484" y="108" width="156" height="138" rx="12" fill="#ffffff" stroke="#b5452f" stroke-dasharray="5 4"/>
+    <text x="562" y="140" text-anchor="middle" font-size="13" font-weight="600" fill="#b5452f">Test set</text>
+    <text x="562" y="164" text-anchor="middle" font-size="12" fill="#52606b">not passed to</text>
+    <text x="562" y="182" text-anchor="middle" font-size="12" fill="#52606b">the objective,</text>
+    <text x="562" y="200" text-anchor="middle" font-size="12" fill="#52606b">the folds or</text>
+    <text x="562" y="218" text-anchor="middle" font-size="12" fill="#52606b">the selection rule</text>
+
+    <path d="M250 248 V265" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M245 264 L250 270 L255 264" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="274" width="420" height="80" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="288" width="4" height="52" rx="2" fill="#7b5aad"/>
+    <text x="80" y="300" font-size="14" font-weight="600">3. Rule written before the search</text>
+    <text x="80" y="322" font-size="12" fill="#52606b">best CV ≥ baseline CV + 0.005 → tuned parameters</text>
+    <text x="80" y="342" font-size="12" fill="#52606b">otherwise → keep the baseline</text>
+
+    <path d="M250 356 V373" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M245 372 L250 378 L255 372" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="382" width="420" height="56" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="396" width="4" height="28" rx="2" fill="#168a87"/>
+    <text x="80" y="408" font-size="14" font-weight="600">4. Refit the chosen model</text>
+    <text x="80" y="427" font-size="12" fill="#52606b">on all 750 development rows</text>
+
+    <path d="M250 440 V457" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M245 456 L250 462 L255 456" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="466" width="420" height="56" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="480" width="4" height="28" rx="2" fill="#b5452f"/>
+    <text x="80" y="492" font-size="14" font-weight="600">5. Evaluate once on the test set</text>
+    <text x="80" y="511" font-size="12" fill="#52606b">report the number; do not go back to step 2</text>
+
+    <path d="M462 494 H562 V250" fill="none" stroke="#b5452f" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4"/>
+    <path d="M557 254 L562 248 L567 254" fill="none" stroke="#b5452f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="572" y="380" font-size="12" fill="#b5452f">read once,</text>
+    <text x="572" y="397" font-size="12" fill="#b5452f">at the end</text>
+
+    <text x="340" y="546" text-anchor="middle" font-size="12" fill="#52606b">A test score that changes the search turns the test set into validation data.</text>
+  </g>
+</svg>

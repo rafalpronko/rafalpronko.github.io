@@ -1,0 +1,18 @@
+[project]
+name = "precision-recall-ap-calibration"
+version = "0.1.0"
+description = "Synthetic example: ranking (AP), decisions (thresholds) and probabilities (calibration)"
+requires-python = "==3.11.*"
+dependencies = ["numpy==1.26.2", "scipy==1.11.4", "scikit-learn==1.3.2"]
+
+[project.optional-dependencies]
+test = ["pytest==7.4.3"]
+
+[tool.uv]
+# Resolve every package, including transitive ones, from releases uploaded
+# before 2023-12-01 (the article's editorial date is 2023-11-30).
+exclude-newer = "2023-12-01T00:00:00Z"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

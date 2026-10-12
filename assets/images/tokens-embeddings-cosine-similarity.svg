@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="500" viewBox="0 0 960 500" role="img" aria-labelledby="tecs-title tecs-desc">
+  <title id="tecs-title">From text to tokens, vectors and cosine similarity</title>
+  <desc id="tecs-desc">Four stages from left to right. One: a tokenizer turns the text "refund policy" into token IDs 7 and 3; the IDs depend on the tokenizer. Two: a learned lookup table returns one context-free row per ID. Three: encoder layers produce contextual token states, and pooling such as mean or CLS turns them into one vector. Four: the sentence vector, in the synthetic example (0.65, 0.25, 0.05, 0.05). Below, two vectors u and v from the origin with the angle theta between them, and the formula: cosine of theta equals u dot v divided by the product of their lengths. Notes: the range is minus one to one, a zero vector has no cosine, the score is not a probability, and queries and documents follow a compatible versioned encoding contract, which may prescribe role-specific prefixes or paired encoders; rebuild when document vectors change incompatibly. All numbers are synthetic and hand-chosen, not real encoder output.</desc>
+  <rect width="960" height="500" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <!-- Stage 1 -->
+    <rect x="24" y="32" width="196" height="160" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="40" y="50" width="4" height="124" rx="2" fill="#168a87"/>
+    <text x="56" y="62" font-size="12" fill="#52606b">1 · Tokenizer</text>
+    <text x="56" y="90" font-size="15" font-weight="600">"refund policy"</text>
+    <text x="56" y="118" font-size="15" font-weight="600" font-family="Menlo, Consolas, monospace">IDs [7, 3]</text>
+    <text x="56" y="148" font-size="12" fill="#52606b">IDs depend on</text>
+    <text x="56" y="164" font-size="12" fill="#52606b">the tokenizer</text>
+
+    <path d="M224 112 H250" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M245 107 L252 112 L245 117" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Stage 2 -->
+    <rect x="256" y="32" width="196" height="160" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="272" y="50" width="4" height="124" rx="2" fill="#7b5aad"/>
+    <text x="288" y="62" font-size="12" fill="#52606b">2 · Lookup table</text>
+    <text x="288" y="90" font-size="15" font-weight="600">ID 7 → row 7</text>
+    <text x="288" y="118" font-size="13" font-family="Menlo, Consolas, monospace">(0.9, 0.2, 0.0, 0.1)</text>
+    <text x="288" y="148" font-size="12" fill="#52606b">learned weights,</text>
+    <text x="288" y="164" font-size="12" fill="#52606b">same row in every context</text>
+
+    <path d="M456 112 H482" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M477 107 L484 112 L477 117" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Stage 3 -->
+    <rect x="488" y="32" width="196" height="160" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="504" y="50" width="4" height="124" rx="2" fill="#168a87"/>
+    <text x="520" y="62" font-size="12" fill="#52606b">3 · Encoder + pooling</text>
+    <text x="520" y="90" font-size="15" font-weight="600">contextual states</text>
+    <text x="520" y="118" font-size="15" font-weight="600">→ one vector</text>
+    <text x="520" y="148" font-size="12" fill="#52606b">mean / CLS pooling;</text>
+    <text x="520" y="164" font-size="12" fill="#52606b">training sets the geometry</text>
+
+    <path d="M688 112 H714" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M709 107 L716 112 L709 117" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Stage 4 -->
+    <rect x="720" y="32" width="216" height="160" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="736" y="50" width="4" height="124" rx="2" fill="#7b5aad"/>
+    <text x="752" y="62" font-size="12" fill="#52606b">4 · Sentence vector u</text>
+    <text x="752" y="96" font-size="13" font-family="Menlo, Consolas, monospace">(0.65, 0.25,</text>
+    <text x="752" y="116" font-size="13" font-family="Menlo, Consolas, monospace"> 0.05, 0.05)</text>
+    <text x="752" y="148" font-size="12" fill="#52606b">fixed length, no</text>
+    <text x="752" y="164" font-size="12" fill="#52606b">meaning per dimension</text>
+
+    <path d="M828 196 V218" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M823 213 L828 220 L833 213" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Geometry panel -->
+    <rect x="24" y="226" width="912" height="220" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="48" y="256" font-size="12" fill="#52606b">5 · Cosine similarity compares directions</text>
+    <path d="M70 410 H330" fill="none" stroke="#dce3e8" stroke-width="1.5"/>
+    <path d="M70 410 V270" fill="none" stroke="#dce3e8" stroke-width="1.5"/>
+    <path d="M70 410 L300 330" fill="none" stroke="#168a87" stroke-width="3" stroke-linecap="round"/>
+    <path d="M289 328 L300 330 L293 339" fill="none" stroke="#168a87" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="306" y="334" font-size="15" font-weight="600" fill="#168a87">u</text>
+    <path d="M70 410 L200 288" fill="none" stroke="#7b5aad" stroke-width="3" stroke-linecap="round"/>
+    <path d="M190 291 L200 288 L197 298" fill="none" stroke="#7b5aad" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="206" y="290" font-size="15" font-weight="600" fill="#7b5aad">v</text>
+    <path d="M140 386 A 74 74 0 0 0 124 359" fill="none" stroke="#26323d" stroke-width="1.5"/>
+    <text x="146" y="372" font-size="15" font-style="italic">θ</text>
+
+    <text x="380" y="290" font-size="18" font-weight="600">cos θ = (u · v) / (‖u‖ ‖v‖)</text>
+    <text x="380" y="322" font-size="13">• range −1 … 1; same direction 1, orthogonal 0, opposite −1</text>
+    <text x="380" y="346" font-size="13">• zero vector: no direction, no cosine (raise an error)</text>
+    <text x="380" y="370" font-size="13">• a similarity score, not a probability of relevance</text>
+    <text x="380" y="394" font-size="13">• compatible query/document contract; roles may differ</text>
+    <text x="394" y="412" font-size="13">rebuild when document vectors change incompatibly</text>
+
+    <text x="480" y="476" text-anchor="middle" font-size="12" fill="#52606b">Synthetic, hand-chosen numbers for illustration — not real encoder output.</text>
+  </g>
+</svg>

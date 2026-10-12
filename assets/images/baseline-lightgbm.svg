@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="440" viewBox="0 0 760 440" role="img" aria-labelledby="baseline-title baseline-desc">
+  <title id="baseline-title">Frozen split, validation selection and one test evaluation</title>
+  <desc id="baseline-desc">The bundled breast cancer dataset of 569 rows has a fixed row order and a SHA-256 digest. A stratified split with a fixed seed produces train (341 rows), validation (114 rows) and test (114 rows) indices saved to split.json. Three candidates are fitted on the training rows only: a prior dummy classifier, a standard scaler with logistic regression, and LightGBM with fixed parameters. They are compared by validation log loss and the smallest loss wins. The choice is frozen in selection.json together with the split digest. Only then is the test set, locked until this point, used once to evaluate the frozen model.</desc>
+  <defs>
+    <marker id="baseline-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#8b99a5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="200" y="22" width="360" height="62" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="218" y="36" width="4" height="34" rx="2" fill="#52606b"/>
+    <text x="236" y="49" font-size="14" font-weight="600">Bundled dataset · 569 rows</text>
+    <text x="236" y="70" font-size="12" fill="#52606b">fixed row order + SHA-256 digest</text>
+
+    <path d="M380 86 V108" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#baseline-arrow)"/>
+    <text x="392" y="102" font-size="11" fill="#52606b">stratified split, seed fixed in advance → split.json</text>
+
+    <rect x="30" y="114" width="210" height="62" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="48" y="128" width="4" height="34" rx="2" fill="#168a87"/>
+    <text x="66" y="141" font-size="14" font-weight="600">Train · 341 rows</text>
+    <text x="66" y="162" font-size="12" fill="#52606b">fits scaler and models</text>
+
+    <rect x="275" y="114" width="210" height="62" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="293" y="128" width="4" height="34" rx="2" fill="#7b5aad"/>
+    <text x="311" y="141" font-size="14" font-weight="600">Validation · 114 rows</text>
+    <text x="311" y="162" font-size="12" fill="#52606b">scores the candidates</text>
+
+    <rect x="520" y="114" width="210" height="62" rx="12" fill="#eef1f4" stroke="#8b99a5" stroke-dasharray="6 4"/>
+    <rect x="538" y="128" width="4" height="34" rx="2" fill="#b4533c"/>
+    <text x="556" y="141" font-size="14" font-weight="600">Test · 114 rows</text>
+    <text x="556" y="162" font-size="12" fill="#52606b">locked until the choice is frozen</text>
+
+    <path d="M135 178 V214" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#baseline-arrow)"/>
+    <path d="M380 178 V214" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#baseline-arrow)"/>
+
+    <rect x="30" y="220" width="210" height="96" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="48" y="243" font-size="14" font-weight="600">Three candidates</text>
+    <text x="48" y="265" font-size="12" fill="#52606b">Dummy (prior)</text>
+    <text x="48" y="284" font-size="12" fill="#52606b">Scaler + logistic regression</text>
+    <text x="48" y="303" font-size="12" fill="#52606b">LightGBM, fixed parameters</text>
+
+    <path d="M242 268 H269" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#baseline-arrow)"/>
+
+    <rect x="275" y="220" width="210" height="96" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="293" y="243" font-size="14" font-weight="600">Compare on validation</text>
+    <text x="293" y="265" font-size="12" fill="#52606b">metric: log loss</text>
+    <text x="293" y="284" font-size="12" fill="#52606b">smallest loss wins</text>
+    <text x="293" y="303" font-size="12" fill="#52606b">ROC AUC reported, not used</text>
+
+    <path d="M487 268 H514" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#baseline-arrow)"/>
+
+    <rect x="520" y="220" width="210" height="96" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="538" y="236" width="4" height="64" rx="2" fill="#168a87"/>
+    <text x="556" y="249" font-size="14" font-weight="600">Frozen choice</text>
+    <text x="556" y="271" font-size="12" fill="#52606b">selection.json</text>
+    <text x="556" y="290" font-size="12" fill="#52606b">model + split digest + hash</text>
+
+    <path d="M625 318 V354" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#baseline-arrow)"/>
+    <path d="M732 145 H746 V389 H736" fill="none" stroke="#8b99a5" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#baseline-arrow)"/>
+
+    <rect x="520" y="360" width="210" height="58" rx="12" fill="#ffffff" stroke="#26323d"/>
+    <text x="538" y="383" font-size="14" font-weight="600">One test evaluation</text>
+    <text x="538" y="404" font-size="12" fill="#52606b">only the frozen model</text>
+
+    <text x="30" y="370" font-size="12" font-weight="600">After the test result:</text>
+    <text x="30" y="391" font-size="12" fill="#52606b">no new seed, no new parameters, no new threshold.</text>
+    <text x="30" y="410" font-size="12" fill="#52606b">Any later change needs fresh held-out data to judge it.</text>
+  </g>
+</svg>

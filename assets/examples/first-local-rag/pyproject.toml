@@ -1,0 +1,16 @@
+[project]
+name = "first-local-rag"
+version = "0.1.0"
+description = "A tiny local RAG demo: RFC 9110 extracts, a TF-IDF retriever, flan-t5-small and application-owned citations."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "transformers==4.35.2",
+    "torch==2.1.2",
+    "sentencepiece==0.1.99",
+    "numpy==1.26.2",
+]
+
+[tool.uv]
+# Resolve the whole dependency graph (including transitive packages such as
+# tokenizers, safetensors and huggingface-hub) as it existed on 2023-12-21.
+exclude-newer = "2023-12-21T00:00:00Z"

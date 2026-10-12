@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="title">Ranking, decision and probability are three different questions</title>
+  <desc id="desc">Three panels built from the article's synthetic example of 40 rows in four score groups. Panel 1, Ranking: the score groups are ordered the same way for p (0.9, 0.6, 0.3, 0.1) and for p squared (0.81, 0.36, 0.09, 0.01), so average precision is 0.783 for both. Panel 2, Decision: a threshold of 0.5 flags the 0.9 and 0.6 groups for p, which is 20 rows with precision 0.75 and recall 0.79, but only the 0.81 group for p squared, which is 10 rows with precision 0.90 and recall 0.47. Panel 3, Probability: a reliability chart where p lies on the diagonal and p squared lies above and to the left of it, because the observed rates are higher than its scores, with Brier score 0.158 versus 0.187 and log loss 0.484 versus 0.601.</desc>
+  <rect width="1200" height="630" fill="#0f172a"/>
+  <text x="600" y="58" text-anchor="middle" fill="#f8fafc" font-size="32" font-weight="700">Same ranking, different decisions, different probabilities</text>
+  <text x="600" y="92" text-anchor="middle" fill="#cbd5e1" font-size="19">40 synthetic rows · score p is calibrated by construction · q = p² keeps the order</text>
+
+  <!-- Panel 1: ranking -->
+  <g transform="translate(40,125)">
+    <rect width="356" height="460" rx="14" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <text x="178" y="40" text-anchor="middle" fill="#38bdf8" font-size="24" font-weight="700">1 · Ranking</text>
+    <text x="178" y="68" text-anchor="middle" fill="#cbd5e1" font-size="16">"Is the order good?"</text>
+    <text x="104" y="106" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="600">p</text>
+    <text x="252" y="106" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="600">p²</text>
+    <g font-size="16" fill="#0f172a" font-weight="600" text-anchor="middle">
+      <rect x="54" y="118" width="100" height="44" rx="6" fill="#38bdf8"/><text x="104" y="146">0.9 · 9/10</text>
+      <rect x="54" y="172" width="100" height="44" rx="6" fill="#7dd3fc"/><text x="104" y="200">0.6 · 6/10</text>
+      <rect x="54" y="226" width="100" height="44" rx="6" fill="#bae6fd"/><text x="104" y="254">0.3 · 3/10</text>
+      <rect x="54" y="280" width="100" height="44" rx="6" fill="#e0f2fe"/><text x="104" y="308">0.1 · 1/10</text>
+      <rect x="202" y="118" width="100" height="44" rx="6" fill="#38bdf8"/><text x="252" y="146">0.81</text>
+      <rect x="202" y="172" width="100" height="44" rx="6" fill="#7dd3fc"/><text x="252" y="200">0.36</text>
+      <rect x="202" y="226" width="100" height="44" rx="6" fill="#bae6fd"/><text x="252" y="254">0.09</text>
+      <rect x="202" y="280" width="100" height="44" rx="6" fill="#e0f2fe"/><text x="252" y="308">0.01</text>
+    </g>
+    <g stroke="#94a3b8" stroke-width="2">
+      <line x1="158" y1="140" x2="198" y2="140"/><line x1="158" y1="194" x2="198" y2="194"/>
+      <line x1="158" y1="248" x2="198" y2="248"/><line x1="158" y1="302" x2="198" y2="302"/>
+    </g>
+    <text x="178" y="362" text-anchor="middle" fill="#e2e8f0" font-size="15">score · positives in group</text>
+    <text x="178" y="408" text-anchor="middle" fill="#f8fafc" font-size="22" font-weight="700">AP = 0.783 for both</text>
+    <text x="178" y="438" text-anchor="middle" fill="#cbd5e1" font-size="15">AP sees order and ties only</text>
+  </g>
+
+  <!-- Panel 2: decision -->
+  <g transform="translate(422,125)">
+    <rect width="356" height="460" rx="14" fill="#1e293b" stroke="#fbbf24" stroke-width="2"/>
+    <text x="178" y="40" text-anchor="middle" fill="#fbbf24" font-size="24" font-weight="700">2 · Decision</text>
+    <text x="178" y="68" text-anchor="middle" fill="#cbd5e1" font-size="16">"What if we act on score ≥ 0.5?"</text>
+    <g font-size="16" font-weight="600" text-anchor="middle">
+      <rect x="40" y="118" width="120" height="44" rx="6" fill="#fbbf24"/><text x="100" y="146" fill="#0f172a">0.9 flagged</text>
+      <rect x="40" y="172" width="120" height="44" rx="6" fill="#fbbf24"/><text x="100" y="200" fill="#0f172a">0.6 flagged</text>
+      <rect x="40" y="226" width="120" height="44" rx="6" fill="#334155"/><text x="100" y="254" fill="#e2e8f0">0.3</text>
+      <rect x="40" y="280" width="120" height="44" rx="6" fill="#334155"/><text x="100" y="308" fill="#e2e8f0">0.1</text>
+      <rect x="196" y="118" width="120" height="44" rx="6" fill="#fbbf24"/><text x="256" y="146" fill="#0f172a">0.81 flagged</text>
+      <rect x="196" y="172" width="120" height="44" rx="6" fill="#334155"/><text x="256" y="200" fill="#e2e8f0">0.36</text>
+      <rect x="196" y="226" width="120" height="44" rx="6" fill="#334155"/><text x="256" y="254" fill="#e2e8f0">0.09</text>
+      <rect x="196" y="280" width="120" height="44" rx="6" fill="#334155"/><text x="256" y="308" fill="#e2e8f0">0.01</text>
+    </g>
+    <line x1="30" y1="221" x2="170" y2="221" stroke="#f8fafc" stroke-width="3" stroke-dasharray="8 5"/>
+    <line x1="186" y1="167" x2="326" y2="167" stroke="#f8fafc" stroke-width="3" stroke-dasharray="8 5"/>
+    <text x="100" y="106" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="600">p</text>
+    <text x="256" y="106" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="600">p²</text>
+    <text x="178" y="356" text-anchor="middle" fill="#e2e8f0" font-size="15">dashed line = threshold 0.5</text>
+    <text x="100" y="394" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="700">20 flagged</text>
+    <text x="100" y="418" text-anchor="middle" fill="#cbd5e1" font-size="15">precision 0.75</text>
+    <text x="100" y="440" text-anchor="middle" fill="#cbd5e1" font-size="15">recall 0.79</text>
+    <text x="256" y="394" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="700">10 flagged</text>
+    <text x="256" y="418" text-anchor="middle" fill="#cbd5e1" font-size="15">precision 0.90</text>
+    <text x="256" y="440" text-anchor="middle" fill="#cbd5e1" font-size="15">recall 0.47</text>
+  </g>
+
+  <!-- Panel 3: probability -->
+  <g transform="translate(804,125)">
+    <rect width="356" height="460" rx="14" fill="#1e293b" stroke="#4ade80" stroke-width="2"/>
+    <text x="178" y="40" text-anchor="middle" fill="#4ade80" font-size="24" font-weight="700">3 · Probability</text>
+    <text x="178" y="68" text-anchor="middle" fill="#cbd5e1" font-size="16">"Does 0.3 mean 30%?"</text>
+    <!-- plot area: x 70..310 (score 0..1), y 330..90 (rate 0..1) -->
+    <g stroke="#475569" stroke-width="1">
+      <line x1="70" y1="330" x2="310" y2="330"/><line x1="70" y1="90" x2="70" y2="330"/>
+      <line x1="70" y1="90" x2="310" y2="90" stroke-dasharray="3 4"/><line x1="310" y1="90" x2="310" y2="330" stroke-dasharray="3 4"/>
+    </g>
+    <line x1="70" y1="330" x2="310" y2="90" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 5"/>
+    <g fill="#e2e8f0" font-size="13" text-anchor="middle">
+      <text x="70" y="348">0</text><text x="190" y="348">0.5</text><text x="310" y="348">1</text>
+      <text x="190" y="368">predicted score</text>
+    </g>
+    <g fill="#e2e8f0" font-size="13" text-anchor="end">
+      <text x="62" y="334">0</text><text x="62" y="214">0.5</text><text x="62" y="94">1</text>
+    </g>
+    <text x="30" y="210" fill="#e2e8f0" font-size="13" text-anchor="middle" transform="rotate(-90 30 210)">observed rate</text>
+    <!-- p: (0.1,0.1) (0.3,0.3) (0.6,0.6) (0.9,0.9) -->
+    <polyline points="94,306 142,258 214,186 286,114" fill="none" stroke="#4ade80" stroke-width="3"/>
+    <g fill="#4ade80"><circle cx="94" cy="306" r="6"/><circle cx="142" cy="258" r="6"/><circle cx="214" cy="186" r="6"/><circle cx="286" cy="114" r="6"/></g>
+    <!-- p squared: (0.01,0.1) (0.09,0.3) (0.36,0.6) (0.81,0.9) -->
+    <polyline points="72,306 92,258 156,186 264,114" fill="none" stroke="#f472b6" stroke-width="3"/>
+    <g fill="#f472b6"><rect x="66" y="300" width="12" height="12"/><rect x="86" y="252" width="12" height="12"/><rect x="150" y="180" width="12" height="12"/><rect x="258" y="108" width="12" height="12"/></g>
+    <circle cx="60" cy="398" r="6" fill="#4ade80"/>
+    <text x="74" y="403" fill="#f8fafc" font-size="15">p: on the diagonal</text>
+    <rect x="54" y="418" width="12" height="12" fill="#f472b6"/>
+    <text x="74" y="429" fill="#f8fafc" font-size="15">p²: left of it, under-states risk</text>
+    <text x="178" y="452" text-anchor="middle" fill="#cbd5e1" font-size="14">Brier 0.158 → 0.187 · log loss 0.484 → 0.601</text>
+  </g>
+</svg>

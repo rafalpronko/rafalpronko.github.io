@@ -1,25 +1,59 @@
-"""Statyczna walidacja strony Jekyll (bez budowania).
+"""Walidacja strony Jekyll: statyczna oraz (opcjonalnie) na zbudowanym wyjściu.
 
 Uruchomienie: uv run --with pyyaml python -m unittest discover -s tests -v
+Testy wyrenderowanej strony: RENDERED_SITE=/ścieżka/do/_site (bez tej zmiennej są pomijane).
 """
 import ast
+import hashlib
 import html
+import os
 import re
 import subprocess
 import sys
 import unittest
 import xml.etree.ElementTree as ET
+import zipfile
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import unquote, urldefrag, urlparse
 
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 POST = "_posts/2023-10-12-pipeline-idempotencja.md"
+# Oczekiwany inwentarz wpisów: plik -> (permalink, tytuł). Nowy wpis = świadoma zmiana tej listy.
+POSTS = {
+    "2023-10-12-pipeline-idempotencja.md": ("/blog/pipeline-idempotencja/", "A pipeline you can run twice. Idempotency in practice"),
+    "2023-10-19-data-contracts-validation.md": ("/blog/data-contracts-validation/", "Why a model cannot fix bad data: contracts and validation"),
+    "2023-10-26-dlt-api-duckdb-rerun.md": ("/blog/dlt-api-duckdb-rerun/", "A small API-to-database pipeline with dlt — and a rerun test"),
+    "2023-11-02-incremental-loading-merge-schema-evolution.md": ("/blog/incremental-loading-merge-schema-evolution/", "Incremental loading, merge and schema evolution: where correctness breaks"),
+    "2023-11-09-quality-gate-before-migration.md": ("/blog/quality-gate-before-migration/", "A quality gate before migration: checking the data, not the job status"),
+    "2023-11-16-train-validation-test-group-leakage.md": ("/blog/train-validation-test-group-leakage/", "Train, validation and test: how group leakage inflates your score"),
+    "2023-11-23-baseline-lightgbm.md": ("/blog/baseline-lightgbm/", "A fair baseline for LightGBM: freeze the split before comparing models"),
+    "2023-11-30-precision-recall-ap-calibration.md": ("/blog/precision-recall-ap-calibration/", "Precision, recall, AP and calibration answer different questions"),
+    "2023-12-07-optuna-without-test-leakage.md": ("/blog/optuna-without-test-leakage/", "Tuning with Optuna without tuning on the test set"),
+    "2023-12-14-tokens-embeddings-cosine-similarity.md": ("/blog/tokens-embeddings-cosine-similarity/", "Tokens, embeddings, and cosine similarity—without the magic"),
+    "2023-12-21-first-local-rag.md": ("/blog/first-local-rag/", "Your first local RAG: public documents and traceable citations"),
+}
+# Dozwolony ładunek publiczny w assets/ (ścieżki względne, wyrażenia regularne).
+ASSET_ALLOWLIST = [
+    r"assets/css/hud\.css",
+    r"assets/images/[a-z0-9-]+\.svg",
+    r"assets/downloads/[a-z0-9-]+\.zip",
+    r"assets/examples/[a-z0-9-]+\.zip",
+    r"assets/examples/[a-z0-9-]+/([a-z0-9_]+/)*([A-Za-z0-9_.-]+\.(py|toml|lock|md|txt|json|zip)|\.python-version|SHA256SUMS)",
+]
+FORBIDDEN_PATH = re.compile(r"(__pycache__|\.pyc$|\.venv|\.pytest_cache|\.ruff_cache|\.mypy_cache|\.DS_Store|"
+                            r"\.ipynb_checkpoints|(^|/)\.env$|\.sandbox|node_modules|\.hermes|\.remember)")
+SECRET = re.compile(r"(/Users/|\.hermes|BEGIN [A-Z ]*PRIVATE KEY|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|"
+                    r"sk-ant-|sk-[A-Za-z0-9]{20,}|ANTHROPIC_API_KEY|OPENAI_API_KEY)")
+RELATIVE_URL = re.compile(r"\{\{\s*'(/[^']*)'\s*\|\s*relative_url\s*\}\}")
 # Ostatni commit z polską wersją artykułu — stały punkt odniesienia dla tłumaczenia.
 BASELINE = "ff2e6c338f812937fefd293dc1bb066a5c439fc3"
 POLISH = r"[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]"
-TEMPLATES = ["_layouts/default.html", "_layouts/home.html", "_layouts/post.html", "_includes/date-pl.html"]
+TEMPLATES = ["_layouts/default.html", "_layouts/home.html", "_layouts/post.html", "_layouts/example-doc.html",
+             "_includes/date-pl.html"]
+EXAMPLE_LAYOUT = "_layouts/example-doc.html"
 VOID = {"meta", "link", "br", "img", "input", "hr", "source"}
 
 
@@ -260,6 +294,237 @@ class XmlTest(unittest.TestCase):
         for svg in ROOT.glob("assets/**/*.svg"):
             with self.subTest(svg=svg.name):
                 ET.parse(svg)
+
+
+def post_meta(name: str) -> tuple[dict, str]:
+    return front_matter(read(f"_posts/{name}"))
+
+
+def asset_files() -> list[Path]:
+    return sorted(p for p in (ROOT / "assets").rglob("*") if p.is_file())
+
+
+class InventoryTest(unittest.TestCase):
+    def test_exact_post_inventory(self):
+        self.assertEqual(sorted(p.name for p in (ROOT / "_posts").iterdir()), sorted(POSTS))
+
+    def test_post_front_matter(self):
+        for name, (permalink, title) in POSTS.items():
+            meta, body = post_meta(name)
+            with self.subTest(post=name):
+                self.assertEqual(meta["layout"], "post")
+                self.assertEqual(meta["lang"], "en")
+                self.assertEqual(meta["author"], "Rafał Prońko")
+                self.assertEqual(meta["title"], title)
+                self.assertEqual(meta["permalink"], permalink)
+                self.assertEqual(permalink, f"/blog/{name[11:-3]}/")
+                self.assertTrue(str(meta["date"]).startswith(name[:10]), meta["date"])
+                self.assertTrue(meta.get("description"))
+                self.assertIn(f"# {title}\n", body)
+                self.assertTrue((ROOT / meta["image"].lstrip("/")).is_file(), meta["image"])
+
+    def test_unique_titles_and_permalinks(self):
+        titles = [t.casefold() for _, t in POSTS.values()]
+        permalinks = [p for p, _ in POSTS.values()]
+        self.assertEqual(len(set(titles)), len(titles))
+        self.assertEqual(len(set(permalinks)), len(permalinks))
+
+    def test_no_polish_or_translated_duplicates(self):
+        # Wszystkie wpisy są angielskie; żaden nie powiela tytułu ani adresu innego wpisu (brak „tłumaczeń”).
+        for name in POSTS:
+            meta, body = post_meta(name)
+            with self.subTest(post=name):
+                self.assertIsNone(re.search(POLISH, meta["title"] + meta["description"] + body))
+
+
+class AssetReferenceTest(unittest.TestCase):
+    def test_post_asset_references_resolve(self):
+        cfg = yaml.safe_load(read("_config.yml"))
+        for name in POSTS:
+            meta, body = post_meta(name)
+            for path in RELATIVE_URL.findall(body) + [meta["image"]]:
+                if path.startswith("/blog/"):
+                    with self.subTest(post=name, link=path):
+                        self.assertIn(path, [p for p, _ in POSTS.values()])
+                    continue
+                with self.subTest(post=name, asset=path):
+                    target = ROOT / unquote(path).lstrip("/")
+                    if path.endswith("/"):
+                        target = target / "README.md"
+                    self.assertTrue(target.is_file(), path)
+                    hidden = [c for c in target.relative_to(ROOT).parts if c[0] in "_."]
+                    self.assertTrue(set(hidden) <= set(cfg.get("include", [])), hidden)
+
+    def test_jekyll_includes_hidden_example_files(self):
+        # Jekyll pomija nazwy zaczynające się od "_" lub "." — każdy taki plik w assets/ musi być w include.
+        include = set(yaml.safe_load(read("_config.yml")).get("include", []))
+        for path in asset_files():
+            hidden = [c for c in path.relative_to(ROOT).parts if c[0] in "_."]
+            with self.subTest(path=str(path.relative_to(ROOT))):
+                self.assertTrue(set(hidden) <= include, hidden)
+
+
+class ExampleLayoutTest(unittest.TestCase):
+    def test_example_docs_use_prose_layout(self):
+        defaults = yaml.safe_load(read("_config.yml")).get("defaults", [])
+        scoped = [d["values"] for d in defaults if d["scope"].get("path") == "assets/examples"]
+        self.assertEqual(scoped, [{"lang": "en", "layout": "example-doc"}])
+        meta, body = front_matter(read(EXAMPLE_LAYOUT))
+        self.assertEqual(meta["layout"], "default")
+        self.assertRegex(body, r'<div class="prose">\s*\{\{ content \}\}\s*</div>')
+
+
+class PayloadTest(unittest.TestCase):
+    def test_assets_allowlist(self):
+        for path in asset_files():
+            rel = str(path.relative_to(ROOT))
+            with self.subTest(path=rel):
+                self.assertTrue(any(re.fullmatch(p, rel) for p in ASSET_ALLOWLIST), rel)
+                self.assertIsNone(FORBIDDEN_PATH.search(rel))
+
+    def test_no_secrets_or_private_paths(self):
+        files = asset_files() + sorted((ROOT / "_posts").iterdir())
+        for path in files:
+            members = [(path.name, path.read_bytes())]
+            if path.suffix == ".zip":
+                with zipfile.ZipFile(path) as z:
+                    members += [(f"{path.name}!{n}", z.read(n)) for n in z.namelist() if not n.endswith("/")]
+            for name, data in members:
+                with self.subTest(file=name):
+                    self.assertIsNone(FORBIDDEN_PATH.search(name))
+                    self.assertIsNone(SECRET.search(data.decode("utf-8", "replace")))
+
+    def test_zip_archives_intact(self):
+        for path in (ROOT / "assets").rglob("*.zip"):
+            with self.subTest(zip=path.name), zipfile.ZipFile(path) as z:
+                self.assertIsNone(z.testzip())
+                for n in z.namelist():
+                    self.assertFalse(n.startswith("/") or ".." in n.split("/"), n)
+
+
+class RenderedPage(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.lang, self.ids, self.links, self.h1, self.diary = None, set(), [], [], []
+        self._h1: list[str] | None = None
+        self._divs: list[bool] = []  # stos otwartych <div>: czy to .prose
+        self.outside_prose: list[str] = []  # h1/pre/table poza .prose
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == "html":
+            self.lang = a.get("lang")
+        if a.get("id"):
+            self.ids.add(a["id"])
+        self.links += [a[k] for k in ("href", "src") if a.get(k)]
+        if tag == "a" and "diary-item" in (a.get("class") or ""):
+            self.diary.append(a["href"])
+        if tag == "h1":
+            self._h1 = []
+        if tag == "div":
+            self._divs.append("prose" in (a.get("class") or "").split())
+        if tag in ("h1", "pre", "table") and not any(self._divs):
+            self.outside_prose.append(tag)
+
+    def handle_endtag(self, tag):
+        if tag == "div" and self._divs:
+            self._divs.pop()
+        if tag == "h1" and self._h1 is not None:
+            self.h1.append(" ".join("".join(self._h1).split()))
+            self._h1 = None
+
+    def handle_data(self, data):
+        if self._h1 is not None:
+            self._h1.append(data)
+
+
+@unittest.skipUnless(os.environ.get("RENDERED_SITE"), "ustaw RENDERED_SITE na zbudowany katalog _site")
+class RenderedSiteTest(unittest.TestCase):
+    """Sprawdza wynik `jekyll build`, a nie źródła."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.site = Path(os.environ["RENDERED_SITE"]).resolve()
+        cls.pages = {}
+        for path in cls.site.rglob("*.html"):
+            page = RenderedPage()
+            page.feed(path.read_text(encoding="utf-8"))
+            cls.pages[path] = page
+
+    def target(self, page_path: Path, href: str) -> tuple[Path, str]:
+        path, frag = urldefrag(href)
+        url = urlparse(path)
+        if url.scheme or url.netloc:
+            path = url.path if href.startswith(yaml.safe_load(read("_config.yml"))["url"]) else None
+            if path is None:
+                return None, None
+        if not path:
+            return page_path, frag
+        base = self.site if path.startswith("/") else page_path.parent
+        target = base / unquote(path).lstrip("/")
+        return (target / "index.html" if target.is_dir() else target), frag
+
+    def test_post_pages(self):
+        for permalink, title in POSTS.values():
+            page = self.pages.get(self.site / permalink.lstrip("/") / "index.html")
+            with self.subTest(permalink=permalink):
+                self.assertIsNotNone(page)
+                self.assertEqual(page.lang, "en")
+                self.assertEqual(page.h1, [title])
+        built = {p.parent.name for p in self.site.glob("blog/*/index.html")}
+        self.assertEqual(built, {p.split("/")[2] for p, _ in POSTS.values()})
+
+    def test_example_docs_wrapped_in_prose(self):
+        # README/PROVENANCE przykładów renderowane przez GitHub Pages: treść w .prose (przewijane pre/table na mobile).
+        docs = [p for p in self.pages if p.is_relative_to(self.site / "assets/examples")]
+        self.assertGreaterEqual(len(docs), 6)
+        for path in docs:
+            page = self.pages[path]
+            with self.subTest(page=str(path.relative_to(self.site))):
+                self.assertEqual(len(page.h1), 1)
+                self.assertEqual(page.outside_prose, [])
+
+    def test_only_home_is_polish(self):
+        # Wpisy i strony z README przykładów są po angielsku; po polsku zostaje tylko strona główna (HUD).
+        for path, page in self.pages.items():
+            with self.subTest(page=str(path.relative_to(self.site))):
+                self.assertEqual(page.lang, "pl" if path == self.site / "index.html" else "en")
+
+    def test_local_links_and_fragments_resolve(self):
+        for path, page in self.pages.items():
+            for href in page.links:
+                if href.startswith(("mailto:", "data:")):
+                    continue
+                target, frag = self.target(path, href)
+                if target is None:
+                    continue
+                with self.subTest(page=str(path.relative_to(self.site)), href=href):
+                    self.assertTrue(target.is_file(), href)
+                    if frag and target.suffix == ".html":
+                        self.assertIn(frag, self.pages[target].ids)
+
+    def test_diary_lists_all_posts_newest_first(self):
+        home = self.pages[self.site / "index.html"]
+        expected = [POSTS[name][0] for name in sorted(POSTS, reverse=True)]
+        self.assertEqual(home.diary, expected)
+        self.assertEqual(home.lang, "pl")
+
+    def test_feed_links_built(self):
+        root = ET.parse(self.site / "feed.xml").getroot()
+        ns = {"a": "http://www.w3.org/2005/Atom"}
+        links = [e.find("a:link", ns).get("href") for e in root.findall("a:entry", ns)]
+        newest = [POSTS[name][0] for name in sorted(POSTS, reverse=True)]
+        self.assertEqual(links, [yaml.safe_load(read("_config.yml"))["url"] + p for p in newest[:len(links)]])
+        self.assertGreaterEqual(len(links), min(10, len(POSTS)))
+
+    def test_assets_served_byte_for_byte(self):
+        for path in asset_files():
+            rel = path.relative_to(ROOT)
+            with self.subTest(asset=str(rel)):
+                built = self.site / rel
+                self.assertTrue(built.is_file(), rel)
+                self.assertEqual(hashlib.sha256(built.read_bytes()).hexdigest(),
+                                 hashlib.sha256(path.read_bytes()).hexdigest())
 
 
 if __name__ == "__main__":

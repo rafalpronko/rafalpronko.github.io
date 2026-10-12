@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="incr-title incr-desc">
+  <title id="incr-title">Where incremental loading, merge and schema evolution break</title>
+  <desc id="incr-desc">Three panels. First, the extraction window: each run reads the half-open range from the watermark minus the overlap up to a fixed upper bound U. A row that becomes visible late, but within the overlap, is read by the first run that reads after it becomes visible, not necessarily the next one; a row delayed longer than the overlap may be missed, and an explicit backfill recovers it; rows exactly at U wait for the next window. Second, the conditional UPSERT ordered by updated_at: a newer version replaces the stored row, an older version is a no-op, and an equal version must carry the same payload or the run stops with a version conflict. Third, schema evolution: a nullable currency column is added, old rows keep NULL meaning unknown, and a same-version backfill may fill an unknown currency but never replaces a known one. Rows and the new watermark are committed in one transaction.</desc>
+  <rect width="760" height="520" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <text x="380" y="36" text-anchor="middle" font-size="18" font-weight="700">Incremental load: three places correctness breaks</text>
+
+    <!-- Panel 1: extraction window -->
+    <rect x="24" y="54" width="712" height="168" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="40" y="70" width="4" height="22" rx="2" fill="#168a87"/>
+    <text x="54" y="87" font-size="15" font-weight="700">1 · Extraction window on updated_at</text>
+    <rect x="200" y="112" width="360" height="40" rx="4" fill="#e3f2f1"/>
+    <rect x="200" y="112" width="120" height="40" rx="4" fill="#cfe9e7"/>
+    <text x="282" y="144" text-anchor="middle" font-size="13">overlap ≥ D</text>
+    <text x="440" y="137" text-anchor="middle" font-size="13">new range</text>
+    <path d="M56 152 H704" stroke="#8b99a5" stroke-width="2"/>
+    <path d="M698 147 L705 152 L698 157" fill="none" stroke="#8b99a5" stroke-width="2"/>
+    <path d="M200 104 V160 M320 104 V160" stroke="#52606b" stroke-width="2"/>
+    <path d="M560 104 V160" stroke="#7b5aad" stroke-width="2.5" stroke-dasharray="5 4"/>
+    <text x="200" y="178" text-anchor="middle" font-size="13">W − overlap</text>
+    <text x="320" y="178" text-anchor="middle" font-size="13">W</text>
+    <text x="560" y="178" text-anchor="middle" font-size="13" fill="#5b3f8c">U (fixed, excluded)</text>
+    <circle cx="236" cy="126" r="7" fill="#168a87"/>
+    <circle cx="120" cy="126" r="7" fill="#ffffff" stroke="#b24a3b" stroke-width="2.5"/>
+    <text x="120" y="108" text-anchor="middle" font-size="12" fill="#8e3a2e">delay &gt; D</text>
+    <text x="244" y="108" text-anchor="middle" font-size="12" fill="#11706d">delay ≤ D</text>
+    <text x="40" y="205" font-size="13" fill="#52606b">Within D: read by a later run once visible. Beyond D: may be missed, backfill. Rows at U: next window.</text>
+
+    <!-- Panel 2: conditional UPSERT -->
+    <rect x="24" y="236" width="712" height="118" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="40" y="252" width="4" height="22" rx="2" fill="#7b5aad"/>
+    <text x="54" y="269" font-size="15" font-weight="700">2 · Conditional UPSERT, ordered by updated_at</text>
+    <rect x="40" y="288" width="200" height="50" rx="8" fill="#f6f7f9" stroke="#dce3e8"/>
+    <text x="140" y="309" text-anchor="middle" font-size="14" font-weight="600">newer</text>
+    <text x="140" y="328" text-anchor="middle" font-size="13" fill="#52606b">replace stored row</text>
+    <rect x="280" y="288" width="200" height="50" rx="8" fill="#f6f7f9" stroke="#dce3e8"/>
+    <text x="380" y="309" text-anchor="middle" font-size="14" font-weight="600">older</text>
+    <text x="380" y="328" text-anchor="middle" font-size="13" fill="#52606b">no-op, no regression</text>
+    <rect x="520" y="288" width="200" height="50" rx="8" fill="#f6f7f9" stroke="#b24a3b"/>
+    <text x="620" y="309" text-anchor="middle" font-size="14" font-weight="600">equal</text>
+    <text x="620" y="328" text-anchor="middle" font-size="13" fill="#8e3a2e">same payload or conflict</text>
+
+    <!-- Panel 3: schema evolution -->
+    <rect x="24" y="368" width="712" height="104" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="40" y="384" width="4" height="22" rx="2" fill="#168a87"/>
+    <text x="54" y="401" font-size="15" font-weight="700">3 · Schema evolution: ADD COLUMN currency (nullable)</text>
+    <text x="54" y="428" font-size="13">Old rows keep NULL = unknown, never an invented default such as 'PLN'.</text>
+    <text x="54" y="452" font-size="13">Same-version backfill may fill NULL; a known currency is never replaced at that version.</text>
+
+    <text x="380" y="500" text-anchor="middle" font-size="14" font-weight="600" fill="#26323d">Rows and the new watermark commit in one transaction — or neither does.</text>
+  </g>
+</svg>

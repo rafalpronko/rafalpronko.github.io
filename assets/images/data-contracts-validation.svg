@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="contract-title contract-desc">
+  <title id="contract-title">Hard data contract before the write, advisory monitor after it</title>
+  <desc id="contract-desc">A batch of invoice lines with an envelope goes first through a hard contract that checks the whole batch in memory: exact fields, exact integer types, bounds, unique keys and the tax and gross relations. Any violation raises ContractViolation and nothing is written. A valid batch is inserted in one SQLite transaction; if a key already exists the whole batch is rolled back. After the commit an advisory monitor compares the batch median with a synthetic baseline and only informs a human. At the bottom, a dashed box marks the semantic blind spot: whole euros declared as cents, with consistent tax and gross, pass every hard rule.</desc>
+  <rect width="760" height="520" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="40" y="24" width="420" height="70" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="38" width="4" height="42" rx="2" fill="#168a87"/>
+    <text x="80" y="54" font-size="14" font-weight="600">Batch of invoice lines</text>
+    <text x="80" y="76" font-size="12" fill="#52606b">envelope: contract_version, currency, unit, amount_basis</text>
+
+    <path d="M250 96 V112" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M245 111 L250 117 L255 111" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="122" width="420" height="88" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="136" width="4" height="60" rx="2" fill="#7b5aad"/>
+    <text x="80" y="152" font-size="14" font-weight="600">Hard contract: whole batch, in memory</text>
+    <text x="80" y="174" font-size="12" fill="#52606b">exact fields · exact int types · bounds · unique keys</text>
+    <text x="80" y="194" font-size="12" fill="#52606b">tax = half-up(net × rate) · gross = net + tax</text>
+
+    <path d="M462 166 H492" fill="none" stroke="#a33a32" stroke-width="2" stroke-linecap="round"/>
+    <path d="M491 161 L497 166 L491 171" fill="none" stroke="#a33a32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="502" y="122" width="218" height="88" rx="12" fill="#ffffff" stroke="#e3c4c1"/>
+    <text x="520" y="150" font-size="14" font-weight="600" fill="#a33a32">Any violation</text>
+    <text x="520" y="172" font-size="12" fill="#52606b">ContractViolation</text>
+    <text x="520" y="192" font-size="12" fill="#52606b">nothing is written</text>
+
+    <path d="M250 212 V228" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M245 227 L250 233 L255 227" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="238" width="420" height="70" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="252" width="4" height="42" rx="2" fill="#7b5aad"/>
+    <text x="80" y="268" font-size="14" font-weight="600">One SQLite transaction</text>
+    <text x="80" y="290" font-size="12" fill="#52606b">commit every row, or roll back every row</text>
+
+    <path d="M462 273 H492" fill="none" stroke="#a33a32" stroke-width="2" stroke-linecap="round"/>
+    <path d="M491 268 L497 273 L491 278" fill="none" stroke="#a33a32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="502" y="238" width="218" height="70" rx="12" fill="#ffffff" stroke="#e3c4c1"/>
+    <text x="520" y="264" font-size="14" font-weight="600" fill="#a33a32">Key already stored</text>
+    <text x="520" y="286" font-size="12" fill="#52606b">IntegrityError, rollback</text>
+
+    <path d="M250 310 V326" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M245 325 L250 331 L255 325" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="336" width="420" height="70" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="350" width="4" height="42" rx="2" fill="#168a87"/>
+    <text x="80" y="366" font-size="14" font-weight="600">invoice_lines table</text>
+    <text x="80" y="388" font-size="12" fill="#52606b">typeof() and gross CHECKs as a second line</text>
+
+    <path d="M462 371 H492" fill="none" stroke="#8a5a00" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 4"/>
+    <path d="M491 366 L497 371 L491 376" fill="none" stroke="#8a5a00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="502" y="336" width="218" height="70" rx="12" fill="#ffffff" stroke="#e6d3a8"/>
+    <text x="520" y="358" font-size="14" font-weight="600" fill="#8a5a00">Advisory monitor</text>
+    <text x="520" y="378" font-size="12" fill="#52606b">median vs synthetic baseline</text>
+    <text x="520" y="396" font-size="12" fill="#52606b">informs a human, never blocks</text>
+
+    <rect x="40" y="426" width="680" height="72" rx="12" fill="#ffffff" stroke="#8b99a5" stroke-width="1.5" stroke-dasharray="6 5"/>
+    <text x="60" y="452" font-size="14" font-weight="600">Semantic blind spot</text>
+    <text x="60" y="474" font-size="12" fill="#52606b">Whole euros declared as cents, with consistent tax and gross, pass every hard rule.</text>
+    <text x="60" y="490" font-size="12" fill="#52606b">A monitor may flag it; only the producer or an independent control total can confirm it.</text>
+  </g>
+</svg>
