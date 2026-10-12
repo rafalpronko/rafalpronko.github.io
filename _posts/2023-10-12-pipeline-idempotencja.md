@@ -1,67 +1,68 @@
 ---
 layout: post
-title: "Pipeline, który można uruchomić drugi raz. Idempotencja w praktyce"
+lang: en
+title: "A pipeline you can run twice. Idempotency in practice"
 date: 2023-10-12 09:00:00 +0200
 permalink: /blog/pipeline-idempotencja/
 author: Rafał Prońko
 categories: [data-engineering]
-description: "Idempotentny zapis zamówień w Pythonie i SQLite: klucz, wersja, warunkowy UPSERT i transakcje."
+description: "Idempotent order writes in Python and SQLite: key, version, conditional UPSERT and transactions."
 image: /assets/images/pipeline-idempotencja.svg
 ---
 
-# Pipeline, który można uruchomić drugi raz. Idempotencja w praktyce
+# A pipeline you can run twice. Idempotency in practice
 
-![Schemat idempotentnego zapisu zamówień: partia z kluczem i wersją przechodzi przez warunkowy UPSERT, a retry nie tworzy duplikatów.]({{ '/assets/images/pipeline-idempotencja.svg' | relative_url }})
+![Diagram of an idempotent order write: a batch with a key and a version passes through a conditional UPSERT, and a retry does not create duplicates.]({{ '/assets/images/pipeline-idempotencja.svg' | relative_url }})
 
-<time datetime="2023-10-12">12 października 2023</time>
+<time datetime="2023-10-12">12 October 2023</time>
 
-Pipeline prędzej czy później zostanie uruchomiony drugi raz. Scheduler ponowi zadanie po timeoucie, ktoś ręcznie kliknie „retry”, backfill przejdzie po dniu, który już był załadowany.
+Sooner or later a pipeline will be run a second time. The scheduler retries a job after a timeout, someone manually clicks “retry”, a backfill goes over a day that has already been loaded.
 
-Nie pytam więc tylko, czy import działa. Pytam, co po takim powtórzeniu zostanie w tabeli.
+So I don't just ask whether the import works. I ask what will be left in the table after such a repeat.
 
-Jeśli pierwsze wykonanie zapisze zamówienia, a drugie dopisze ich kopie, mam problem. Jeśli powtórzenie starszej partii cofnie nowszą kwotę zamówienia, mam problem mniej widoczny, ale równie poważny. Zielony status zadania niewiele wtedy mówi o poprawności danych.
+If the first run writes the orders and the second appends copies of them, I have a problem. If replaying an older batch rolls back a newer order amount, I have a less visible but equally serious problem. A green job status then says little about whether the data is correct.
 
-Chcę zbudować zapis, który mogę bezpiecznie powtórzyć. Zacznę od małego przykładu w Pythonie i SQLite — bez orkiestratora, brokera i dodatkowych bibliotek. Najpierw potrzebuję właściwej semantyki, dopiero potem narzędzi.
+I want to build a write that I can safely repeat. I'll start with a small example in Python and SQLite — no orchestrator, no broker and no extra libraries. First I need the right semantics; the tools come later.
 
-## Retry nie oznacza idempotencji
+## Retry does not mean idempotency
 
-Retry to decyzja: „spróbuj jeszcze raz”. Idempotencja to właściwość operacji: ponowne wykonanie z tym samym wejściem nie zmienia jej końcowego efektu.
+Retry is a decision: “try again”. Idempotency is a property of an operation: executing it again with the same input does not change its final effect.
 
-To rozróżnienie ma znaczenie zwłaszcza przy timeoutach. Brak odpowiedzi nie oznacza, że poprzednia próba niczego nie zapisała. Mogła zatwierdzić transakcję, a następnie stracić połączenie, zanim klient dostał potwierdzenie.
+This distinction matters especially with timeouts. No response does not mean the previous attempt wrote nothing. It may have committed the transaction and then lost the connection before the client received the acknowledgement.
 
-Dlatego nie chcę uzależniać poprawności od tego, czy potrafię odgadnąć wynik poprzedniej próby. Projektuję zapis tak, żeby powtórzenie było bezpieczne.
+That's why I don't want correctness to depend on whether I can guess the outcome of the previous attempt. I design the write so that a repeat is safe.
 
-Pierwszy krok to ustalenie, **co identyfikuje ten sam obiekt biznesowy**.
+The first step is to establish **what identifies the same business object**.
 
-Jeśli tabela zamówień ma tylko automatycznie nadawany identyfikator, każdy import może utworzyć nowy wiersz. Baza nie wie, że dwa rekordy opisują to samo zamówienie. Sama transakcja tego nie naprawi.
+If the orders table only has an auto-generated identifier, every import can create a new row. The database doesn't know that two records describe the same order. A transaction alone won't fix that.
 
-W przykładzie wybieram `order_id` z systemu źródłowego jako klucz główny. Jeśli łączę kilka źródeł z niezależnymi numeracjami, potrzebuję klucza złożonego, na przykład z identyfikatora źródła i zamówienia.
+In the example I choose `order_id` from the source system as the primary key. If I combine several sources with independent numbering, I need a composite key, for example made of the source identifier and the order identifier.
 
-## Ten sam klucz nie zawsze oznacza duplikat
+## The same key does not always mean a duplicate
 
-Zamówienie może wrócić z tą samą treścią, ponieważ ponowiłem import. Może też wrócić ze zmienioną kwotą, ponieważ system źródłowy je zaktualizował.
+An order may come back with the same content because I re-ran the import. It may also come back with a changed amount because the source system updated it.
 
-Odrzucenie każdego istniejącego `order_id` ochroni mnie przed duplikatami, ale zablokuje aktualizacje. Bezwarunkowe nadpisanie pozwoli aktualizować dane, lecz stworzy inny problem: starsza partia może cofnąć nowszy stan.
+Rejecting every existing `order_id` will protect me from duplicates, but it will block updates. Unconditional overwriting will allow data to be updated, but it creates a different problem: an older batch can roll back a newer state.
 
-Potrzebuję więc informacji o kolejności zmian.
+So I need information about the order of changes.
 
-W tym przykładzie przyjmuję prosty kontrakt: każde zamówienie ma liczbową `version`, która rośnie przy kolejnych zmianach.
+In this example I assume a simple contract: every order has a numeric `version` that increases with each subsequent change.
 
-- Ten sam identyfikator i ta sama wersja oznaczają powtórzenie.
-- Wyższa wersja oznacza aktualizację.
-- Niższa wersja oznacza starsze dane, które nie powinny zastąpić nowszych.
+- The same identifier and the same version mean a repeat.
+- A higher version means an update.
+- A lower version means older data that should not replace newer data.
 
-To założenie o źródle, nie coś, co baza odgadnie za mnie. Jeśli źródło nie dostarcza wiarygodnej wersji, muszę zaprojektować inną regułę rozstrzygania konfliktów.
+This is an assumption about the source, not something the database will guess for me. If the source doesn't provide a reliable version, I have to design a different conflict-resolution rule.
 
-## Mały przykład: klucz, wersja i warunkowy UPSERT
+## A small example: key, version and conditional UPSERT
 
-Używam Pythona 3.11 i SQLite co najmniej 3.24.0. Wystarczy biblioteka standardowa.
+I use Python 3.11 and SQLite 3.24.0 or later. The standard library is enough.
 
-Kwotę zapisuję jako całkowitą liczbę groszy. Dzięki temu nie wprowadzam do przykładu problemu reprezentacji pieniędzy przez liczby zmiennoprzecinkowe.
+I store the amount as an integer number of cents. That way I don't bring the problem of representing money with floating-point numbers into the example.
 
-Baza działa w pamięci. Dwa ładowania wykonuję na tym samym połączeniu; zamknięcie połączenia usuwa dane. To demonstracja semantyki zapisu, nie trwały magazyn.
+The database lives in memory. I run both loads on the same connection; closing the connection deletes the data. This is a demonstration of write semantics, not durable storage.
 
-Poniższy kod można zapisać jako `pipeline.py` i uruchomić poleceniem `python3 pipeline.py`.
+The code below can be saved as `pipeline.py` and run with `python3 pipeline.py`.
 
 ```python
 import sqlite3
@@ -76,7 +77,7 @@ UPSERT = """INSERT INTO orders VALUES (?, ?, ?)
 
 
 def load(con: sqlite3.Connection, batch: list[Order]) -> None:
-    with con:  # commit albo rollback; połączenia nie zamyka
+    with con:  # commit or rollback; does not close the connection
         con.executemany(UPSERT, batch)
 
 
@@ -96,103 +97,103 @@ try:
     batch = [("A-1", 1000, 1), ("A-2", 2500, 1)]
     load(con, batch)
     load(con, batch)
-    check(state(con) == batch, "ponowny load partii daje identyczny stan")
+    check(state(con) == batch, "reloading the batch yields an identical state")
     updated = [("A-1", 1200, 2), ("A-2", 2500, 1)]
     load(con, [("A-1", 1200, 2)])
-    check(state(con) == updated, "wyższa version aktualizuje amount")
+    check(state(con) == updated, "higher version updates amount")
     load(con, [("A-1", 900, 1)])
-    check(state(con) == updated, "starszy event nie cofa stanu")
+    check(state(con) == updated, "older event does not roll back state")
     try:
         load(con, [("A-3", 500, 1), ("A-4", -1, 1)])
-        raise AssertionError("FAIL: ujemny amount nie dał IntegrityError")
+        raise AssertionError("FAIL: negative amount did not raise IntegrityError")
     except sqlite3.IntegrityError:
-        check(state(con) == updated, "partia z błędem wycofana w całości")
+        check(state(con) == updated, "batch with an error rolled back entirely")
 finally:
     con.close()
 ```
 
-Najważniejszy fragment to warunek:
+The most important part is the condition:
 
 ```sql
 WHERE excluded.version > orders.version
 ```
 
-`excluded` oznacza rekord, który próbuję wstawić. `orders` oznacza rekord już zapisany.
+`excluded` means the record I'm trying to insert. `orders` means the record already stored.
 
-Jeśli zamówienia nie ma, `INSERT` je tworzy. Jeśli istnieje, `ON CONFLICT` przechodzi do aktualizacji — ale tylko wtedy, gdy przychodząca wersja jest wyższa.
+If the order doesn't exist, `INSERT` creates it. If it exists, `ON CONFLICT` switches to an update — but only when the incoming version is higher.
 
-Powtórzenie tej samej wersji niczego nie zmienia. Starsze dane także nie zmieniają wiersza. Nowsza wersja aktualizuje kwotę i numer wersji.
+Repeating the same version changes nothing. Older data doesn't change the row either. A newer version updates the amount and the version number.
 
-Nie potrzebuję osobnego sprawdzania „czy rekord istnieje?” w Pythonie. Regułę egzekwuje baza w instrukcji zapisu.
+I don't need a separate “does the record exist?” check in Python. The database enforces the rule inside the write statement.
 
-## Transakcja rozwiązuje inny problem
+## A transaction solves a different problem
 
-W funkcji `load` cała partia jest objęta transakcją.
+In the `load` function the whole batch is wrapped in a transaction.
 
-Przy domyślnej konfiguracji `sqlite3` w Pythonie 3.11 instrukcje zapisu otwierają transakcję. Blok `with con:` zatwierdza ją po poprawnym zakończeniu albo wycofuje, gdy wystąpi wyjątek. Nie zamyka połączenia — dlatego robię to osobno w `finally`.
+With the default `sqlite3` configuration in Python 3.11, write statements open a transaction. The `with con:` block commits it on successful completion or rolls it back when an exception occurs. It does not close the connection — that's why I do that separately in `finally`.
 
-W ostatnim teście pierwszy rekord partii jest poprawny, a drugi ma ujemną kwotę. Ograniczenie `CHECK` powoduje błąd. Po rollbacku w tabeli nie powinien zostać również pierwszy rekord tej partii.
+In the last test the first record of the batch is valid and the second has a negative amount. The `CHECK` constraint raises an error. After the rollback, the first record of that batch should not remain in the table either.
 
-To sprawdzenie **atomowości**, nie idempotencji.
+This is a check of **atomicity**, not idempotency.
 
-Atomowość oznacza: partia zostaje zapisana cała albo wcale. Idempotencja oznacza: powtórzenie operacji nie zmienia końcowego efektu.
+Atomicity means: the batch is written in full or not at all. Idempotency means: repeating the operation does not change the final effect.
 
-Bez atomowości mogę pozostawić po błędzie częściowo załadowane dane. Idempotentny zapis może pozwolić dokończyć import przez retry, ale odbiorcy przez pewien czas zobaczą stan pośredni.
+Without atomicity I can leave partially loaded data behind after an error. An idempotent write may allow the import to be completed by a retry, but consumers will see an intermediate state for a while.
 
-Z kolei atomowa transakcja nie ochroni mnie przed duplikatami, jeśli dwukrotnie zatwierdzę partię opartą na zwykłym dopisywaniu wierszy.
+Conversely, an atomic transaction won't protect me from duplicates if I commit a batch based on plain row appends twice.
 
-Potrzebuję obu właściwości, ale z różnych powodów.
+I need both properties, but for different reasons.
 
-## Co właściwie sprawdzają testy?
+## What do the tests actually check?
 
-Nie ograniczam się do liczby wierszy. Porównuję cały stan tabeli.
+I don't limit myself to the row count. I compare the entire state of the table.
 
-Sprawdzam, czy:
+I check whether:
 
-1. Powtórne ładowanie tej samej partii pozostawia identyczne dane.
-2. Wyższa wersja aktualizuje kwotę zamówienia.
-3. Starsze zdarzenie nie cofa aktualnego stanu.
-4. Błąd w drugiej części partii wycofuje również wcześniejszy zapis z tej partii.
+1. Loading the same batch again leaves identical data.
+2. A higher version updates the order amount.
+3. An older event does not roll back the current state.
+4. An error in the second part of a batch also rolls back the earlier write from that batch.
 
-To niewielki zestaw, ale trafia w zachowania, na których opieram przykład.
+It's a small set, but it hits the behaviours the example relies on.
 
-Nie jest to test odporności na awarię procesu, współbieżnych zapisów czy problemów dyskowych. Takich gwarancji nie wyciągam z czterech sprawdzeń wykonywanych na bazie w pamięci.
+It is not a test of resilience to process crashes, concurrent writes or disk problems. I don't derive such guarantees from four checks run against an in-memory database.
 
-## Gdzie kończy się ta gwarancja?
+## Where does this guarantee end?
 
-Pierwsza granica to kontrakt wersji.
+The first boundary is the version contract.
 
-Jeśli źródło wyśle tę samą wersję zamówienia z inną kwotą, przykład odrzuci zmianę bez alarmu. Tymczasem nie jest to zwykły duplikat — to sprzeczność danych.
+If the source sends the same version of an order with a different amount, the example will reject the change without any alarm. Yet this is not an ordinary duplicate — it's a data contradiction.
 
-W większym rozwiązaniu chciałbym ją wykrywać: przy równej wersji porównać treść i zgłosić konflikt. Warunkowy UPSERT nie zastępuje kontroli jakości źródła.
+In a larger solution I would want to detect it: for an equal version, compare the content and report a conflict. A conditional UPSERT is no substitute for quality control of the source.
 
-Druga granica to dostarczenie danych.
+The second boundary is data delivery.
 
-Idempotencja pozwala bezpiecznie przetwarzać powtórzenia. Nie sprawia, że brakująca wiadomość dotrze do systemu. Nie oznacza też, że zastosowałem każdą wersję pośrednią. W tym przykładzie interesuje mnie aktualny stan zamówienia, nie pełna historia jego zmian.
+Idempotency lets me process repeats safely. It doesn't make a missing message reach the system. Nor does it mean I've applied every intermediate version. In this example I care about the current state of the order, not the full history of its changes.
 
-Trzecia granica to efekty poza bazą.
+The third boundary is effects outside the database.
 
-Jeśli podczas importu wyślę mail albo zlecę płatność, rollback transakcji nie cofnie tej operacji. Retry może wykonać ją ponownie. Klucz główny tabeli zamówień nie chroni skrzynki pocztowej ani rachunku bankowego.
+If I send an email or initiate a payment during the import, rolling back the transaction won't undo that operation. A retry may execute it again. The primary key of the orders table doesn't protect a mailbox or a bank account.
 
-W takim przypadku rozważam wzorzec **outbox**: razem ze zmianą danych zapisuję w jednej transakcji zamiar wykonania zewnętrznej operacji. Osobny proces odczytuje ten zamiar i realizuje go.
+In such a case I consider the **outbox** pattern: together with the data change, I store in a single transaction the intent to perform the external operation. A separate process reads that intent and carries it out.
 
-Ale outbox nie jest magicznym „exactly once”. Proces może wysłać wiadomość, a następnie przerwać działanie przed zapisaniem potwierdzenia. Ponowna próba wyśle ją jeszcze raz.
+But an outbox is not a magical “exactly once”. The process may send the message and then stop before recording the acknowledgement. The next attempt will send it again.
 
-Potrzebuję więc także stabilnego identyfikatora operacji i deduplikacji po stronie odbiorcy, jeśli odbiorca ją obsługuje. Przy płatnościach sprawdzam warunki działania klucza idempotencji w konkretnym API, zamiast zakładać uniwersalną gwarancję.
+So I also need a stable operation identifier and deduplication on the receiver's side, if the receiver supports it. With payments, I check the conditions under which the idempotency key works in the specific API instead of assuming a universal guarantee.
 
-## Od czego zaczynam projektowanie pipeline’u?
+## Where do I start when designing a pipeline?
 
-Nie od ustawienia liczby ponowień.
+Not with setting the number of retries.
 
-Najpierw ustalam, co identyfikuje rekord, jak rozpoznaję jego nowszą wersję i co powinno się wydarzyć po ponownym przetworzeniu tych samych danych.
+First I establish what identifies a record, how I recognise its newer version and what should happen after the same data is processed again.
 
-Następnie określam granicę transakcji oraz sprawdzam częściowe niepowodzenie. Dopiero wtedy retry staje się mechanizmem odzyskiwania, a nie sposobem na zwielokrotnienie problemu.
+Then I define the transaction boundary and check partial failure. Only then does retry become a recovery mechanism rather than a way to multiply the problem.
 
-W tym przykładzie gwarancja dotyczy stanu jednej tabeli i opiera się na poprawnym kontrakcie wersji. To ograniczenie, ale konkretne i możliwe do przetestowania.
+In this example the guarantee covers the state of a single table and relies on a correct version contract. It's a limitation, but a concrete and testable one.
 
-Wolę taką gwarancję niż ogólne zapewnienie, że pipeline jest „odporny na błędy”.
+I prefer such a guarantee to a general assurance that the pipeline is “fault-tolerant”.
 
-### Źródła
+### Sources
 
-- [SQLite: UPSERT](https://www.sqlite.org/lang_upsert.html) — składnia, `excluded`, warunkowa aktualizacja; UPSERT dostępny od SQLite 3.24.0 z 4 czerwca 2018 roku.
-- [Python 3.11: sqlite3](https://docs.python.org/3.11/library/sqlite3.html) — transakcje i zachowanie context managera połączenia.
+- [SQLite: UPSERT](https://www.sqlite.org/lang_upsert.html) — syntax, `excluded`, conditional update; UPSERT available since SQLite 3.24.0 of 4 June 2018.
+- [Python 3.11: sqlite3](https://docs.python.org/3.11/library/sqlite3.html) — transactions and the behaviour of the connection context manager.
