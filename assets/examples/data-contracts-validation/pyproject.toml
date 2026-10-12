@@ -1,0 +1,19 @@
+[project]
+name = "data-contracts-validation"
+version = "0.1.0"
+description = "Synthetic invoice-lines data contract example (standard library only)."
+requires-python = ">=3.11,<3.12"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest==7.4.2", "mypy==1.5.1"]
+
+[tool.uv]
+package = false
+# Resolve only distributions uploaded before the article's editorial date.
+exclude-newer = "2023-10-19T00:00:00Z"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-p no:cacheprovider"

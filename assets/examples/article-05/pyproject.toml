@@ -1,0 +1,26 @@
+[project]
+name = "group-leakage-demo"
+version = "0.1.0"
+description = "Synthetic demo: row split versus grouped train/validation/test split"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "numpy==1.26.1",
+    "scipy==1.11.3",
+    "scikit-learn==1.3.2",
+    "joblib==1.3.2",
+    "threadpoolctl==3.2.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==7.4.3",
+    "iniconfig==2.0.0",
+    "pluggy==1.3.0",
+    "packaging==23.2",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+addopts = "-p no:cacheprovider"

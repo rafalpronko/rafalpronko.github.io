@@ -1,0 +1,34 @@
+[
+  {
+    "question": "Which request methods are idempotent?",
+    "expected_doc": "rfc9110-9.2.2",
+    "expected_phrase": "PUT, DELETE"
+  },
+  {
+    "question": "Can a proxy automatically retry a non-idempotent request?",
+    "expected_doc": "rfc9110-9.2.2",
+    "expected_phrase": "MUST NOT"
+  },
+  {
+    "question": "How is the HEAD method different from GET?",
+    "expected_doc": "rfc9110-9.3.2",
+    "expected_phrase": "content"
+  },
+  {
+    "question": "Is the response to a GET request cacheable?",
+    "expected_doc": "rfc9110-9.3.1",
+    "expected_phrase": "cacheable"
+  },
+  {
+    "question": "Which status code tells the client that the resource does not exist?",
+    "expected_doc": null,
+    "expected_phrase": null,
+    "note": "Not answerable from the three extracts; some words still overlap."
+  },
+  {
+    "question": "Who won the 2018 FIFA World Cup?",
+    "expected_doc": null,
+    "expected_phrase": null,
+    "note": "No vocabulary overlap with the corpus."
+  }
+]

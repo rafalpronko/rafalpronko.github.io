@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="520" viewBox="0 0 680 520" role="img" aria-labelledby="dltrerun-title dltrerun-desc">
+  <title id="dltrerun-title">Orders API to DuckDB with dlt, and what a rerun does</title>
+  <desc id="dltrerun-desc">A local paginated orders API is read by a client with a request timeout, a pagination check and business validation. dlt extracts, normalizes and loads the orders into DuckDB with merge on order_id, which in dlt 0.3.22 deletes rows with matching keys and inserts the new batch. Running the same data again leaves the business columns identical while dlt load ids change. An older version loaded later replaces the newer row, unless a version guard drops it before the load.</desc>
+  <rect width="680" height="520" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="100" y="24" width="480" height="64" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="38" width="4" height="36" rx="2" fill="#168a87"/>
+    <text x="146" y="52" font-size="14" font-weight="600">Orders API on 127.0.0.1</text>
+    <text x="146" y="72" font-size="12" fill="#52606b">GET /orders?page=N → data, next_page</text>
+
+    <path d="M340 90 V105" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 104 L340 110 L345 104" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="100" y="112" width="480" height="64" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="126" width="4" height="36" rx="2" fill="#7b5aad"/>
+    <text x="146" y="140" font-size="14" font-weight="600">Client: timeout, page contract, validation</text>
+    <text x="146" y="160" font-size="12" fill="#52606b">Any error stops the run before loading</text>
+
+    <path d="M340 178 V193" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 192 L340 198 L345 192" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="100" y="200" width="480" height="64" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="214" width="4" height="36" rx="2" fill="#7b5aad"/>
+    <text x="146" y="228" font-size="14" font-weight="600">dlt: extract → normalize → load</text>
+    <text x="146" y="248" font-size="12" fill="#52606b">merge on order_id = delete by key, then insert</text>
+
+    <path d="M340 266 V281" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 280 L340 286 L345 280" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="100" y="288" width="480" height="64" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="302" width="4" height="36" rx="2" fill="#168a87"/>
+    <text x="146" y="316" font-size="14" font-weight="600">DuckDB: shop.orders</text>
+    <text x="146" y="336" font-size="12" fill="#52606b">business columns + _dlt_id, _dlt_load_id</text>
+
+    <rect x="24" y="380" width="308" height="112" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="44" y="396" width="4" height="80" rx="2" fill="#168a87"/>
+    <text x="64" y="412" font-size="14" font-weight="600">Same data, run again</text>
+    <text x="64" y="436" font-size="12" fill="#52606b">Business columns identical</text>
+    <text x="64" y="456" font-size="12" fill="#52606b">No duplicate orders</text>
+    <text x="64" y="476" font-size="12" fill="#52606b">_dlt_load_id changes</text>
+
+    <rect x="348" y="380" width="308" height="112" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="368" y="396" width="4" height="80" rx="2" fill="#b4542b"/>
+    <text x="388" y="412" font-size="14" font-weight="600">Older version, loaded later</text>
+    <text x="388" y="436" font-size="12" fill="#52606b">Replaces the newer row</text>
+    <text x="388" y="456" font-size="12" fill="#52606b">primary_key is not freshness</text>
+    <text x="388" y="476" font-size="12" fill="#52606b">Version guard drops it first</text>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+[project]
+name = "cosine-lab"
+version = "0.1.0"
+description = "Standard-library cosine similarity with explicit edge cases (synthetic vectors only)."
+requires-python = ">=3.11,<3.12"
+dependencies = []
+
+[dependency-groups]
+# Test tooling only; the example itself uses the standard library.
+dev = ["pytest==7.4.3"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

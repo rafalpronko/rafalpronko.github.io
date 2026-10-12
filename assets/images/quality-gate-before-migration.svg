@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="436" viewBox="0 0 680 436" role="img" aria-labelledby="gate-title gate-desc">
+  <title id="gate-title">Quality gate before migration</title>
+  <desc id="gate-desc">The approved reference dataset and the staged candidate from the new pipeline enter a gate. The gate checks that both sides have the same scope, validates every row and compares the sides as multisets of whole rows. Only a pass may move readers, with an atomic switch, to the immutable version that was checked. A block, an error or an unapproved empty window keeps the old approved dataset live.</desc>
+  <rect width="680" height="436" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="40" y="28" width="280" height="76" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="44" width="4" height="44" rx="2" fill="#168a87"/>
+    <text x="80" y="60" font-size="14" font-weight="600">Reference</text>
+    <text x="80" y="82" font-size="12" fill="#52606b">Approved, old pipeline</text>
+
+    <rect x="360" y="28" width="280" height="76" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="380" y="44" width="4" height="44" rx="2" fill="#7b5aad"/>
+    <text x="400" y="60" font-size="14" font-weight="600">Candidate</text>
+    <text x="400" y="82" font-size="12" fill="#52606b">Staged, new pipeline</text>
+
+    <path d="M180 106 V124 H340 V136" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M500 106 V124 H340" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M335 135 L340 141 L345 135" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="100" y="146" width="480" height="104" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="164" width="4" height="68" rx="2" fill="#26323d"/>
+    <text x="146" y="178" font-size="14" font-weight="600">Gate</text>
+    <text x="146" y="200" font-size="12" fill="#52606b">Same snapshot, UTC window, currency, fields</text>
+    <text x="146" y="218" font-size="12" fill="#52606b">Valid rows, unique reference IDs</text>
+    <text x="146" y="236" font-size="12" fill="#52606b">Counter of whole rows on both sides</text>
+
+    <path d="M220 252 V282" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M215 281 L220 287 L225 281" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M460 252 V282" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M455 281 L460 287 L465 281" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="292" width="290" height="104" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="308" width="4" height="72" rx="2" fill="#168a87"/>
+    <text x="80" y="326" font-size="14" font-weight="600">Pass</text>
+    <text x="80" y="347" font-size="12" fill="#52606b">Atomic switch to the</text>
+    <text x="80" y="365" font-size="12" fill="#52606b">immutable checked version</text>
+
+    <rect x="350" y="292" width="290" height="104" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="370" y="308" width="4" height="72" rx="2" fill="#b4472f"/>
+    <text x="390" y="326" font-size="14" font-weight="600">Block, error or</text>
+    <text x="390" y="344" font-size="14" font-weight="600">unapproved empty</text>
+    <text x="390" y="364" font-size="12" fill="#52606b">Old approved dataset</text>
+    <text x="390" y="382" font-size="12" fill="#52606b">stays live, report sent</text>
+
+    <text x="340" y="420" text-anchor="middle" font-size="12" fill="#52606b">Matching the reference is not proof that the source is correct.</text>
+  </g>
+</svg>

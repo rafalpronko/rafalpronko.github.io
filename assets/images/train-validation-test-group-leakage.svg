@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="420" viewBox="0 0 680 420" role="img" aria-labelledby="leak-title leak-desc">
+  <title id="leak-title">Row split versus group split for train, validation and test</title>
+  <desc id="leak-desc">Two rows of three boxes labelled train, validation and test. In the row split, rows of the same entities are spread across the boxes: A is in train, validation and test, B in train and validation, C in train and test, so every entity in the test set has already been seen in training. In the group split, entities A and B are only in train, C only in validation and D only in test, so the test set contains only new entities. The test box in the group split is locked until the end.</desc>
+  <rect width="680" height="420" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <text x="40" y="44" font-size="15" font-weight="600">Row split: the same entities on every side</text>
+    <g font-size="13">
+      <rect x="40" y="60" width="190" height="110" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+      <text x="56" y="84" font-weight="600">Train</text>
+      <rect x="245" y="60" width="190" height="110" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+      <text x="261" y="84" font-weight="600">Validation</text>
+      <rect x="450" y="60" width="190" height="110" rx="12" fill="#ffffff" stroke="#c0504d" stroke-width="2"/>
+      <text x="466" y="84" font-weight="600">Test</text>
+    </g>
+    <g font-size="13" font-weight="600" text-anchor="middle" fill="#ffffff">
+      <rect x="56" y="100" width="34" height="26" rx="5" fill="#0f7774"/><text x="73" y="118">A</text>
+      <rect x="98" y="100" width="34" height="26" rx="5" fill="#7b5aad"/><text x="115" y="118">B</text>
+      <rect x="140" y="100" width="34" height="26" rx="5" fill="#9a5c1a"/><text x="157" y="118">C</text>
+      <rect x="182" y="100" width="34" height="26" rx="5" fill="#0f7774"/><text x="199" y="118">A</text>
+      <rect x="261" y="100" width="34" height="26" rx="5" fill="#7b5aad"/><text x="278" y="118">B</text>
+      <rect x="303" y="100" width="34" height="26" rx="5" fill="#0f7774"/><text x="320" y="118">A</text>
+      <rect x="466" y="100" width="34" height="26" rx="5" fill="#9a5c1a"/><text x="483" y="118">C</text>
+      <rect x="508" y="100" width="34" height="26" rx="5" fill="#0f7774"/><text x="525" y="118">A</text>
+    </g>
+    <text x="56" y="154" font-size="12" fill="#52606b">rows of A, B, C</text>
+    <text x="466" y="154" font-size="12" fill="#a03c3a">seen entities: memorised</text>
+
+    <text x="40" y="218" font-size="15" font-weight="600">Group split: each entity in exactly one role</text>
+    <g font-size="13">
+      <rect x="40" y="234" width="190" height="110" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+      <text x="56" y="258" font-weight="600">Train</text>
+      <rect x="245" y="234" width="190" height="110" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+      <text x="261" y="258" font-weight="600">Validation</text>
+      <rect x="450" y="234" width="190" height="110" rx="12" fill="#ffffff" stroke="#0f7774" stroke-width="2"/>
+      <text x="466" y="258" font-weight="600">Test (locked)</text>
+    </g>
+    <g font-size="13" font-weight="600" text-anchor="middle" fill="#ffffff">
+      <rect x="56" y="274" width="34" height="26" rx="5" fill="#0f7774"/><text x="73" y="292">A</text>
+      <rect x="98" y="274" width="34" height="26" rx="5" fill="#0f7774"/><text x="115" y="292">A</text>
+      <rect x="140" y="274" width="34" height="26" rx="5" fill="#7b5aad"/><text x="157" y="292">B</text>
+      <rect x="182" y="274" width="34" height="26" rx="5" fill="#7b5aad"/><text x="199" y="292">B</text>
+      <rect x="261" y="274" width="34" height="26" rx="5" fill="#9a5c1a"/><text x="278" y="292">C</text>
+      <rect x="303" y="274" width="34" height="26" rx="5" fill="#9a5c1a"/><text x="320" y="292">C</text>
+      <rect x="466" y="274" width="34" height="26" rx="5" fill="#3d6fb0"/><text x="483" y="292">D</text>
+      <rect x="508" y="274" width="34" height="26" rx="5" fill="#3d6fb0"/><text x="525" y="292">D</text>
+    </g>
+    <g fill="none" stroke="#0f7774" stroke-width="2" stroke-linecap="round">
+      <rect x="600" y="248" width="20" height="16" rx="3"/>
+      <path d="M604 248 V242 a6 6 0 0 1 12 0 V248"/>
+    </g>
+    <text x="56" y="328" font-size="12" fill="#52606b">fit model + preprocessing</text>
+    <text x="261" y="328" font-size="12" fill="#52606b">choose k, threshold</text>
+    <text x="466" y="328" font-size="12" fill="#1f6f6c">new entities: one final score</text>
+
+    <text x="340" y="390" text-anchor="middle" font-size="12" fill="#52606b">The split should match who the model will meet in deployment.</text>
+  </g>
+</svg>

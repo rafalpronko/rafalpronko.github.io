@@ -23,3 +23,17 @@ exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
+
+# Jekyll pomija pliki zaczynające się od "_" lub "."; przykłady do pobrania muszą być kompletne.
+include:
+  - __init__.py
+  - .python-version
+
+# Strony generowane przez GitHub Pages z README przykładów są po angielsku;
+# layout example-doc owija treść w .prose (przewijane pre/table na mobile).
+defaults:
+  - scope:
+      path: "assets/examples"
+    values:
+      lang: en
+      layout: example-doc
