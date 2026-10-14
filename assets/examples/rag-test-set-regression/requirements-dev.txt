@@ -1,0 +1,6 @@
+# Test-only dependencies. The evaluator itself uses the standard library only.
+# This set was resolved with `uv pip install --exclude-newer 2024-06-06T07:00:00Z pytest==8.2.2`.
+iniconfig==2.0.0
+packaging==24.0
+pluggy==1.5.0
+pytest==8.2.2

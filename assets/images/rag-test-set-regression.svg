@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="440" viewBox="0 0 680 440" role="img" aria-labelledby="ragreg-title ragreg-desc">
+  <title id="ragreg-title">RAG regression report: per-case pairing before aggregates</title>
+  <desc id="ragreg-desc">A versioned test set and two stored runs, baseline and candidate, are validated and paired by stable case ID. Two cases are fixed and two regress, so the overall pass count stays at 8 of 10 for both runs. One regression is a critical case, so the release gate fails even though the total is unchanged.</desc>
+  <rect width="680" height="440" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="24" y="28" width="196" height="96" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="42" y="46" width="4" height="60" rx="2" fill="#168a87"/>
+    <text x="58" y="62" font-size="14" font-weight="600">Test set v1.0.0</text>
+    <text x="58" y="84" font-size="12" fill="#52606b">case ID, split, group</text>
+    <text x="58" y="102" font-size="12" fill="#52606b">facts, evidence sets</text>
+
+    <rect x="24" y="140" width="196" height="96" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="42" y="158" width="4" height="60" rx="2" fill="#7b5aad"/>
+    <text x="58" y="174" font-size="14" font-weight="600">Stored runs</text>
+    <text x="58" y="196" font-size="12" fill="#52606b">baseline, candidate</text>
+    <text x="58" y="214" font-size="12" fill="#52606b">same corpus version</text>
+
+    <path d="M222 132 H256" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M251 127 L257 132 L251 137" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="264" y="28" width="392" height="208" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="284" y="56" font-size="14" font-weight="600">Pair by case ID</text>
+    <text x="284" y="84" font-size="12" fill="#52606b">case</text>
+    <text x="500" y="84" font-size="12" fill="#52606b">base</text>
+    <text x="560" y="84" font-size="12" fill="#52606b">cand</text>
+    <line x1="284" y1="92" x2="636" y2="92" stroke="#dce3e8"/>
+    <text x="284" y="114" font-size="12">q-export-retry</text>
+    <text x="500" y="114" font-size="12">fail</text>
+    <text x="560" y="114" font-size="12" fill="#0f7471" font-weight="600">pass (fixed)</text>
+    <text x="284" y="140" font-size="12">q-limit-ambiguous</text>
+    <text x="500" y="140" font-size="12">fail</text>
+    <text x="560" y="140" font-size="12" fill="#0f7471" font-weight="600">pass (fixed)</text>
+    <text x="284" y="166" font-size="12">q-seat-price</text>
+    <text x="500" y="166" font-size="12">pass</text>
+    <text x="560" y="166" font-size="12" fill="#b4462f" font-weight="600">fail (regr.)</text>
+    <rect x="276" y="176" width="368" height="26" rx="6" fill="#fbeeea"/>
+    <text x="284" y="194" font-size="12" font-weight="600">q-sso-plan-role  CRITICAL</text>
+    <text x="500" y="194" font-size="12">pass</text>
+    <text x="560" y="194" font-size="12" fill="#b4462f" font-weight="600">fail (regr.)</text>
+    <text x="284" y="224" font-size="12" fill="#52606b">6 other cases unchanged</text>
+
+    <path d="M460 238 V262" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M455 257 L460 263 L465 257" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="24" y="272" width="300" height="96" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="42" y="290" width="4" height="60" rx="2" fill="#8b99a5"/>
+    <text x="58" y="306" font-size="14" font-weight="600">Aggregate only</text>
+    <text x="58" y="328" font-size="12" fill="#52606b">overall pass: 8/10 vs 8/10</text>
+    <text x="58" y="346" font-size="12" fill="#52606b">looks unchanged</text>
+
+    <rect x="356" y="272" width="300" height="96" rx="12" fill="#ffffff" stroke="#b4462f"/>
+    <rect x="374" y="290" width="4" height="60" rx="2" fill="#b4462f"/>
+    <text x="390" y="306" font-size="14" font-weight="600">Release gate: FAIL</text>
+    <text x="390" y="328" font-size="12" fill="#52606b">critical regressions: 1 &gt; 0</text>
+    <text x="390" y="346" font-size="12" fill="#52606b">critical failures: 1 &gt; 0</text>
+
+    <text x="340" y="404" text-anchor="middle" font-size="12" fill="#52606b">Synthetic example. Thresholds are illustrative, not universal.</text>
+  </g>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 440" width="1000" height="440" role="img" aria-labelledby="bs-title bs-desc">
+  <title id="bs-title">Dynamic batching under load: bounded queue, batch trigger, single worker, and outcomes</title>
+  <desc id="bs-desc">Open-loop arrivals on a fixed schedule enter a bounded waiting queue, or are rejected when the queue is full; rejected requests get no latency. A batch is dispatched when the queue holds max batch size requests or the oldest request has waited max wait, and only when the single worker is free. The worker spends a fixed overhead plus per-item time on each batch. Each completed request's latency, finish minus arrival, is compared with the client deadline: it is counted as within deadline, which is goodput, or as deadline missed, in which case the worker still did the work.</desc>
+  <defs>
+    <marker id="bs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7dd3fc"/>
+    </marker>
+    <marker id="bs-arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f87171"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="440" fill="#0b1220"/>
+  <g font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" text-anchor="middle" fill="#e2e8f0">
+    <line x1="85" y1="62" x2="917" y2="62" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 5"/>
+    <line x1="85" y1="54" x2="85" y2="70" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="917" y1="54" x2="917" y2="70" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="500" y="46" font-size="15" fill="#cbd5e1">latency = finish − arrival, judged against the client deadline</text>
+
+    <rect x="20" y="160" width="130" height="90" rx="8" fill="#111c2e" stroke="#7dd3fc" stroke-width="2"/>
+    <text x="85" y="192" font-size="16" font-weight="600">Open-loop</text>
+    <text x="85" y="212" font-size="16" font-weight="600">arrivals</text>
+    <text x="85" y="234" font-size="12" fill="#94a3b8">fixed schedule</text>
+    <line x1="150" y1="205" x2="196" y2="205" stroke="#7dd3fc" stroke-width="2" marker-end="url(#bs-arrow)"/>
+
+    <rect x="200" y="150" width="180" height="110" rx="8" fill="#111c2e" stroke="#7dd3fc" stroke-width="2"/>
+    <text x="290" y="176" font-size="16" font-weight="600">Bounded queue</text>
+    <rect x="215" y="190" width="26" height="40" rx="3" fill="#1e3a5f" stroke="#7dd3fc"/>
+    <rect x="247" y="190" width="26" height="40" rx="3" fill="#1e3a5f" stroke="#7dd3fc"/>
+    <rect x="279" y="190" width="26" height="40" rx="3" fill="#1e3a5f" stroke="#7dd3fc"/>
+    <rect x="311" y="190" width="26" height="40" rx="3" fill="none" stroke="#475569" stroke-dasharray="3 3"/>
+    <rect x="343" y="190" width="26" height="40" rx="3" fill="none" stroke="#475569" stroke-dasharray="3 3"/>
+    <text x="290" y="250" font-size="12" fill="#94a3b8">capacity = queue_capacity</text>
+    <line x1="380" y1="205" x2="426" y2="205" stroke="#7dd3fc" stroke-width="2" marker-end="url(#bs-arrow)"/>
+
+    <rect x="430" y="140" width="190" height="130" rx="8" fill="#111c2e" stroke="#a78bfa" stroke-width="2"/>
+    <text x="525" y="166" font-size="16" font-weight="600">Batch trigger</text>
+    <text x="525" y="192" font-size="13">size = max_batch_size</text>
+    <text x="525" y="212" font-size="13">or oldest waited</text>
+    <text x="525" y="232" font-size="13">max_wait</text>
+    <text x="525" y="256" font-size="12" fill="#94a3b8">and worker is free</text>
+    <line x1="620" y1="205" x2="656" y2="205" stroke="#7dd3fc" stroke-width="2" marker-end="url(#bs-arrow)"/>
+
+    <rect x="660" y="150" width="150" height="110" rx="8" fill="#111c2e" stroke="#7dd3fc" stroke-width="2"/>
+    <text x="735" y="178" font-size="16" font-weight="600">Single worker</text>
+    <text x="735" y="204" font-size="13">overhead</text>
+    <text x="735" y="224" font-size="13">+ per_item × n</text>
+    <text x="735" y="248" font-size="12" fill="#94a3b8">virtual clock</text>
+
+    <line x1="810" y1="190" x2="848" y2="140" stroke="#7dd3fc" stroke-width="2" marker-end="url(#bs-arrow)"/>
+    <line x1="810" y1="220" x2="848" y2="270" stroke="#7dd3fc" stroke-width="2" marker-end="url(#bs-arrow)"/>
+
+    <rect x="850" y="95" width="135" height="70" rx="8" fill="#0f2a1f" stroke="#4ade80" stroke-width="2"/>
+    <text x="917" y="124" font-size="15" font-weight="600">Within deadline</text>
+    <text x="917" y="146" font-size="12" fill="#94a3b8">counts as goodput</text>
+
+    <rect x="850" y="250" width="135" height="80" rx="8" fill="#2a210f" stroke="#fbbf24" stroke-width="2"/>
+    <text x="917" y="276" font-size="15" font-weight="600">Deadline</text>
+    <text x="917" y="295" font-size="15" font-weight="600">missed</text>
+    <text x="917" y="316" font-size="12" fill="#94a3b8">work still done</text>
+
+    <line x1="290" y1="260" x2="290" y2="331" stroke="#f87171" stroke-width="2" marker-end="url(#bs-arrow-red)"/>
+    <text x="345" y="300" font-size="12" fill="#fca5a5">queue full</text>
+    <rect x="200" y="335" width="180" height="70" rx="8" fill="#2a1214" stroke="#f87171" stroke-width="2"/>
+    <text x="290" y="364" font-size="15" font-weight="600">Rejected</text>
+    <text x="290" y="386" font-size="12" fill="#94a3b8">counted, no latency</text>
+
+    <text x="690" y="382" font-size="13" fill="#cbd5e1">Rejected, deadline missed, and within deadline are counted separately.</text>
+    <text x="690" y="404" font-size="13" fill="#cbd5e1">Latency percentiles use completed requests only.</text>
+  </g>
+</svg>

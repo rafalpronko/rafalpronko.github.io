@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-labelledby="title desc">
+  <title id="title">Trust boundary between an LLM and its tools</title>
+  <desc id="desc">On the left, an untrusted zone holds the user request, a retrieved document with a hidden instruction and the model, which emits a JSON proposal containing only a tool name and arguments. In the middle, a broker running trusted code turns a session token into a principal and tenant, validates the proposal shape, checks the per-tool permission, runs a tool-specific guard such as tenant, recipient or host checks, and for egress and write tools requires an exact single-use approval that arrives from a separate trusted approval channel. On the right are three tool classes: read tools whose results go back to the model as untrusted data, egress tools that can leak data through a URL, and write tools that change the world. A bottom strip notes the residual risk: the broker checks policy, not malicious intent or content, so an allowed action that a human approves still runs, and the broker does not mediate the model's final answer. Another strip notes that a contaminated retrieval can be authorised while its content stays untrusted.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7dd3fc"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="675" fill="#0b1220"/>
+  <g font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif" fill="#e2e8f0">
+    <text x="600" y="48" font-size="26" font-weight="700" text-anchor="middle">The model proposes. The broker decides.</text>
+    <text x="600" y="76" font-size="15" fill="#94a3b8" text-anchor="middle">Identity, tenant, permission and approval never come from model output</text>
+
+    <!-- Untrusted zone -->
+    <rect x="30" y="100" width="340" height="440" rx="14" fill="#1f1115" stroke="#fca5a5" stroke-width="2" stroke-dasharray="8 6"/>
+    <text x="200" y="128" font-size="15" font-weight="700" fill="#fca5a5" text-anchor="middle" letter-spacing="2">UNTRUSTED</text>
+    <rect x="55" y="145" width="290" height="56" rx="8" fill="#111827" stroke="#475569"/>
+    <text x="200" y="179" font-size="16" text-anchor="middle">User request</text>
+    <rect x="55" y="215" width="290" height="76" rx="8" fill="#111827" stroke="#fca5a5"/>
+    <text x="200" y="245" font-size="16" text-anchor="middle">Retrieved document</text>
+    <text x="200" y="270" font-size="13" fill="#fca5a5" text-anchor="middle">contains a hidden instruction</text>
+    <rect x="55" y="305" width="290" height="56" rx="8" fill="#111827" stroke="#475569"/>
+    <text x="200" y="339" font-size="16" text-anchor="middle">Model</text>
+    <path d="M55,173 H42 V333 H53" fill="none" stroke="#7dd3fc" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="200" y1="291" x2="200" y2="303" stroke="#7dd3fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="55" y="400" width="290" height="110" rx="8" fill="#0f172a" stroke="#7dd3fc"/>
+    <text x="200" y="428" font-size="15" text-anchor="middle" font-weight="700">Proposal (data, not a command)</text>
+    <text x="200" y="456" font-size="14" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#a5f3fc" text-anchor="middle">{"tool": "search_docs",</text>
+    <text x="200" y="478" font-size="14" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#a5f3fc" text-anchor="middle"> "args": {"query": "shipping"}}</text>
+    <line x1="200" y1="361" x2="200" y2="398" stroke="#7dd3fc" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Broker -->
+    <rect x="420" y="100" width="360" height="440" rx="14" fill="#0f1b2d" stroke="#7dd3fc" stroke-width="2"/>
+    <text x="600" y="128" font-size="15" font-weight="700" fill="#7dd3fc" text-anchor="middle" letter-spacing="2">BROKER · TRUSTED CODE</text>
+    <g font-size="15">
+      <rect x="445" y="145" width="310" height="58" rx="8" fill="#111827" stroke="#334155"/>
+      <text x="460" y="170">1. Session token → principal</text>
+      <text x="480" y="192" font-size="13" fill="#94a3b8">user and tenant from login, not args</text>
+      <rect x="445" y="213" width="310" height="58" rx="8" fill="#111827" stroke="#334155"/>
+      <text x="460" y="238">2. Strict proposal shape</text>
+      <text x="480" y="260" font-size="13" fill="#94a3b8">valid shape ≠ authority</text>
+      <rect x="445" y="281" width="310" height="58" rx="8" fill="#111827" stroke="#334155"/>
+      <text x="460" y="306">3. Per-tool permission</text>
+      <text x="480" y="328" font-size="13" fill="#94a3b8">from server-side directory</text>
+      <rect x="445" y="349" width="310" height="58" rx="8" fill="#111827" stroke="#334155"/>
+      <text x="460" y="374">4. Tool guard</text>
+      <text x="480" y="396" font-size="13" fill="#94a3b8">tenant · recipient · host allowlist</text>
+      <rect x="445" y="417" width="310" height="80" rx="8" fill="#111827" stroke="#fde68a"/>
+      <text x="460" y="442">5. Exact single-use approval</text>
+      <text x="480" y="464" font-size="13" fill="#94a3b8">egress and write only; digest of</text>
+      <text x="480" y="484" font-size="13" fill="#94a3b8">user · tenant · tool · canonical args</text>
+    </g>
+    <line x1="345" y1="455" x2="418" y2="455" stroke="#7dd3fc" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Approval channel -->
+    <rect x="445" y="560" width="310" height="52" rx="8" fill="#1c1a0f" stroke="#fde68a"/>
+    <text x="600" y="583" font-size="15" text-anchor="middle" fill="#fde68a">Approval channel (UI, human)</text>
+    <text x="600" y="602" font-size="12" fill="#cbd5e1" text-anchor="middle">shows the exact action; the model cannot call it</text>
+    <line x1="600" y1="560" x2="600" y2="499" stroke="#fde68a" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Tools -->
+    <rect x="830" y="100" width="340" height="440" rx="14" fill="#0f172a" stroke="#475569" stroke-width="2"/>
+    <text x="1000" y="128" font-size="15" font-weight="700" fill="#cbd5e1" text-anchor="middle" letter-spacing="2">TOOLS · BY EFFECT</text>
+    <rect x="855" y="145" width="290" height="100" rx="8" fill="#111827" stroke="#86efac"/>
+    <text x="870" y="172" font-size="16" font-weight="700" fill="#86efac">Read</text>
+    <text x="870" y="196" font-size="14">search_docs, read_ticket</text>
+    <text x="870" y="220" font-size="13" fill="#94a3b8">result returns to the model</text>
+    <text x="870" y="238" font-size="13" fill="#94a3b8">as untrusted data</text>
+    <rect x="855" y="265" width="290" height="100" rx="8" fill="#111827" stroke="#fde68a"/>
+    <text x="870" y="292" font-size="16" font-weight="700" fill="#fde68a">Egress</text>
+    <text x="870" y="316" font-size="14">fetch_url (simulated)</text>
+    <text x="870" y="340" font-size="13" fill="#94a3b8">a "read" that can leak data</text>
+    <text x="870" y="358" font-size="13" fill="#94a3b8">inside the URL</text>
+    <rect x="855" y="385" width="290" height="100" rx="8" fill="#111827" stroke="#fca5a5"/>
+    <text x="870" y="412" font-size="16" font-weight="700" fill="#fca5a5">Write</text>
+    <text x="870" y="436" font-size="14">send_email (simulated)</text>
+    <text x="870" y="460" font-size="13" fill="#94a3b8">changes the world;</text>
+    <text x="870" y="478" font-size="13" fill="#94a3b8">rollback is not guaranteed</text>
+    <line x1="755" y1="320" x2="828" y2="320" stroke="#7dd3fc" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Residual risk -->
+    <rect x="830" y="560" width="340" height="88" rx="8" fill="#1f1115" stroke="#fca5a5"/>
+    <text x="845" y="586" font-size="14" font-weight="700" fill="#fca5a5">Residual risk, not covered:</text>
+    <text x="845" y="608" font-size="13">approved but malicious actions;</text>
+    <text x="845" y="628" font-size="13">the model's final answer and links</text>
+    <rect x="30" y="560" width="340" height="88" rx="8" fill="#111827" stroke="#475569"/>
+    <text x="45" y="586" font-size="14" font-weight="700" fill="#cbd5e1">Contaminated retrieval:</text>
+    <text x="45" y="608" font-size="13">the read was authorised,</text>
+    <text x="45" y="628" font-size="13">the content is still untrusted</text>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+{
+  "artifact_sha256": "266f5df09eb725d6fa9e50ca383be21ced270c14985795a4cf7dbd219790cf6a",
+  "policy_version": "support-intent-release/3",
+  "eval_corpus": {"id": "support-intents-synthetic", "version": "3"},
+  "slices": {
+    "overall": {"correct": 880, "total": 1000},
+    "lang=en": {"correct": 535, "total": 600},
+    "lang=pl": {"correct": 345, "total": 400},
+    "channel=email": {"correct": 615, "total": 700},
+    "channel=phone": {"correct": 265, "total": 300}
+  }
+}

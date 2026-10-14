@@ -27,6 +27,7 @@ exclude:
 # Jekyll pomija pliki zaczynające się od "_" lub "."; przykłady do pobrania muszą być kompletne.
 include:
   - __init__.py
+  - __main__.py
   - .python-version
 
 # Strony generowane przez GitHub Pages z README przykładów są po angielsku;
@@ -34,6 +35,11 @@ include:
 defaults:
   - scope:
       path: "assets/examples"
+    values:
+      lang: en
+      layout: example-doc
+  - scope:
+      path: "assets/code"
     values:
       lang: en
       layout: example-doc

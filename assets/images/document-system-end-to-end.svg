@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" width="960" height="520" role="img" aria-labelledby="title desc">
+  <title id="title">Document system end to end: ingestion, index, API and evaluation</title>
+  <desc id="desc">A source document with doc_id, version, title and body is validated and split into paragraph chunks with a content hash. One SQLite transaction (BEGIN IMMEDIATE to COMMIT) decides inserted, updated, unchanged, stale or conflict, then writes the documents table with tombstones, the FTS5 chunks table and the corpus_version counter. Search parses a restricted query of plain terms into quoted FTS5 strings and ranks chunks by bm25 ascending with doc_id and chunk_no as tie breakers inside one read snapshot. A loopback-only JSON API exposes health, search, PUT and DELETE. A retrieval evaluation on an unchanging corpus reports macro recall at k (share of each query's relevant chunks found, averaged), MRR at k and hits on an unanswerable question.</desc>
+  <style>
+    .box { fill: #ffffff; stroke: #1f2937; stroke-width: 2; }
+    .db { fill: #eef6ff; stroke: #1d4ed8; stroke-width: 2; }
+    .read { fill: #f0fdf4; stroke: #15803d; stroke-width: 2; }
+    .note { fill: #fff7ed; stroke: #c2410c; stroke-width: 2; stroke-dasharray: 6 4; }
+    .h { font: 700 17px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #111827; }
+    .t { font: 14px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #1f2937; }
+    .m { font: 13px ui-monospace, Menlo, Consolas, monospace; fill: #1f2937; }
+    .arrow { stroke: #374151; stroke-width: 2; fill: none; marker-end: url(#head); }
+  </style>
+  <defs>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#374151"/>
+    </marker>
+  </defs>
+  <rect width="960" height="520" fill="#f9fafb"/>
+
+  <rect class="note" x="20" y="30" width="190" height="120" rx="8"/>
+  <text class="h" x="36" y="58">Extraction adapter</text>
+  <text class="t" x="36" y="84">PDF, OCR, HTML</text>
+  <text class="t" x="36" y="106">not implemented;</text>
+  <text class="t" x="36" y="128">produces documents</text>
+
+  <rect class="box" x="20" y="200" width="190" height="130" rx="8"/>
+  <text class="h" x="36" y="228">Source document</text>
+  <text class="m" x="36" y="254">doc_id</text>
+  <text class="m" x="36" y="274">version (from source)</text>
+  <text class="m" x="36" y="294">title, body</text>
+  <text class="t" x="36" y="318">or DELETE + version</text>
+  <path class="arrow" d="M115 150 L115 196"/>
+
+  <rect class="box" x="250" y="200" width="190" height="130" rx="8"/>
+  <text class="h" x="266" y="228">Ingestion</text>
+  <text class="t" x="266" y="254">validate contract</text>
+  <text class="t" x="266" y="276">split into paragraphs</text>
+  <text class="t" x="266" y="298">SHA-256 of title + body</text>
+  <path class="arrow" d="M210 265 L246 265"/>
+
+  <rect class="db" x="480" y="30" width="230" height="300" rx="8"/>
+  <text class="h" x="496" y="58">One write transaction</text>
+  <text class="m" x="496" y="82">BEGIN IMMEDIATE</text>
+  <text class="t" x="496" y="106">read stored version, decide:</text>
+  <text class="t" x="496" y="126">inserted, updated,</text>
+  <text class="t" x="496" y="146">unchanged, stale, conflict</text>
+  <rect class="box" x="496" y="160" width="198" height="40" rx="4"/>
+  <text class="m" x="506" y="185">documents + tombstones</text>
+  <rect class="box" x="496" y="208" width="198" height="40" rx="4"/>
+  <text class="m" x="506" y="233">chunks (FTS5 table)</text>
+  <rect class="box" x="496" y="256" width="198" height="40" rx="4"/>
+  <text class="m" x="506" y="281">meta.corpus_version</text>
+  <text class="m" x="496" y="318">COMMIT</text>
+  <path class="arrow" d="M440 265 L476 265"/>
+
+  <rect class="read" x="750" y="30" width="190" height="180" rx="8"/>
+  <text class="h" x="766" y="58">Search</text>
+  <text class="t" x="766" y="84">plain a-z 0-9 terms</text>
+  <text class="m" x="766" y="106">"term" "term"</text>
+  <text class="t" x="766" y="130">bm25 ascending,</text>
+  <text class="t" x="766" y="152">ties: doc_id, chunk_no</text>
+  <text class="t" x="766" y="176">one read snapshot +</text>
+  <text class="t" x="766" y="196">corpus_version</text>
+  <path class="arrow" d="M710 120 L746 120"/>
+
+  <rect class="read" x="750" y="250" width="190" height="150" rx="8"/>
+  <text class="h" x="766" y="278">Local JSON API</text>
+  <text class="m" x="766" y="302">GET /health</text>
+  <text class="m" x="766" y="322">GET /search</text>
+  <text class="m" x="766" y="342">PUT /documents/id</text>
+  <text class="m" x="766" y="362">DELETE ?version=n</text>
+  <text class="t" x="766" y="386">127.0.0.1 only</text>
+  <path class="arrow" d="M845 250 L845 214"/>
+  <path class="arrow" d="M750 300 L714 300"/>
+
+  <rect class="read" x="480" y="370" width="230" height="120" rx="8"/>
+  <text class="h" x="496" y="398">Retrieval evaluation</text>
+  <text class="t" x="496" y="422">macro recall@k, MRR@k</text>
+  <text class="t" x="496" y="444">unanswerable question:</text>
+  <text class="t" x="496" y="466">expect zero hits</text>
+  <path class="arrow" d="M710 470 L950 470 L950 120 L944 120"/>
+
+  <rect class="note" x="20" y="370" width="420" height="120" rx="8"/>
+  <text class="h" x="36" y="398">Not included</text>
+  <text class="t" x="36" y="422">ACL before retrieval, auth and TLS,</text>
+  <text class="t" x="36" y="444">answer generation, rebuild tooling,</text>
+  <text class="t" x="36" y="466">tombstone retention, stemming</text>
+</svg>

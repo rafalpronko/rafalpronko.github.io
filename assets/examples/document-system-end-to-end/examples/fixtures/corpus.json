@@ -1,0 +1,26 @@
+[
+  {
+    "doc_id": "runbook-backup",
+    "version": 1,
+    "title": "Backup runbook",
+    "body": "Nightly backups run at 02:00 UTC and write a compressed snapshot to the archive bucket.\n\nRestore drills happen every quarter. The on-call engineer restores the latest snapshot into a scratch database and compares row counts.\n\nIf a backup fails twice in a row, page the storage team."
+  },
+  {
+    "doc_id": "policy-retention",
+    "version": 1,
+    "title": "Data retention policy",
+    "body": "Customer invoices are retained for seven years.\n\nApplication logs are retained for thirty days and then deleted by a scheduled job.\n\nSupport tickets are anonymised after two years."
+  },
+  {
+    "doc_id": "guide-deploy",
+    "version": 1,
+    "title": "Deployment guide",
+    "body": "Deployments use a blue green switch behind the load balancer.\n\nA deployment is rolled back when the error rate exceeds two percent for five minutes.\n\nDatabase migrations must be backward compatible with the previous release."
+  },
+  {
+    "doc_id": "faq-oncall",
+    "version": 1,
+    "title": "On-call FAQ",
+    "body": "The on-call rotation changes every Monday at 10:00 local time.\n\nEscalate to the incident commander when customer impact lasts longer than fifteen minutes."
+  }
+]

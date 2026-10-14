@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="440" viewBox="0 0 680 440" role="img" aria-labelledby="rag3-title rag3-desc">
+  <title id="rag3-title">Three separate checks for a RAG answer</title>
+  <desc id="rag3-desc">A frozen snapshot of corpus, index and question feeds three checks. Retrieval is compared with labelled relevant chunks and sufficient evidence sets: recall and precision at k. The context actually provided to the model may differ from the retrieved list after truncation; it is logged, checked for a full sufficient evidence set, and the model generates its answer from it. Answer quality compares the atomic claims of that generated answer with reference labels: correctness, completeness and relevance. Evidence support compares the same claims with the provided context: faithfulness, citation coverage and citation entailment. A correct answer can be unsupported, and a supported answer can be wrong when the source is stale. A refusal makes the claim-based scores not applicable rather than perfect.</desc>
+  <rect width="680" height="440" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="40" y="24" width="600" height="56" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="38" width="4" height="28" rx="2" fill="#8b99a5"/>
+    <text x="80" y="49" font-size="14" font-weight="600">Frozen snapshot</text>
+    <text x="80" y="68" font-size="12" fill="#52606b">corpus + index + question + labels</text>
+    <text x="620" y="58" text-anchor="end" font-size="12" fill="#52606b">acme-help@2024-05-20</text>
+
+    <path d="M340 82 V99" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 98 L340 104 L345 98" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="108" width="600" height="80" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="124" width="4" height="48" rx="2" fill="#117673"/>
+    <text x="80" y="136" font-size="11" font-weight="600" fill="#117673">CHECK 1</text>
+    <text x="80" y="155" font-size="14" font-weight="600">Retrieval: top-k vs labelled chunks</text>
+    <text x="80" y="175" font-size="12" fill="#52606b">recall@k, precision@k, any sufficient evidence set in top-k?</text>
+
+    <path d="M340 190 V207" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 206 L340 212 L345 206" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="352" y="204" font-size="11" fill="#52606b">truncation, reranking, token budget</text>
+
+    <rect x="40" y="216" width="600" height="44" rx="12" fill="#ffffff" stroke="#dce3e8" stroke-dasharray="5 4"/>
+    <text x="340" y="235" text-anchor="middle" font-size="13" font-weight="600">Context actually provided → model → generated answer</text>
+    <text x="340" y="252" text-anchor="middle" font-size="11" fill="#52606b">context logged, not re-derived · sufficient context = a full evidence set in it</text>
+
+    <path d="M190 262 V279" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M185 278 L190 284 L195 278" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="202" y="278" font-size="11" fill="#52606b">answer claims</text>
+    <path d="M490 262 V279" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M485 278 L490 284 L495 278" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="502" y="278" font-size="11" fill="#52606b">claims + provided context</text>
+
+    <rect x="40" y="288" width="290" height="104" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="58" y="304" width="4" height="72" rx="2" fill="#7b5aad"/>
+    <text x="76" y="316" font-size="11" font-weight="600" fill="#7b5aad">CHECK 2</text>
+    <text x="76" y="335" font-size="14" font-weight="600">Answer vs reference</text>
+    <text x="76" y="355" font-size="12" fill="#52606b">correctness, completeness,</text>
+    <text x="76" y="372" font-size="12" fill="#52606b">relevance of atomic claims</text>
+
+    <rect x="350" y="288" width="290" height="104" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="368" y="304" width="4" height="72" rx="2" fill="#b4542d"/>
+    <text x="386" y="316" font-size="11" font-weight="600" fill="#b4542d">CHECK 3</text>
+    <text x="386" y="335" font-size="14" font-weight="600">Claims vs provided context</text>
+    <text x="386" y="355" font-size="12" fill="#52606b">faithfulness, citation coverage,</text>
+    <text x="386" y="372" font-size="12" fill="#52606b">citation entailment</text>
+
+    <text x="340" y="418" text-anchor="middle" font-size="12" fill="#52606b">Correct can be unsupported. Supported can be wrong. Refusal: claim-based scores are n/a, not 1.0.</text>
+  </g>
+</svg>

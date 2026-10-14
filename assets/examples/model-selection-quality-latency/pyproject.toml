@@ -1,0 +1,6 @@
+[project]
+name = "model-selection-quality-latency"
+version = "0.1.0"
+description = "Replay-log evaluator for comparing candidate models on quality, failures, latency and cost (synthetic fixtures)."
+requires-python = ">=3.11"
+dependencies = []

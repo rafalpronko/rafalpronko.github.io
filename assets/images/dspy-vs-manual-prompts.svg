@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="fair-title fair-desc">
+  <title id="fair-title">A fair comparison of a hand-written prompt and a DSPy program</title>
+  <desc id="fair-desc">Labelled cases are split by group into train, dev and a sealed test set. Train supplies examples and bootstrapped demonstrations, dev is used only to score and select candidates, and test stays closed. A manual arm and a DSPy arm each have their own ledger with the same caps: 60 billable attempts and 4 dev evaluations, with teacher, student, retry and judge calls all charged and cache hits recorded. Each arm selects its best candidate on dev. Both selections are frozen into a manifest holding artifact hashes and a digest of the test ids. Only then is the test set opened, once, under a separate and equal evaluation cap per arm. The result is a paired comparison on the same cases: descriptive discordant rows, an exact paired group sign-flip test under independent-cluster/exchangeable-sign null assumptions, and a group bootstrap interval for equally weighted group accuracy differences.</desc>
+  <rect width="760" height="520" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="40" y="24" width="210" height="72" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="58" y="40" width="4" height="40" rx="2" fill="#168a87"/>
+    <text x="76" y="56" font-size="14" font-weight="600">train</text>
+    <text x="76" y="77" font-size="12" fill="#52606b">examples and demos</text>
+
+    <rect x="275" y="24" width="210" height="72" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="293" y="40" width="4" height="40" rx="2" fill="#168a87"/>
+    <text x="311" y="56" font-size="14" font-weight="600">dev</text>
+    <text x="311" y="77" font-size="12" fill="#52606b">score and select only</text>
+
+    <rect x="510" y="24" width="210" height="72" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="528" y="40" width="4" height="40" rx="2" fill="#a14a24"/>
+    <text x="546" y="56" font-size="14" font-weight="600">test (sealed)</text>
+    <text x="546" y="77" font-size="12" fill="#52606b">opened once, after freeze</text>
+
+    <text x="380" y="118" text-anchor="middle" font-size="12" fill="#52606b">Split by group: a ticket and its follow-up never land in different sets</text>
+
+    <rect x="40" y="136" width="300" height="112" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="58" y="152" width="4" height="80" rx="2" fill="#168a87"/>
+    <text x="76" y="168" font-size="14" font-weight="600">Manual arm</text>
+    <text x="76" y="190" font-size="12" fill="#52606b">Hand-written prompt, examples from train</text>
+    <text x="76" y="210" font-size="12" fill="#52606b">Own ledger: 60 attempts, 4 dev evals</text>
+    <text x="76" y="230" font-size="12" fill="#52606b">Retries and cache hits recorded</text>
+
+    <rect x="395" y="136" width="300" height="112" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="413" y="152" width="4" height="80" rx="2" fill="#168a87"/>
+    <text x="431" y="168" font-size="14" font-weight="600">DSPy arm</text>
+    <text x="431" y="190" font-size="12" fill="#52606b">BootstrapFewShot compiled on train</text>
+    <text x="431" y="210" font-size="12" fill="#52606b">Own ledger: 60 attempts, 4 dev evals</text>
+    <text x="431" y="230" font-size="12" fill="#52606b">Teacher, student, retry: all charged</text>
+
+    <path d="M190 250 V270" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M185 269 L190 275 L195 269" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M545 250 V270" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M540 269 L545 275 L550 269" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="160" y="280" width="440" height="58" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="178" y="292" width="4" height="34" rx="2" fill="#7b5aad"/>
+    <text x="196" y="305" font-size="14" font-weight="600">Select on dev, then freeze both</text>
+    <text x="196" y="325" font-size="12" fill="#52606b">Manifest: artifact sha256 and test id digest</text>
+
+    <path d="M380 340 V358" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M375 357 L380 363 L385 357" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="160" y="368" width="440" height="58" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="178" y="380" width="4" height="34" rx="2" fill="#a14a24"/>
+    <text x="196" y="393" font-size="14" font-weight="600">Holdout run, exactly once</text>
+    <text x="196" y="413" font-size="12" fill="#52606b">Separate, equal evaluation cap per arm</text>
+
+    <path d="M712 98 V397 H604" fill="none" stroke="#a14a24" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round"/>
+    <path d="M609 392 L603 397 L609 402" fill="none" stroke="#a14a24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <path d="M380 428 V446" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M375 445 L380 451 L385 445" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="160" y="456" width="440" height="50" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="178" y="466" width="4" height="30" rx="2" fill="#7b5aad"/>
+    <text x="196" y="478" font-size="14" font-weight="600">Paired comparison on the same cases</text>
+    <text x="196" y="496" font-size="12" fill="#52606b">Discordant rows, group sign-flip, group bootstrap CI</text>
+  </g>
+</svg>

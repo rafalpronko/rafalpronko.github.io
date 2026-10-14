@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="548"
+     viewBox="0 0 680 548" role="img"
+     aria-labelledby="wva-title wva-desc">
+  <title id="wva-title">
+    A bounded agent inside a deterministic refund workflow
+  </title>
+  <desc id="wva-desc">
+    Untrusted ticket text and trusted server facts enter the workflow.
+    The server facts are the session customer and the database order.
+    Before the scripted model runs, code checks facts and ownership:
+    a foreign order is rejected, and missing or invalid facts need human
+    review. A bounded agent loop may choose read-only tools for up to four
+    steps and return a proposal. The policy gate validates the proposal,
+    rechecks facts and ownership, and enforces the refund window, available
+    balance and automatic limit. Its branches lead to refund intent, human
+    review and rejection. These bounds do not prove refund entitlement:
+    a malicious or incorrect proposal within them can produce refund intent.
+    Invalid output, caught tool errors or an exhausted step budget produce
+    no valid proposal and go to human review after the facts checks.
+  </desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4"
+            markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#52606b"/>
+    </marker>
+  </defs>
+  <rect width="680" height="548" rx="16" fill="#f6f7f9"/>
+  <g fill="none" stroke="#52606b" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M185 94 V110 H340"/>
+    <path d="M495 94 V110 H340"/>
+    <path d="M340 110 V126" marker-end="url(#arrow)"/>
+    <path d="M340 198 V216" marker-end="url(#arrow)"/>
+    <path d="M340 288 V306" marker-end="url(#arrow)"/>
+    <path d="M340 400 V424"/>
+    <path d="M130 424 H550"/>
+    <path d="M130 424 V442" marker-end="url(#arrow)"/>
+    <path d="M340 424 V442" marker-end="url(#arrow)"/>
+    <path d="M550 424 V442" marker-end="url(#arrow)"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="40" y="24" width="290" height="70" rx="12"
+          fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="58" y="38" width="4" height="42" rx="2"
+          fill="#c0563b"/>
+    <text x="76" y="54" font-size="14" font-weight="600">Ticket text</text>
+    <text x="76" y="76" font-size="12" fill="#52606b">
+      Untrusted input; may affect the proposal
+    </text>
+
+    <rect x="350" y="24" width="290" height="70" rx="12"
+          fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="368" y="38" width="4" height="42" rx="2"
+          fill="#168a87"/>
+    <text x="386" y="54" font-size="14" font-weight="600">
+      Trusted facts
+    </text>
+    <text x="386" y="76" font-size="12" fill="#52606b">
+      Session customer, order from DB
+    </text>
+
+    <rect x="100" y="130" width="480" height="68" rx="12"
+          fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="142" width="4" height="44" rx="2"
+          fill="#168a87"/>
+    <text x="146" y="155" font-size="14" font-weight="600">
+      Workflow: facts and ownership checked in code
+    </text>
+    <text x="146" y="178" font-size="12" fill="#52606b">
+      Before model: foreign order rejected; bad facts to review
+    </text>
+
+    <rect x="100" y="220" width="480" height="68" rx="12"
+          fill="#ffffff" stroke="#7b5aad" stroke-dasharray="6 4"/>
+    <rect x="122" y="232" width="4" height="44" rx="2"
+          fill="#7b5aad"/>
+    <text x="146" y="245" font-size="14" font-weight="600">
+      Bounded agent: scripted model picks next step
+    </text>
+    <text x="146" y="268" font-size="12" fill="#52606b">
+      Read-only tools, max 4 steps, returns a proposal
+    </text>
+
+    <rect x="100" y="310" width="480" height="90" rx="12"
+          fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="322" width="4" height="66" rx="2"
+          fill="#168a87"/>
+    <text x="146" y="335" font-size="14" font-weight="600">
+      Policy gate: deterministic code
+    </text>
+    <text x="146" y="358" font-size="12" fill="#52606b">
+      Valid proposal, facts, owner, window, balance, auto limit
+    </text>
+    <text x="146" y="380" font-size="12" fill="#52606b">
+      Bounds only: no proof that the refund is owed
+    </text>
+
+    <rect x="40" y="446" width="180" height="44" rx="10"
+          fill="#ffffff" stroke="#168a87"/>
+    <text x="130" y="473" text-anchor="middle"
+          font-size="13" font-weight="600">Refund intent</text>
+    <rect x="250" y="446" width="180" height="44" rx="10"
+          fill="#ffffff" stroke="#7b5aad"/>
+    <text x="340" y="473" text-anchor="middle"
+          font-size="13" font-weight="600">Human review</text>
+    <rect x="460" y="446" width="180" height="44" rx="10"
+          fill="#ffffff" stroke="#c0563b"/>
+    <text x="550" y="473" text-anchor="middle"
+          font-size="13" font-weight="600">Rejected</text>
+
+    <text x="340" y="514" text-anchor="middle"
+          font-size="12" fill="#52606b">
+      An incorrect or malicious proposal within the bounds can pass.
+    </text>
+    <text x="340" y="534" text-anchor="middle"
+          font-size="12" fill="#52606b">
+      Invalid output, caught tool error or step limit: no valid proposal.
+    </text>
+  </g>
+</svg>

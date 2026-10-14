@@ -1,0 +1,9 @@
+[project]
+name = "prompting-rag-fine-tuning-diagnosis"
+version = "0.1.0"
+description = "Deterministic oracle-context diagnostic harness on hand-authored synthetic fixtures (no model calls, no training)"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.uv]
+package = false

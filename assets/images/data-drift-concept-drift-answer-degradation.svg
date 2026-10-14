@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-labelledby="title desc">
+  <title id="title">Data drift, concept drift and answer degradation are different problems</title>
+  <desc id="desc">Three panels. Left, data drift: the input distribution P(X) changes while the labelling rule stays the same; accuracy may stay flat. Middle, concept drift: P(X) is identical but P(Y given X) changes. This can harm a frozen classifier; the moved hard decision boundary shown here is a particular harmful example, not a necessary effect of conditional drift. Right, answer degradation: external queries and reference answers stay fixed, while a retrieval configuration regression removes relevant evidence and changes the generator context, reducing answer quality in this example. A footer notes that degradation is an outcome to diagnose, not a diagnosis.</desc>
+  <rect width="1200" height="630" fill="#0b1220"/>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" fill="#e6edf7">
+    <text x="60" y="78" font-size="34" font-weight="700">Same alert, three different problems</text>
+    <text x="60" y="114" font-size="20" fill="#9fb3c8">Same symptom on a dashboard, different cause, different fix</text>
+  </g>
+  <g stroke="#38e1ff" stroke-width="2" fill="none">
+    <rect x="60" y="150" width="340" height="360" rx="10"/>
+    <rect x="430" y="150" width="340" height="360" rx="10"/>
+    <rect x="800" y="150" width="340" height="360" rx="10"/>
+  </g>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+    <text x="84" y="192" font-size="24" font-weight="700" fill="#38e1ff">Data drift</text>
+    <text x="84" y="222" font-size="18" fill="#e6edf7">P(X) changes</text>
+    <text x="454" y="192" font-size="24" font-weight="700" fill="#38e1ff">Concept drift</text>
+    <text x="454" y="222" font-size="18" fill="#e6edf7">P(Y | X) changes</text>
+    <text x="824" y="192" font-size="24" font-weight="700" fill="#38e1ff">Answer degradation</text>
+    <text x="824" y="222" font-size="18" fill="#e6edf7">observed quality drops</text>
+  </g>
+  <!-- Panel 1: two input histograms, reference vs current -->
+  <g aria-hidden="true">
+    <g fill="#5b6b82">
+      <rect x="96" y="330" width="22" height="60"/><rect x="126" y="330" width="22" height="60"/>
+      <rect x="156" y="330" width="22" height="60"/><rect x="186" y="330" width="22" height="60"/>
+    </g>
+    <g fill="#38e1ff">
+      <rect x="230" y="360" width="22" height="30"/><rect x="260" y="330" width="22" height="60"/>
+      <rect x="290" y="300" width="22" height="90"/><rect x="320" y="270" width="22" height="120"/>
+    </g>
+    <line x1="90" y1="392" x2="370" y2="392" stroke="#9fb3c8"/>
+  </g>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="17" fill="#e6edf7">
+    <text x="96" y="420">reference</text><text x="262" y="420">current</text>
+    <text x="84" y="458">Rule unchanged.</text>
+    <text x="84" y="482">Accuracy may stay flat.</text>
+  </g>
+  <!-- Panel 2: a particular harmful conditional change moves the hard decision boundary -->
+  <g aria-hidden="true">
+    <g fill="#5b6b82">
+      <rect x="470" y="330" width="22" height="60"/><rect x="500" y="330" width="22" height="60"/>
+      <rect x="530" y="330" width="22" height="60"/><rect x="560" y="330" width="22" height="60"/>
+      <rect x="590" y="330" width="22" height="60"/><rect x="620" y="330" width="22" height="60"/>
+      <rect x="650" y="330" width="22" height="60"/><rect x="680" y="330" width="22" height="60"/>
+    </g>
+    <line x1="586" y1="260" x2="586" y2="392" stroke="#9fb3c8" stroke-width="3" stroke-dasharray="6 5"/>
+    <line x1="646" y1="260" x2="646" y2="392" stroke="#ffb454" stroke-width="3"/>
+    <line x1="464" y1="392" x2="740" y2="392" stroke="#9fb3c8"/>
+  </g>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="17" fill="#e6edf7">
+    <text x="470" y="252">old rule</text><text x="652" y="252" fill="#ffb454">new rule</text>
+    <text x="454" y="420">identical P(X)</text>
+    <text x="454" y="458">Frozen model can lose accuracy.</text>
+    <text x="454" y="482">Shown: a harmful boundary shift.</text>
+  </g>
+  <!-- Panel 3: pipeline with removed evidence -->
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="16" fill="#e6edf7">
+    <rect x="824" y="260" width="90" height="40" rx="6" fill="none" stroke="#9fb3c8"/>
+    <text x="842" y="285">query</text>
+    <rect x="934" y="260" width="90" height="40" rx="6" fill="none" stroke="#ffb454"/>
+    <text x="944" y="285">retrieve</text>
+    <rect x="1044" y="260" width="80" height="40" rx="6" fill="none" stroke="#9fb3c8"/>
+    <text x="1056" y="285">answer</text>
+    <line x1="914" y1="280" x2="934" y2="280" stroke="#9fb3c8" stroke-width="2"/>
+    <line x1="1024" y1="280" x2="1044" y2="280" stroke="#9fb3c8" stroke-width="2"/>
+    <text x="824" y="340" fill="#ffb454">source filtered out of index</text>
+    <text x="824" y="370">External queries stay fixed.</text>
+    <text x="824" y="394">Reference answers stay fixed.</text>
+    <text x="824" y="436" font-size="17">Generator context changes.</text>
+    <text x="824" y="460" font-size="17">Here: retrieval regression</text>
+    <text x="824" y="484" font-size="17">reduces answer quality.</text>
+  </g>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="20" fill="#9fb3c8">
+    <text x="60" y="566">Degradation is an outcome to diagnose, not a diagnosis. Retraining is one possible fix, not the default.</text>
+  </g>
+</svg>

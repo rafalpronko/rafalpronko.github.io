@@ -1,0 +1,101 @@
+{
+  "note": "HAND-AUTHORED FIXTURES. Not model outputs, not a DSPy run, not a benchmark. Every candidate answers with the true label unless an override below says otherwise. '!transient' = retryable failure, '!fatal' = non-retryable failure. A list scripts successive attempts. compile_attempts stands in for what an LM wrapper would count during compile(); human_minutes is left null on purpose because nothing here was timed.",
+  "arms": {
+    "manual": [
+      {
+        "candidate_id": "manual-v1",
+        "artifact": "Classify the support ticket as billing, technical, account or shipping.",
+        "compile_attempts": {},
+        "human_minutes": null,
+        "overrides": {
+          "c08": "Billing.", "c35": "billing", "c36": "billing",
+          "c46": "shipping/delivery", "c17": ["!transient", "technical"],
+          "c10": "technical", "c23": "billing", "c24": "billing",
+          "c28": "account settings", "c42": "Shipping."
+        }
+      },
+      {
+        "candidate_id": "manual-v2",
+        "artifact": "Route the ticket to exactly one queue. billing = charges, invoices, refunds, prices. technical = errors, crashes, exports, sync. account = login, password, profile, seats. shipping = parcels, addresses, couriers, delivery fees. Answer with the lowercase queue name only.",
+        "compile_attempts": {},
+        "human_minutes": null,
+        "overrides": {
+          "c35": "billing",
+          "c10": "technical", "c23": "billing", "c28": "account settings"
+        }
+      },
+      {
+        "candidate_id": "manual-v3",
+        "demo_ids": ["c01", "c13", "c25", "c37"],
+        "artifact": "manual-v2 instructions plus four hand-picked train examples (c01, c13, c25, c37).",
+        "compile_attempts": {},
+        "human_minutes": null,
+        "overrides": {
+          "c35": "billing", "c04": "!fatal",
+          "c10": "technical", "c23": "billing"
+        }
+      },
+      {
+        "candidate_id": "manual-v4",
+        "artifact": "Route the ticket to exactly one queue. billing = charges, invoices, refunds, prices. technical = errors, crashes, exports, sync. account = login, password, profile, seats. shipping = parcels, addresses, couriers, delivery fees. Answer with the lowercase queue name only.",
+        "compile_attempts": {},
+        "human_minutes": null,
+        "overrides": {
+          "c35": "billing",
+          "c10": "technical", "c23": "billing", "c28": "account settings"
+        }
+      },
+      {
+        "candidate_id": "manual-v5",
+        "artifact": "manual-v2 instructions plus a rule: a locked-out user is account even if they mention invoices.",
+        "compile_attempts": {},
+        "human_minutes": null,
+        "overrides": {"c23": "billing"}
+      }
+    ],
+    "dspy": [
+      {
+        "candidate_id": "dspy-zero-shot",
+        "artifact": "FIXTURE STAND-IN for dspy.Predict(RouteTicket) with no demos. A real run hashes the program.save() JSON.",
+        "compile_attempts": {},
+        "human_minutes": null,
+        "overrides": {
+          "c35": "billing", "c36": "billing", "c46": "Delivery issue",
+          "c09": "technical", "c23": "billing", "c24": "billing",
+          "c41": "address change"
+        }
+      },
+      {
+        "candidate_id": "dspy-bootstrap-k2",
+        "demo_ids": ["c02", "c14"],
+        "artifact": "FIXTURE STAND-IN for BootstrapFewShot(max_bootstrapped_demos=2, max_labeled_demos=2) compiled on train.",
+        "compile_attempts": {"teacher": 3},
+        "human_minutes": null,
+        "overrides": {
+          "c35": "billing", "c18": ["!transient", "technical"],
+          "c09": "technical", "c23": "billing",
+          "c31": ["!transient", "account"]
+        }
+      },
+      {
+        "candidate_id": "dspy-bootstrap-k4",
+        "demo_ids": ["c02", "c14", "c26", "c38"],
+        "artifact": "FIXTURE STAND-IN for BootstrapFewShot(max_bootstrapped_demos=4, max_labeled_demos=4) compiled on train.",
+        "compile_attempts": {"teacher": 6},
+        "human_minutes": null,
+        "overrides": {
+          "c09": "technical", "c23": "billing",
+          "c41": ["!transient", "shipping"]
+        }
+      },
+      {
+        "candidate_id": "dspy-bootstrap-k8",
+        "demo_ids": ["c02", "c14", "c26", "c38", "c05", "c16", "c29", "c40"],
+        "artifact": "FIXTURE STAND-IN for BootstrapFewShot(max_bootstrapped_demos=8, max_labeled_demos=8) compiled on train.",
+        "compile_attempts": {"teacher": 12},
+        "human_minutes": null,
+        "overrides": {"c35": "billing", "c23": "billing"}
+      }
+    ]
+  }
+}

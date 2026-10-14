@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450" role="img" aria-labelledby="corpus-title corpus-desc">
+  <title id="corpus-title">Keeping a RAG index equal to an authoritative snapshot</title>
+  <desc id="corpus-desc">A source listing with every page from one source version is appended by dlt as rows and then a manifest. dbt full-table models pick the latest complete snapshot and produce the desired documents. A desired-state diff against the serving index, per tenant, decides what to add, change and remove. A new index generation is built next to the serving one, reusing chunks only when content hash and index spec are unchanged, validated against the desired state and promoted in one transaction together with the checkpoint; the old generation is then deleted. Incomplete snapshots are never promoted; the latest complete snapshot remains eligible, so a run that lands an incomplete listing can still promote an earlier complete snapshot whose index build failed before. Otherwise the old generation keeps serving and the next run retries.</desc>
+  <rect width="760" height="450" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="20" y="28" width="160" height="80" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="34" y="44" width="4" height="48" rx="2" fill="#168a87"/>
+    <text x="48" y="58" font-size="13" font-weight="600">Source listing</text>
+    <text x="48" y="77" font-size="11" fill="#52606b">every page, one as_of</text>
+    <text x="48" y="94" font-size="11" fill="#52606b">rows = declared total</text>
+
+    <rect x="210" y="28" width="160" height="80" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="224" y="44" width="4" height="48" rx="2" fill="#168a87"/>
+    <text x="238" y="58" font-size="13" font-weight="600">dlt append</text>
+    <text x="238" y="77" font-size="11" fill="#52606b">rows first,</text>
+    <text x="238" y="94" font-size="11" fill="#52606b">then the manifest</text>
+
+    <rect x="400" y="28" width="160" height="80" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="414" y="44" width="4" height="48" rx="2" fill="#7b5aad"/>
+    <text x="428" y="58" font-size="13" font-weight="600">dbt full tables</text>
+    <text x="428" y="77" font-size="11" fill="#52606b">latest complete</text>
+    <text x="428" y="94" font-size="11" fill="#52606b">snapshot → desired</text>
+
+    <rect x="590" y="28" width="160" height="80" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="604" y="44" width="4" height="48" rx="2" fill="#7b5aad"/>
+    <text x="618" y="58" font-size="13" font-weight="600">Diff vs serving</text>
+    <text x="618" y="77" font-size="11" fill="#52606b">add · change · remove</text>
+    <text x="618" y="94" font-size="11" fill="#52606b">per tenant</text>
+
+
+    <rect x="20" y="140" width="730" height="196" rx="12" fill="#eef1f4" stroke="#dce3e8"/>
+    <text x="40" y="166" font-size="13" font-weight="600">Local index (SQLite FTS5), one serving generation per tenant</text>
+
+    <rect x="40" y="200" width="306" height="92" rx="12" fill="#ffffff" stroke="#168a87" stroke-width="1.5"/>
+    <text x="60" y="226" font-size="13" font-weight="600">Generation N · serving</text>
+    <text x="60" y="248" font-size="11" fill="#52606b">answers every query, ACL filter in SQL</text>
+    <text x="60" y="268" font-size="11" fill="#52606b">alias and checkpoint point here</text>
+
+    <rect x="390" y="200" width="340" height="92" rx="12" fill="#ffffff" stroke="#7b5aad" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <text x="410" y="226" font-size="13" font-weight="600">Generation N+1 · building</text>
+    <text x="410" y="248" font-size="11" fill="#52606b">reuse chunks only if content hash and spec match</text>
+    <text x="410" y="268" font-size="11" fill="#52606b">otherwise chunk and encode again (also on re-chunk)</text>
+
+    <g fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M182 68 H204"/><path d="M199 63 L205 68 L199 73"/>
+      <path d="M372 68 H394"/><path d="M389 63 L395 68 L389 73"/>
+      <path d="M562 68 H584"/><path d="M579 63 L585 68 L579 73"/>
+      <path d="M670 110 V196"/><path d="M665 191 L670 197 L675 191"/>
+      <path d="M348 245 H388"/><path d="M353 240 L347 245 L353 250"/>
+    </g>
+
+    <text x="368" y="236" text-anchor="middle" font-size="10" fill="#52606b">promote</text>
+    <text x="385" y="318" text-anchor="middle" font-size="11" fill="#52606b">Promote only if N+1 equals the desired state; alias and checkpoint move in one transaction, then N is deleted.</text>
+
+    <rect x="20" y="356" width="730" height="72" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="34" y="372" width="4" height="40" rx="2" fill="#b7791f"/>
+    <text x="48" y="388" font-size="13" font-weight="600">Incomplete listing, failed load or failed build</text>
+    <text x="48" y="408" font-size="11" fill="#52606b">Incomplete snapshots are never promoted; latest complete remains eligible. Otherwise N keeps serving.</text>
+  </g>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500" role="img" aria-labelledby="journal-title journal-desc">
+  <title id="journal-title">Command journal and read-after-write on a simulated device</title>
+  <desc id="journal-desc">Four journal steps on the left, each committed in its own local SQLite transaction: commit the intent, commit the attempt start, record the device answer, then read the state and compare. REJECTED is final at step three with no read. Only ACKED or TIMEOUT continue to step four. The synthetic device on the right is outside any local transaction. A crash after step one leaves a pending intent with nothing sent; a crash after step two leaves a pending intent whose write may or may not have happened. After step three, ACKED means applied in this simulator, while TIMEOUT leaves application unknown; both leave the state unread. After a restart, pending intents are read back and never resent automatically.</desc>
+  <rect width="720" height="500" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <text x="40" y="44" font-size="15" font-weight="600">Local journal (SQLite)</text>
+    <text x="470" y="44" font-size="15" font-weight="600">Outside the journal</text>
+
+    <rect x="40" y="70" width="360" height="52" rx="10" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="56" y="82" width="4" height="28" rx="2" fill="#168a87"/>
+    <text x="74" y="92" font-size="13" font-weight="600">1  Commit the intent</text>
+    <text x="74" y="110" font-size="11.5" fill="#52606b">operation_id, correlation_id, status PENDING</text>
+
+    <path d="M220 124 V152" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M215 147 L220 153 L225 147" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="232" y="143" font-size="11" fill="#a3361f">crash: PENDING, nothing sent</text>
+
+    <rect x="40" y="156" width="360" height="52" rx="10" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="56" y="168" width="4" height="28" rx="2" fill="#168a87"/>
+    <text x="74" y="178" font-size="13" font-weight="600">2  Commit the attempt start</text>
+    <text x="74" y="196" font-size="11.5" fill="#52606b">new attempt_id, still PENDING</text>
+
+    <path d="M220 210 V238" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M215 233 L220 239 L225 233" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="232" y="229" font-size="11" fill="#a3361f">crash: write may have happened</text>
+
+    <rect x="40" y="242" width="360" height="52" rx="10" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="56" y="254" width="4" height="28" rx="2" fill="#7b5aad"/>
+    <text x="74" y="264" font-size="13" font-weight="600">3  Record the answer</text>
+    <text x="74" y="282" font-size="11.5" fill="#52606b">ACKED, TIMEOUT (unknown); REJECTED = final, stop</text>
+
+    <path d="M220 296 V324" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M215 319 L220 325 L225 319" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="52" y="313" font-size="10.5" fill="#52606b">ACKED / TIMEOUT only</text>
+    <text x="232" y="315" font-size="10.5" fill="#a3361f">crash: state still unread</text>
+
+    <rect x="40" y="328" width="360" height="52" rx="10" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="56" y="340" width="4" height="28" rx="2" fill="#7b5aad"/>
+    <text x="74" y="350" font-size="13" font-weight="600">4  Read the state and compare</text>
+    <text x="74" y="368" font-size="11.5" fill="#52606b">OBSERVED_MATCH or NEEDS_RECONCILIATION</text>
+
+    <path d="M435 140 V388" fill="none" stroke="#8b99a5" stroke-width="1.5" stroke-dasharray="5 5"/>
+    <text x="435" y="404" text-anchor="middle" font-size="11" fill="#52606b">no shared transaction</text>
+
+    <rect x="470" y="146" width="210" height="226" rx="10" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="488" y="174" font-size="13" font-weight="600">Synthetic device</text>
+    <text x="488" y="200" font-size="11.5" fill="#52606b">set_state(desired)</text>
+    <text x="488" y="264" font-size="11.5" fill="#52606b">ack, error or silence</text>
+    <text x="488" y="350" font-size="11.5" fill="#52606b">read_state(): fresh read</text>
+
+    <path d="M402 182 H464" fill="none" stroke="#26323d" stroke-width="2" stroke-linecap="round"/>
+    <path d="M459 177 L465 182 L459 187" fill="none" stroke="#26323d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M468 268 H408" fill="none" stroke="#26323d" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5"/>
+    <path d="M413 263 L407 268 L413 273" fill="none" stroke="#26323d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M468 354 H408" fill="none" stroke="#26323d" stroke-width="2" stroke-linecap="round"/>
+    <path d="M413 349 L407 354 L413 359" fill="none" stroke="#26323d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="420" width="640" height="56" rx="10" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="56" y="432" width="4" height="32" rx="2" fill="#a3361f"/>
+    <text x="74" y="444" font-size="13" font-weight="600">After a restart</text>
+    <text x="74" y="463" font-size="11.5" fill="#52606b">PENDING intents are read back, never resent automatically. A new attempt is an explicit decision.</text>
+  </g>
+</svg>

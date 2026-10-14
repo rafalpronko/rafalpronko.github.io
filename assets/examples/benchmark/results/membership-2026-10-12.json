@@ -1,0 +1,575 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-12T09:17:30+00:00",
+  "config": {
+    "data_seed": 20240919,
+    "order_seed": 7,
+    "repeats": 9,
+    "warmups": 2,
+    "baseline": "list_scan",
+    "candidate": "set_build_and_probe",
+    "query_only_view": "set_probe_only",
+    "win_ratio": 0.9,
+    "lose_ratio": 1.1
+  },
+  "environment": {
+    "python_version": "3.12.11",
+    "python_implementation": "CPython",
+    "python_build": "main Jun 12 2025 12:22:42",
+    "os": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "cpu_model": "Apple M4 Max",
+    "logical_cpus": 14,
+    "uv_version": "uv 0.7.8 (Homebrew 2025-05-23)",
+    "gc_enabled_during_timing": true,
+    "perf_counter": {
+      "implementation": "mach_absolute_time()",
+      "monotonic": true,
+      "adjustable": false,
+      "reported_resolution_s": 4.166666666666667e-08
+    },
+    "argv": [
+      "run_benchmark.py",
+      "--out",
+      "evidence/membership.json"
+    ]
+  },
+  "cases": [
+    {
+      "spec": {
+        "name": "small-items/few-queries",
+        "n_items": 64,
+        "n_queries": 4,
+        "hit_ratio": 0.5,
+        "loops": 2000
+      },
+      "correctness": {
+        "expected_hits": 2,
+        "passed": [
+          "list_scan",
+          "set_build_and_probe",
+          "set_probe_only"
+        ],
+        "failures": []
+      },
+      "loops": 2000,
+      "samples_ns": {
+        "list_scan": [
+          165004666,
+          1380750,
+          1375416,
+          30215083,
+          170606167,
+          3187834,
+          1666458,
+          492162500,
+          4993208
+        ],
+        "set_build_and_probe": [
+          886083,
+          897667,
+          882042,
+          136096166,
+          1258042,
+          1789292,
+          55675916,
+          1549250,
+          2380375
+        ],
+        "set_probe_only": [
+          153125,
+          158292,
+          153417,
+          378680541,
+          159125,
+          401834,
+          155500,
+          281875,
+          772708
+        ]
+      },
+      "orders": [
+        [
+          "set_probe_only",
+          "list_scan",
+          "set_build_and_probe"
+        ],
+        [
+          "set_probe_only",
+          "list_scan",
+          "set_build_and_probe"
+        ],
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "set_probe_only",
+          "list_scan",
+          "set_build_and_probe"
+        ],
+        [
+          "set_build_and_probe",
+          "list_scan",
+          "set_probe_only"
+        ],
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "list_scan",
+          "set_probe_only",
+          "set_build_and_probe"
+        ],
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "set_probe_only",
+          "set_build_and_probe",
+          "list_scan"
+        ]
+      ],
+      "summary": {
+        "list_scan": {
+          "min_ms": 0.000687708,
+          "median_ms": 0.002496604
+        },
+        "set_build_and_probe": {
+          "min_ms": 0.000441021,
+          "median_ms": 0.000774625
+        },
+        "set_probe_only": {
+          "min_ms": 7.65625e-05,
+          "median_ms": 7.95625e-05
+        }
+      },
+      "end_to_end": {
+        "ratios": [
+          0.005370048141547706,
+          0.6501300018106102,
+          0.6412910712104556,
+          4.504245975428894,
+          0.007373953838374436,
+          0.5612876956579295,
+          33.409732498508816,
+          0.003147842430091687,
+          0.47672257995260764
+        ],
+        "median_ratio": 0.5612876956579295,
+        "min_ratio": 0.003147842430091687,
+        "max_ratio": 33.409732498508816,
+        "candidate_wins": 7,
+        "pairs": 9,
+        "verdict": "inconclusive"
+      }
+    },
+    {
+      "spec": {
+        "name": "small-items/many-queries",
+        "n_items": 64,
+        "n_queries": 200,
+        "hit_ratio": 0.5,
+        "loops": 200
+      },
+      "correctness": {
+        "expected_hits": 100,
+        "passed": [
+          "list_scan",
+          "set_build_and_probe",
+          "set_probe_only"
+        ],
+        "failures": []
+      },
+      "loops": 200,
+      "samples_ns": {
+        "list_scan": [
+          7180791,
+          6101875,
+          6457959,
+          6975084,
+          6113417,
+          6003125,
+          27614209,
+          595992667,
+          374256250
+        ],
+        "set_build_and_probe": [
+          14433875,
+          575333,
+          526000,
+          471667,
+          480791,
+          471833,
+          470625,
+          194512000,
+          479292
+        ],
+        "set_probe_only": [
+          467709,
+          403000,
+          521208,
+          466416,
+          404667,
+          404542,
+          410291,
+          398792,
+          3661125
+        ]
+      },
+      "orders": [
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "list_scan",
+          "set_build_and_probe",
+          "set_probe_only"
+        ],
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "list_scan",
+          "set_probe_only",
+          "set_build_and_probe"
+        ],
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "list_scan",
+          "set_build_and_probe",
+          "set_probe_only"
+        ],
+        [
+          "set_build_and_probe",
+          "list_scan",
+          "set_probe_only"
+        ]
+      ],
+      "summary": {
+        "list_scan": {
+          "min_ms": 0.030015625,
+          "median_ms": 0.03487542
+        },
+        "set_build_and_probe": {
+          "min_ms": 0.002353125,
+          "median_ms": 0.0024039549999999997
+        },
+        "set_probe_only": {
+          "min_ms": 0.00199396,
+          "median_ms": 0.0020514549999999998
+        }
+      },
+      "end_to_end": {
+        "ratios": [
+          2.0100675538391246,
+          0.0942879033084093,
+          0.08144988223059328,
+          0.06762169459177839,
+          0.07864521592425316,
+          0.07859789692868298,
+          0.017042856451184245,
+          0.32636643161919976,
+          0.0012806519597201116
+        ],
+        "median_ratio": 0.07864521592425316,
+        "min_ratio": 0.0012806519597201116,
+        "max_ratio": 2.0100675538391246,
+        "candidate_wins": 8,
+        "pairs": 9,
+        "verdict": "inconclusive"
+      }
+    },
+    {
+      "spec": {
+        "name": "large-items/few-queries",
+        "n_items": 20000,
+        "n_queries": 4,
+        "hit_ratio": 0.5,
+        "loops": 20
+      },
+      "correctness": {
+        "expected_hits": 2,
+        "passed": [
+          "list_scan",
+          "set_build_and_probe",
+          "set_probe_only"
+        ],
+        "failures": []
+      },
+      "loops": 20,
+      "samples_ns": {
+        "list_scan": [
+          397043750,
+          4784333,
+          371954292,
+          379008958,
+          551685750,
+          167581000,
+          455221042,
+          574674500,
+          9188250
+        ],
+        "set_build_and_probe": [
+          266046041,
+          655601333,
+          740589916,
+          9005708,
+          6567083,
+          197110750,
+          341681042,
+          333359750,
+          25937625
+        ],
+        "set_probe_only": [
+          7500,
+          5250,
+          5750,
+          9542,
+          6375,
+          4834,
+          8750,
+          6625,
+          4917
+        ]
+      },
+      "orders": [
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "set_probe_only",
+          "list_scan",
+          "set_build_and_probe"
+        ],
+        [
+          "set_build_and_probe",
+          "list_scan",
+          "set_probe_only"
+        ],
+        [
+          "set_build_and_probe",
+          "list_scan",
+          "set_probe_only"
+        ],
+        [
+          "set_build_and_probe",
+          "list_scan",
+          "set_probe_only"
+        ],
+        [
+          "list_scan",
+          "set_probe_only",
+          "set_build_and_probe"
+        ],
+        [
+          "list_scan",
+          "set_probe_only",
+          "set_build_and_probe"
+        ],
+        [
+          "list_scan",
+          "set_build_and_probe",
+          "set_probe_only"
+        ],
+        [
+          "list_scan",
+          "set_probe_only",
+          "set_build_and_probe"
+        ]
+      ],
+      "summary": {
+        "list_scan": {
+          "min_ms": 0.23921665,
+          "median_ms": 18.950447899999997
+        },
+        "set_build_and_probe": {
+          "min_ms": 0.32835415,
+          "median_ms": 13.302302050000002
+        },
+        "set_probe_only": {
+          "min_ms": 0.0002417,
+          "median_ms": 0.00031875
+        }
+      },
+      "end_to_end": {
+        "ratios": [
+          0.6700673187778425,
+          137.03087410512603,
+          1.991077753177264,
+          0.023761200915995238,
+          0.011903666172272892,
+          1.176211802053932,
+          0.7505827070269744,
+          0.5800844652059557,
+          2.8229124153130356
+        ],
+        "median_ratio": 0.7505827070269744,
+        "min_ratio": 0.011903666172272892,
+        "max_ratio": 137.03087410512603,
+        "candidate_wins": 5,
+        "pairs": 9,
+        "verdict": "inconclusive"
+      }
+    },
+    {
+      "spec": {
+        "name": "large-items/many-queries",
+        "n_items": 20000,
+        "n_queries": 200,
+        "hit_ratio": 0.5,
+        "loops": 1
+      },
+      "correctness": {
+        "expected_hits": 100,
+        "passed": [
+          "list_scan",
+          "set_build_and_probe",
+          "set_probe_only"
+        ],
+        "failures": []
+      },
+      "loops": 1,
+      "samples_ns": {
+        "list_scan": [
+          313158875,
+          580743375,
+          886702708,
+          18309541,
+          236555375,
+          10415375,
+          651946958,
+          419692916,
+          273150625
+        ],
+        "set_build_and_probe": [
+          10088583,
+          362708,
+          890291,
+          450333,
+          387000,
+          351250,
+          282792,
+          1375500,
+          206668708
+        ],
+        "set_probe_only": [
+          17375,
+          28916,
+          10250,
+          12792,
+          19584,
+          4167,
+          9916,
+          262792,
+          63625
+        ]
+      },
+      "orders": [
+        [
+          "set_build_and_probe",
+          "set_probe_only",
+          "list_scan"
+        ],
+        [
+          "set_build_and_probe",
+          "list_scan",
+          "set_probe_only"
+        ],
+        [
+          "set_probe_only",
+          "set_build_and_probe",
+          "list_scan"
+        ],
+        [
+          "list_scan",
+          "set_build_and_probe",
+          "set_probe_only"
+        ],
+        [
+          "list_scan",
+          "set_probe_only",
+          "set_build_and_probe"
+        ],
+        [
+          "set_probe_only",
+          "list_scan",
+          "set_build_and_probe"
+        ],
+        [
+          "set_probe_only",
+          "set_build_and_probe",
+          "list_scan"
+        ],
+        [
+          "set_probe_only",
+          "set_build_and_probe",
+          "list_scan"
+        ],
+        [
+          "set_probe_only",
+          "set_build_and_probe",
+          "list_scan"
+        ]
+      ],
+      "summary": {
+        "list_scan": {
+          "min_ms": 10.415375,
+          "median_ms": 313.158875
+        },
+        "set_build_and_probe": {
+          "min_ms": 0.282792,
+          "median_ms": 0.450333
+        },
+        "set_probe_only": {
+          "min_ms": 0.004167,
+          "median_ms": 0.017375
+        }
+      },
+      "end_to_end": {
+        "ratios": [
+          0.03221554235050819,
+          0.0006245581363713361,
+          0.0010040467813706056,
+          0.024595537375841373,
+          0.0016359805817136896,
+          0.03372418179854302,
+          0.00043376534935837526,
+          0.003277396276090588,
+          0.756610782054773
+        ],
+        "median_ratio": 0.003277396276090588,
+        "min_ratio": 0.00043376534935837526,
+        "max_ratio": 0.756610782054773,
+        "candidate_wins": 9,
+        "pairs": 9,
+        "verdict": "candidate faster"
+      }
+    }
+  ]
+}

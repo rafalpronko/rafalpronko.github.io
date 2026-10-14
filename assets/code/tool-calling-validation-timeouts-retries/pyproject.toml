@@ -1,0 +1,10 @@
+[project]
+name = "tool-calling-validation-example"
+version = "0.1.0"
+description = "Validated, bounded tool calling for a synthetic read-only inventory lookup (stdlib only)"
+requires-python = ">=3.11"
+dependencies = []
+
+# No build system on purpose: this is a runnable example, not a package.
+# Run tests with:
+#   uv run --python 3.11 --isolated python -m unittest discover -s tests -v

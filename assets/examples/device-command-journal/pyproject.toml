@@ -1,0 +1,19 @@
+[project]
+name = "device-command-journal"
+version = "0.1.0"
+description = "Command journal with correlation IDs and read-after-write verification on a synthetic fake device"
+requires-python = ">=3.11"
+dependencies = []  # runtime: standard library only
+
+[tool.uv]
+# These settings predate the editorial label: dev-dependencies in uv 0.3.0,
+# package = false in uv 0.4.0 (released 2024-08-28).
+dev-dependencies = ["pytest==8.3.2"]
+package = false
+# Modern reproduction only: constrain package uploads to the editorial date.
+# The included lockfile was generated with uv 0.7.8 on 2026-10-12.
+exclude-newer = "2024-08-29T00:00:00Z"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

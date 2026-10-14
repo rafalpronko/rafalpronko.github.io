@@ -1,0 +1,14 @@
+[project]
+name = "freshness-and-approval-example"
+version = "0.1.0"
+description = "Synthetic teaching example: freshness and scoped approval gate with a fake in-memory target. Not production code."
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"

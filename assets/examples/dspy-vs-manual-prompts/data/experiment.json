@@ -1,0 +1,16 @@
+{
+  "note": "Declared before any candidate was run. Both arms get identical caps.",
+  "split": {"salt": "article-36-split-12", "train_pct": 50, "dev_pct": 25},
+  "optimization_cap_per_arm": 60,
+  "feedback_cap_per_arm": 4,
+  "max_attempts_per_case": 2,
+  "final_eval_cap_per_arm": 20,
+  "bootstrap": {"resamples": 2000, "seed": 0},
+  "paired_inference": {
+    "method": "exact paired group sign-flip",
+    "endpoint": "equally weighted mean of within-group accuracy differences",
+    "null_assumptions": "independent clusters; exchangeable arm labels per cluster under the null",
+    "max_nonzero_groups": 20,
+    "note": "Statistic corrected on synthetic protocol fixtures, not selected after a real model experiment."
+  }
+}

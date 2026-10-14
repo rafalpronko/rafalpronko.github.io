@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-labelledby="title desc">
+  <title id="title">What a run record must pin down</title>
+  <desc id="desc">Five inputs (code, data version, data contract, environment, randomness) feed a run inside an experiment. The run produces artifacts identified by URI and digest, which become the data versions of the next run, drawn as a dashed arrow to a NEXT RUN box. A verifier compares the record with what exists now and reports errors or warnings.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7dd3fc"/>
+    </marker>
+  </defs>
+  <style>
+    .bg { fill: #0b1220; }
+    .box { fill: #111a2e; stroke: #334155; stroke-width: 2; }
+    .run { fill: #0e2a3d; stroke: #7dd3fc; stroke-width: 3; }
+    .art { fill: #13291f; stroke: #4ade80; stroke-width: 2; }
+    .exp { fill: none; stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 10 8; }
+    .h { font: 700 19px ui-monospace, Menlo, Consolas, monospace; fill: #e2e8f0; letter-spacing: 1px; }
+    .t { font: 16px ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #cbd5e1; }
+    .title { font: 700 30px ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #f8fafc; }
+    .sub { font: 17px ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #94a3b8; }
+    .fail { font: 700 16px ui-monospace, Menlo, Consolas, monospace; fill: #fca5a5; }
+    .warn { font: 700 16px ui-monospace, Menlo, Consolas, monospace; fill: #fde68a; }
+    .line { stroke: #7dd3fc; stroke-width: 2.5; fill: none; }
+  </style>
+
+  <rect class="bg" width="1200" height="675"/>
+  <text class="title" x="40" y="56">What a run record must pin down</text>
+  <text class="sub" x="40" y="86">Record versions, not locations. A digest proves identity; an immutable URI gets the bytes back.</text>
+
+  <!-- Inputs -->
+  <rect class="box" x="40" y="112" width="400" height="74" rx="8"/>
+  <text class="h" x="58" y="142">CODE</text>
+  <text class="t" x="58" y="170">commit + dirty flag + sha256 of diff</text>
+
+  <rect class="box" x="40" y="198" width="400" height="74" rx="8"/>
+  <text class="h" x="58" y="228">DATA VERSION</text>
+  <text class="t" x="58" y="256">immutable URI + sha256 + logical sha256</text>
+
+  <rect class="box" x="40" y="284" width="400" height="74" rx="8"/>
+  <text class="h" x="58" y="314">DATA CONTRACT</text>
+  <text class="t" x="58" y="342">key · features · target · split IDs · metric</text>
+
+  <rect class="box" x="40" y="370" width="400" height="74" rx="8"/>
+  <text class="h" x="58" y="400">ENVIRONMENT</text>
+  <text class="t" x="58" y="428">python · platform · packages digest</text>
+
+  <rect class="box" x="40" y="456" width="400" height="74" rx="8"/>
+  <text class="h" x="58" y="486">RANDOMNESS</text>
+  <text class="t" x="58" y="514">seeds + known non-deterministic steps</text>
+
+  <!-- Experiment frame and run -->
+  <rect class="exp" x="500" y="150" width="260" height="340" rx="14"/>
+  <text class="sub" x="516" y="178">EXPERIMENT</text>
+  <text class="sub" x="516" y="200">groups comparable runs</text>
+  <rect class="run" x="530" y="262" width="200" height="120" rx="10"/>
+  <text class="h" x="595" y="312">RUN</text>
+  <text class="t" x="548" y="342">one execution,</text>
+  <text class="t" x="548" y="364">one manifest</text>
+
+  <path class="line" d="M440,149 C485,149 490,300 528,300" marker-end="url(#arrow)"/>
+  <path class="line" d="M440,235 C480,235 495,310 528,310" marker-end="url(#arrow)"/>
+  <path class="line" d="M440,321 L528,321" marker-end="url(#arrow)"/>
+  <path class="line" d="M440,407 C480,407 495,332 528,332" marker-end="url(#arrow)"/>
+  <path class="line" d="M440,493 C485,493 490,342 528,342" marker-end="url(#arrow)"/>
+
+  <!-- Artifacts -->
+  <rect class="art" x="820" y="232" width="340" height="180" rx="10"/>
+  <text class="h" x="840" y="264">ARTIFACTS</text>
+  <text class="t" x="840" y="294">model · eval report · predictions</text>
+  <text class="t" x="840" y="320">each with URI + sha256</text>
+  <text class="t" x="840" y="356">metrics name the split</text>
+  <text class="t" x="840" y="380">they were computed on</text>
+  <path class="line" d="M732,322 L818,322" marker-end="url(#arrow)"/>
+
+  <!-- Provenance chain -->
+  <path class="line" d="M990,414 C990,470 630,462 630,500" marker-end="url(#arrow)" stroke-dasharray="6 6"/>
+  <rect class="box" x="540" y="502" width="180" height="42" rx="8"/>
+  <text class="h" x="580" y="530">NEXT RUN</text>
+  <text class="sub" x="800" y="512">artifact → next run's data version</text>
+  <text class="sub" x="800" y="536">(the provenance chain)</text>
+
+  <!-- Verify strip -->
+  <rect class="box" x="40" y="560" width="1120" height="92" rx="8"/>
+  <text class="h" x="58" y="590">VERIFY LATER</text>
+  <text class="fail" x="240" y="590">FAIL: manifest_tampered · missing · content_changed · split_changed</text>
+  <text class="warn" x="240" y="620">WARN: bytes_changed_logical_same · environment_changed</text>
+  <text class="t" x="240" y="642">Self-digest catches accidental edits only: sign or store write-once for tamper evidence.</text>
+</svg>

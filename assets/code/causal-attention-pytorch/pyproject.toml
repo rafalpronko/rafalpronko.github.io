@@ -1,0 +1,16 @@
+[project]
+name = "causal-attention-pytorch"
+version = "0.1.0"
+description = "Small square causal attention in PyTorch with shape and leakage tests."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "torch==2.2.1",
+    "numpy==1.26.4",
+    "pytest==8.1.1",
+]
+
+[tool.uv]
+# Resolve only distributions that were already published on PyPI
+# before 14 March 2024, including transitive dependencies.
+exclude-newer = "2024-03-14T00:00:00Z"
+package = false

@@ -1,0 +1,184 @@
+{
+  "snapshot": "acme-help@2024-05-20",
+  "k": 3,
+  "corpus": {
+    "refund-2024": "Since 1 March 2024 unopened items can be returned within 14 days.",
+    "refund-2023": "Unopened items can be returned within 30 days.",
+    "refund-exceptions": "Gift cards cannot be returned.",
+    "shipping-eu": "Standard EU shipping takes 3-5 business days.",
+    "shipping-fee": "Shipping is free for orders above 50 EUR.",
+    "warranty-page": "Electronics have a 2-year warranty; claims go through the support form.",
+    "warranty-faq-a": "Electronics are covered by a 2-year warranty.",
+    "warranty-faq-b": "Warranty claims are filed through the support form.",
+    "store-hours": "The Berlin store is open 10:00-20:00, Monday to Saturday.",
+    "careers": "Acme is hiring warehouse staff."
+  },
+  "cases": [
+    {
+      "id": "ok-refund",
+      "question": "How long do I have to return an unopened item?",
+      "relevant": ["refund-2024"],
+      "evidence_sets": [["refund-2024"]],
+      "required_claims": ["return-14d"],
+      "answerable": true,
+      "retrieved": ["refund-2024", "refund-exceptions", "shipping-eu"],
+      "provided": ["refund-2024", "refund-exceptions", "shipping-eu"],
+      "abstained": false,
+      "claims": [
+        {"id": "return-14d", "text": "You have 14 days.", "correct": true,
+         "relevant": true, "supported_by": ["refund-2024"], "cited": ["refund-2024"]}
+      ]
+    },
+    {
+      "id": "correct-unsupported",
+      "question": "How long does standard EU shipping take?",
+      "relevant": ["shipping-eu"],
+      "evidence_sets": [["shipping-eu"]],
+      "required_claims": ["ship-3-5d"],
+      "answerable": true,
+      "retrieved": ["shipping-fee", "store-hours", "careers"],
+      "provided": ["shipping-fee", "store-hours", "careers"],
+      "abstained": false,
+      "claims": [
+        {"id": "ship-3-5d", "text": "It takes 3-5 business days.", "correct": true,
+         "relevant": true, "supported_by": [], "cited": []}
+      ]
+    },
+    {
+      "id": "context-dropped",
+      "question": "Can I return a gift card, and how long do I have for unopened items?",
+      "relevant": ["refund-2024", "refund-exceptions"],
+      "evidence_sets": [["refund-2024", "refund-exceptions"]],
+      "required_claims": ["no-gift-card-returns", "return-14d"],
+      "answerable": true,
+      "retrieved": ["refund-exceptions", "shipping-fee", "refund-2024"],
+      "provided": ["refund-exceptions", "shipping-fee"],
+      "abstained": false,
+      "claims": [
+        {"id": "no-gift-card-returns", "text": "Gift cards cannot be returned.",
+         "correct": true, "relevant": true,
+         "supported_by": ["refund-exceptions"], "cited": ["refund-exceptions"]}
+      ]
+    },
+    {
+      "id": "context-dropped@gold",
+      "gold_of": "context-dropped",
+      "provided": ["refund-exceptions", "refund-2024"],
+      "abstained": false,
+      "claims": [
+        {"id": "no-gift-card-returns", "text": "Gift cards cannot be returned.",
+         "correct": true, "relevant": true,
+         "supported_by": ["refund-exceptions"], "cited": ["refund-exceptions"]},
+        {"id": "return-14d", "text": "Unopened items: 14 days.", "correct": true,
+         "relevant": true, "supported_by": ["refund-2024"], "cited": ["refund-2024"]}
+      ]
+    },
+    {
+      "id": "stale-but-supported",
+      "question": "How long do I have to return an unopened item?",
+      "relevant": ["refund-2024"],
+      "evidence_sets": [["refund-2024"]],
+      "required_claims": ["return-14d"],
+      "answerable": true,
+      "retrieved": ["refund-2023", "refund-exceptions", "store-hours"],
+      "provided": ["refund-2023", "refund-exceptions", "store-hours"],
+      "abstained": false,
+      "claims": [
+        {"id": "return-30d", "text": "You have 30 days.", "correct": false,
+         "relevant": true, "supported_by": ["refund-2023"], "cited": ["refund-2023"]}
+      ]
+    },
+    {
+      "id": "short-but-precise",
+      "question": "What warranty do electronics have and how do I claim it?",
+      "relevant": ["warranty-page", "warranty-faq-a", "warranty-faq-b"],
+      "evidence_sets": [["warranty-page"], ["warranty-faq-a", "warranty-faq-b"]],
+      "required_claims": ["warranty-2y", "claim-via-form"],
+      "answerable": true,
+      "retrieved": ["warranty-page", "shipping-fee", "store-hours"],
+      "provided": ["warranty-page", "shipping-fee", "store-hours"],
+      "abstained": false,
+      "claims": [
+        {"id": "warranty-2y", "text": "Electronics have a 2-year warranty.",
+         "correct": true, "relevant": true,
+         "supported_by": ["warranty-page"], "cited": ["warranty-page"]}
+      ]
+    },
+    {
+      "id": "two-evidence-paths",
+      "question": "What warranty do electronics have and how do I claim it?",
+      "relevant": ["warranty-page", "warranty-faq-a", "warranty-faq-b"],
+      "evidence_sets": [["warranty-page"], ["warranty-faq-a", "warranty-faq-b"]],
+      "required_claims": ["warranty-2y", "claim-via-form"],
+      "answerable": true,
+      "retrieved": ["warranty-faq-a", "warranty-faq-b", "careers"],
+      "provided": ["warranty-faq-a", "warranty-faq-b", "careers"],
+      "abstained": false,
+      "claims": [
+        {"id": "warranty-2y", "text": "Electronics have a 2-year warranty.",
+         "correct": true, "relevant": true,
+         "supported_by": ["warranty-faq-a"], "cited": ["warranty-faq-a"]},
+        {"id": "claim-via-form", "text": "Use the support form.", "correct": true,
+         "relevant": true, "supported_by": ["warranty-faq-b"], "cited": ["warranty-faq-b"]}
+      ]
+    },
+    {
+      "id": "bad-citations",
+      "question": "How much does shipping cost and how long does it take in the EU?",
+      "relevant": ["shipping-fee", "shipping-eu"],
+      "evidence_sets": [["shipping-fee", "shipping-eu"]],
+      "required_claims": ["ship-free-50", "ship-3-5d"],
+      "answerable": true,
+      "retrieved": ["shipping-eu", "shipping-fee", "careers"],
+      "provided": ["shipping-eu", "shipping-fee", "careers"],
+      "abstained": false,
+      "claims": [
+        {"id": "ship-free-50", "text": "Free above 50 EUR.", "correct": true,
+         "relevant": true, "supported_by": ["shipping-fee"], "cited": ["shipping-eu"]},
+        {"id": "ship-3-5d", "text": "Delivery takes 3-5 business days.", "correct": true,
+         "relevant": true, "supported_by": ["shipping-eu"], "cited": ["shipping-eu", "doc-999"]},
+        {"id": "hiring", "text": "Acme is also hiring.", "correct": true,
+         "relevant": false, "supported_by": ["careers"], "cited": ["careers"]}
+      ]
+    },
+    {
+      "id": "unanswerable-abstains",
+      "question": "Do you match competitors' prices?",
+      "relevant": [],
+      "evidence_sets": [],
+      "required_claims": [],
+      "answerable": false,
+      "retrieved": ["shipping-fee", "refund-2024", "store-hours"],
+      "provided": ["shipping-fee", "refund-2024", "store-hours"],
+      "abstained": true,
+      "claims": []
+    },
+    {
+      "id": "unanswerable-guesses",
+      "question": "Do you match competitors' prices?",
+      "relevant": [],
+      "evidence_sets": [],
+      "required_claims": [],
+      "answerable": false,
+      "retrieved": ["shipping-fee", "refund-2024", "store-hours"],
+      "provided": ["shipping-fee", "refund-2024", "store-hours"],
+      "abstained": false,
+      "claims": [
+        {"id": "price-match-yes", "text": "Yes, we match prices.", "correct": false,
+         "relevant": true, "supported_by": [], "cited": ["refund-2024"]}
+      ]
+    },
+    {
+      "id": "answerable-refuses",
+      "question": "How long do I have to return an unopened item?",
+      "relevant": ["refund-2024"],
+      "evidence_sets": [["refund-2024"]],
+      "required_claims": ["return-14d"],
+      "answerable": true,
+      "retrieved": ["refund-2024", "refund-exceptions", "shipping-eu"],
+      "provided": ["refund-2024", "refund-exceptions", "shipping-eu"],
+      "abstained": true,
+      "claims": []
+    }
+  ]
+}

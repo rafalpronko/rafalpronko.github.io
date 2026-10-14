@@ -1,0 +1,7 @@
+{
+  "max_critical_failures": 0,
+  "max_critical_regressions": 0,
+  "max_regressions": 2,
+  "max_slice_drop": 0.5,
+  "min_slice_size": 3
+}

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-labelledby="msql-title msql-desc">
+  <title id="msql-title">Choosing a model from paired replay logs</title>
+  <desc id="msql-desc">Validate paired cases and numeric inputs. Measure useful results over all attempts, attempt duration to completion or cancellation with timeout rate, and cost per useful completion including failure costs where billed. Apply empirical quality, malformed limit and attempt-duration gates before Pareto selection. Use two global objectives without prices, or three with prices covering every candidate. This schematic contains no benchmark results.</desc>
+  <rect width="800" height="500" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="140" y="20" width="520" height="64" rx="12" fill="white" stroke="#dce3e8"/>
+    <text x="164" y="46" font-size="15" font-weight="600">Paired replay logs</text>
+    <text x="164" y="68" font-size="12" fill="#52606b">Same case IDs, gold labels and slices for every candidate</text>
+    <path d="M400 86 V104 M395 98 L400 104 L405 98" fill="none" stroke="#8b99a5" stroke-width="2"/>
+    <rect x="140" y="108" width="520" height="64" rx="12" fill="white" stroke="#dce3e8"/>
+    <text x="164" y="134" font-size="15" font-weight="600">Validate before scoring</text>
+    <text x="164" y="156" font-size="12" fill="#52606b">Types, finite numbers, thresholds, pairing and complete prices</text>
+    <path d="M400 174 V192 M395 186 L400 192 L405 186" fill="none" stroke="#8b99a5" stroke-width="2"/>
+
+    <rect x="20" y="196" width="240" height="102" rx="12" fill="white" stroke="#dce3e8"/>
+    <rect x="34" y="210" width="4" height="72" rx="2" fill="#168a87"/>
+    <text x="48" y="223" font-size="15" font-weight="600">Quality</text>
+    <text x="48" y="246" font-size="12" fill="#52606b">Useful results / all attempts</text>
+    <text x="48" y="267" font-size="12" fill="#52606b">Routing and abstention separately</text>
+    <text x="48" y="286" font-size="12" fill="#52606b">Report each slice</text>
+
+    <rect x="280" y="196" width="240" height="102" rx="12" fill="white" stroke="#dce3e8"/>
+    <rect x="294" y="210" width="4" height="72" rx="2" fill="#c27a1a"/>
+    <text x="308" y="223" font-size="15" font-weight="600">Attempt duration</text>
+    <text x="308" y="246" font-size="12" fill="#52606b">To completion or cancellation</text>
+    <text x="308" y="267" font-size="12" fill="#52606b">All attempts: p95 + timeout rate</text>
+    <text x="308" y="286" font-size="12" fill="#52606b">Compare timeout policies</text>
+
+    <rect x="540" y="196" width="240" height="102" rx="12" fill="white" stroke="#dce3e8"/>
+    <rect x="554" y="210" width="4" height="72" rx="2" fill="#7b5aad"/>
+    <text x="568" y="223" font-size="15" font-weight="600">Cost</text>
+    <text x="568" y="246" font-size="12" fill="#52606b">Per useful completion</text>
+    <text x="568" y="267" font-size="12" fill="#52606b">Include failure costs</text>
+    <text x="568" y="286" font-size="12" fill="#52606b">Zero useful results: infinity</text>
+
+    <path d="M400 300 V318 M395 312 L400 318 L405 312" fill="none" stroke="#8b99a5" stroke-width="2"/>
+    <rect x="140" y="322" width="520" height="64" rx="12" fill="white" stroke="#dce3e8"/>
+    <text x="164" y="348" font-size="15" font-weight="600">Empirical hard constraints first</text>
+    <text x="164" y="370" font-size="12" fill="#52606b">Minimum quality, malformed limit, p95 attempt-duration budget</text>
+    <path d="M400 388 V406 M395 400 L400 406 L405 400" fill="none" stroke="#8b99a5" stroke-width="2"/>
+    <rect x="140" y="410" width="520" height="70" rx="12" fill="white" stroke="#dce3e8"/>
+    <text x="164" y="436" font-size="15" font-weight="600">Pareto front among passing candidates</text>
+    <text x="164" y="456" font-size="12" fill="#52606b">Quality + attempt duration; add cost with complete prices</text>
+    <text x="164" y="473" font-size="12" fill="#52606b">The same objective set for every pair</text>
+  </g>
+</svg>

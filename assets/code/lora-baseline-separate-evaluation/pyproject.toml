@@ -1,0 +1,18 @@
+[project]
+name = "lora-numpy-lab"
+version = "0.1.0"
+description = "Small synthetic LoRA experiment in NumPy: frozen base, full adaptation, LoRA ranks, validation selection, locked test."
+requires-python = "==3.11.*"
+dependencies = ["numpy==1.26.4"]
+
+[dependency-groups]
+dev = ["pytest==8.2.2"]
+
+[tool.uv]
+package = false
+# Resolve only distributions uploaded before the article's editorial date label.
+exclude-newer = "2024-07-04T00:00:00Z"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

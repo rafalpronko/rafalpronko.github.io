@@ -34,14 +34,69 @@ POSTS = {
     "2023-12-07-optuna-without-test-leakage.md": ("/blog/optuna-without-test-leakage/", "Tuning with Optuna without tuning on the test set"),
     "2023-12-14-tokens-embeddings-cosine-similarity.md": ("/blog/tokens-embeddings-cosine-similarity/", "Tokens, embeddings, and cosine similarity—without the magic"),
     "2023-12-21-first-local-rag.md": ("/blog/first-local-rag/", "Your first local RAG: public documents and traceable citations"),
+    "2023-12-28-chunking-hybrid-search-reranking.md": ("/blog/chunking-hybrid-search-reranking/", "Chunking, hybrid search and reranking: a controlled comparison"),
+    "2024-01-04-rag-corpus-dlt-dbt-index-reconciliation.md": ("/blog/rag-corpus-dlt-dbt-index-reconciliation/", "Keeping a RAG corpus current: dlt, dbt and index reconciliation, deletions included"),
+    "2024-01-11-workflow-vs-agent.md": ("/blog/workflow-vs-agent/", "Workflow vs. agent: when not to let the model decide"),
+    "2024-01-18-tool-calling-validation-timeouts-retries.md": ("/blog/tool-calling-validation-timeouts-retries/", "Tool calling with validation, timeouts, and bounded retries"),
+    "2024-01-25-state-checkpoints-recovery.md": ("/blog/state-checkpoints-recovery/", "State, checkpoints and recovery: what must survive a restart"),
+    "2024-02-08-python-mutability-aliasing.md": ("/blog/python-mutability-aliasing/", "Mutability and aliasing: the data bug your types won't catch"),
+    "2024-02-15-pydantic-input-contracts.md": ("/blog/pydantic-input-contracts/", "Pydantic input contracts: valid JSON is not a valid decision"),
+    "2024-02-29-ranking-is-not-eligibility.md": ("/blog/ranking-is-not-eligibility/", "Ranking is not eligibility: put hard constraints before scores"),
+    "2024-03-07-q-k-v-attention-small-matrix.md": ("/blog/q-k-v-attention-small-matrix/", "Queries, keys and values: attention on a small matrix"),
+    "2024-03-14-causal-attention-pytorch.md": ("/blog/causal-attention-pytorch/", "Causal attention in PyTorch: a small implementation with shape and leakage tests"),
+    "2024-03-21-prefill-decode-kv-cache.md": ("/blog/prefill-decode-kv-cache/", "Prefill, decode and the KV cache: where LLM latency comes from"),
+    "2024-03-28-model-selection-quality-latency.md": ("/blog/model-selection-quality-latency/", "Choosing a model for the task: benchmark quality and latency, not marketing labels"),
+    "2024-04-04-sql-pandas-join-grain.md": ("/blog/sql-pandas-join-grain/", "SQL and pandas: joins, grain, and unexpected row multiplication"),
+    "2024-04-11-dbt-staging-intermediate-marts.md": ("/blog/dbt-staging-intermediate-marts/", "dbt staging, intermediate and marts: a layered project you can run and break"),
+    "2024-04-18-backfills-late-data-schema-history.md": ("/blog/backfills-late-data-schema-history/", "Backfills, late data and schema changes without silently losing history"),
+    "2024-04-25-source-target-reconciliation.md": ("/blog/source-target-reconciliation/", "Source-to-target reconciliation: row counts are not enough"),
+    "2024-05-02-gradients-autograd.md": ("/blog/gradients-autograd/", "Gradients from scratch to autograd: what actually flows backward"),
+    "2024-05-09-tfidf-vs-embedding-classifier.md": ("/blog/tfidf-vs-embedding-classifier/", "Text classification: TF-IDF versus a small embedding model"),
+    "2024-05-16-train-eval-padding-checkpoints-seeds.md": ("/blog/train-eval-padding-checkpoints-seeds/", "Train/eval, padding, checkpoints and seeds: four experiment traps"),
+    "2024-05-23-ner-token-vs-entity-evaluation.md": ("/blog/ner-token-vs-entity-evaluation/", "NER evaluation: token scores, whole entities and boundary errors"),
+    "2024-05-30-rag-evaluation-three-layers.md": ("/blog/rag-evaluation-three-layers/", "Evaluate retrieval, answer quality, and evidence support separately"),
+    "2024-06-06-rag-test-set-regression.md": ("/blog/rag-test-set-regression/", "Building a RAG Test Set: Questions, References, and Regression Reports"),
+    "2024-06-13-llm-as-judge.md": ("/blog/llm-as-judge/", "LLM-as-Judge: Rubrics, Bias, Answer Order, and Human Oversight"),
+    "2024-06-20-dspy-vs-manual-prompts.md": ("/blog/dspy-vs-manual-prompts/", "DSPy vs hand-written prompts: a fair comparison with a holdout and a fixed budget"),
+    "2024-06-27-prompting-rag-fine-tuning.md": ("/blog/prompting-rag-fine-tuning/", "Prompting, RAG, or Fine-Tuning: Start with the Failure"),
+    "2024-07-04-lora-baseline-separate-evaluation.md": ("/blog/lora-baseline-separate-evaluation/", "A small LoRA experiment with a baseline and a separate evaluation"),
+    "2024-07-11-qlora-quantization-memory-quality.md": ("/blog/qlora-quantization-memory-quality/", "QLoRA and quantization: the memory–quality trade-off"),
+    "2024-07-18-batching-serving-under-load.md": ("/blog/batching-serving-under-load/", "Batching and serving: measure throughput, latency, and failures under load"),
+    "2024-07-25-experiments-artifacts-data-versions.md": ("/blog/experiments-artifacts-data-versions/", "Experiments, artifacts and data versions: what to record"),
+    "2024-08-01-reproducible-mlflow-pipeline.md": ("/blog/reproducible-mlflow-pipeline/", "A reproducible ML pipeline with MLflow and a regression test"),
+    "2024-08-08-data-drift-concept-drift-answer-degradation.md": ("/blog/data-drift-concept-drift-answer-degradation/", "Data Drift, Concept Drift, and Answer Degradation Are Different Problems"),
+    "2024-08-15-ci-quality-gates.md": ("/blog/ci-quality-gates/", "A green build is not a release decision: quality gates for ML in CI"),
+    "2024-08-22-freshness-and-approval.md": ("/blog/freshness-and-approval/", "Freshness and approval: why a valid command can become unsafe"),
+    "2024-08-29-device-command-journal.md": ("/blog/device-command-journal/", "After the timeout: a command journal, correlation IDs and read-after-write on a simulated device"),
+    "2024-09-05-prompt-injection-trust-boundaries.md": ("/blog/prompt-injection-trust-boundaries/", "Prompt injection, tool permissions and trust boundaries"),
+    "2024-09-12-human-in-the-loop-recovery.md": ("/blog/human-in-the-loop-recovery/", "Human-in-the-loop state machines: rollback and reconciliation after a crash"),
+    "2024-09-19-building-a-benchmark.md": ("/blog/building-a-benchmark/", "Building a benchmark: baselines, constraints, and fair comparisons"),
+    "2024-09-26-greedy-packing-local-improvement.md": ("/blog/greedy-packing-local-improvement/", "Greedy packing versus local improvement: measure, don't declare victory"),
+    "2024-10-03-graph-rag-multimodal-documents.md": ("/blog/graph-rag-multimodal-documents/", "Graph RAG and multimodal documents: when the extra complexity pays off"),
+    "2024-10-10-document-system-end-to-end.md": ("/blog/document-system-end-to-end/", "A document system end to end: ingestion, search, API and evaluation"),
+    # Data = faktyczny dzień przygotowania: Jev jest publicznie udokumentowany dopiero od 2026 r.
+    "2026-10-12-model-routing-jev.md": ("/blog/model-routing-jev/", "Model routing with Jev: allowlists, capability guards, and rollback"),
 }
+# Wpisy bez nagłówka H1 w treści — tytuł renderuje layout post.html (zrecenzowanej treści nie zmieniamy).
+TITLE_FROM_LAYOUT = {
+    "2024-01-18-tool-calling-validation-timeouts-retries.md",
+    "2024-05-09-tfidf-vs-embedding-classifier.md",
+    "2024-07-18-batching-serving-under-load.md",
+    "2024-07-25-experiments-artifacts-data-versions.md",
+}
+# Celowe polskie słowa w angielskich wpisach (waluta, nazwa miasta, przykładowe wejście odrzucane przez parser).
+POLISH_WORDS_ALLOWED = ("złoty", "Gdańsk", "zażółć")
+# Pliki z nazwą zaczynającą się od "_" lub "." publikowane w przykładach (Jekyll wymaga ich w include).
+HIDDEN_INCLUDES = {"__init__.py", "__main__.py", ".python-version"}
+EXAMPLE_DIRS = ("assets/examples", "assets/code")
 # Dozwolony ładunek publiczny w assets/ (ścieżki względne, wyrażenia regularne).
 ASSET_ALLOWLIST = [
     r"assets/css/hud\.css",
     r"assets/images/[a-z0-9-]+\.svg",
     r"assets/downloads/[a-z0-9-]+\.zip",
-    r"assets/examples/[a-z0-9-]+\.zip",
-    r"assets/examples/[a-z0-9-]+/([a-z0-9_]+/)*([A-Za-z0-9_.-]+\.(py|toml|lock|md|txt|json|zip)|\.python-version|SHA256SUMS)",
+    r"assets/(examples|code)/[a-z0-9-]+\.zip",
+    r"assets/(examples|code)/[a-z0-9-]+/([a-z0-9_]+/)*"
+    r"([A-Za-z0-9_.-]+\.(py|toml|lock|md|txt|json|jsonl|csv|sh|npz|bin|zip)|\.python-version|SHA256SUMS)",
 ]
 FORBIDDEN_PATH = re.compile(r"(__pycache__|\.pyc$|\.venv|\.pytest_cache|\.ruff_cache|\.mypy_cache|\.DS_Store|"
                             r"\.ipynb_checkpoints|(^|/)\.env$|\.sandbox|node_modules|\.hermes|\.remember)")
@@ -66,6 +121,11 @@ def front_matter(text: str) -> tuple[dict, str]:
     if not m:
         return {}, text
     return yaml.safe_load(m.group(1)) or {}, m.group(2)
+
+
+def strip_code(text: str) -> str:
+    """Treść bez bloków ``` (komentarze `# ...` w kodzie to nie nagłówki)."""
+    return re.sub(r"^```.*?^```$", "", text, flags=re.S | re.M)
 
 
 def strip_liquid(text: str) -> str:
@@ -320,7 +380,10 @@ class InventoryTest(unittest.TestCase):
                 self.assertEqual(permalink, f"/blog/{name[11:-3]}/")
                 self.assertTrue(str(meta["date"]).startswith(name[:10]), meta["date"])
                 self.assertTrue(meta.get("description"))
-                self.assertIn(f"# {title}\n", body)
+                if name in TITLE_FROM_LAYOUT:
+                    self.assertIsNone(re.search(r"^# ", strip_code(body), re.M))
+                else:
+                    self.assertIn(f"# {title}\n", body)
                 self.assertTrue((ROOT / meta["image"].lstrip("/")).is_file(), meta["image"])
 
     def test_unique_titles_and_permalinks(self):
@@ -334,7 +397,10 @@ class InventoryTest(unittest.TestCase):
         for name in POSTS:
             meta, body = post_meta(name)
             with self.subTest(post=name):
-                self.assertIsNone(re.search(POLISH, meta["title"] + meta["description"] + body))
+                text = meta["title"] + meta["description"] + body
+                for word in POLISH_WORDS_ALLOWED:
+                    text = text.replace(word, "")
+                self.assertIsNone(re.search(POLISH, text))
 
 
 class AssetReferenceTest(unittest.TestCase):
@@ -470,7 +536,8 @@ class RenderedSiteTest(unittest.TestCase):
             with self.subTest(permalink=permalink):
                 self.assertIsNotNone(page)
                 self.assertEqual(page.lang, "en")
-                self.assertEqual(page.h1, [title])
+                # kramdown zamienia apostrofy z nagłówka Markdown na typograficzne (’).
+                self.assertEqual([h.replace("’", "'") for h in page.h1], [title])
         built = {p.parent.name for p in self.site.glob("blog/*/index.html")}
         self.assertEqual(built, {p.split("/")[2] for p, _ in POSTS.values()})
 

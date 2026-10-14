@@ -1,0 +1,74 @@
+{
+  "dataset_id": "tidepool-qa",
+  "dataset_version": "1.0.0",
+  "corpus_version": "2024-05-01",
+  "cases": [
+    {
+      "case_id": "q-ret-ent", "group_id": "g-ret-ent", "split": "dev",
+      "kind": "single", "critical": true,
+      "question": "How long are audit logs kept on the Enterprise plan?",
+      "expected_behavior": "answer", "required_facts": ["400 days"],
+      "evidence_sets": [["P-ret-ent"]]
+    },
+    {
+      "case_id": "q-ret-ent-para", "group_id": "g-ret-ent", "split": "dev",
+      "kind": "paraphrase", "critical": true,
+      "question": "For an Enterprise workspace, what is the audit log retention period?",
+      "expected_behavior": "answer", "required_facts": ["400 days"],
+      "evidence_sets": [["P-ret-ent"]]
+    },
+    {
+      "case_id": "q-ret-team", "group_id": "g-ret-team", "split": "holdout",
+      "kind": "time_scoped", "critical": false,
+      "question": "According to the documentation as of 2024-05-01, how long does the Team plan keep audit logs?",
+      "expected_behavior": "answer", "required_facts": ["90 days"],
+      "evidence_sets": [["P-ret-team"], ["P-change-team"]]
+    },
+    {
+      "case_id": "q-export-retry", "group_id": "g-export", "split": "dev",
+      "kind": "single", "critical": false,
+      "question": "How many times is a failed nightly export retried?",
+      "expected_behavior": "answer", "required_facts": ["three"],
+      "evidence_sets": [["P-export-retry"]]
+    },
+    {
+      "case_id": "q-sso-plan-role", "group_id": "g-sso", "split": "holdout",
+      "kind": "multi_hop", "critical": true,
+      "question": "Which plan and which role do I need to set up SAML single sign-on?",
+      "expected_behavior": "answer", "required_facts": ["enterprise", "owner"],
+      "evidence_sets": [["P-sso-plan", "P-sso-role"]]
+    },
+    {
+      "case_id": "q-eu-region", "group_id": "g-region", "split": "holdout",
+      "kind": "single", "critical": false,
+      "question": "Where is data for EU workspaces stored?",
+      "expected_behavior": "answer", "required_facts": ["frankfurt"],
+      "evidence_sets": [["P-eu-region"]]
+    },
+    {
+      "case_id": "q-api-limit", "group_id": "g-limits", "split": "holdout",
+      "kind": "single", "critical": false,
+      "question": "How many API requests per minute can one token send?",
+      "expected_behavior": "answer", "required_facts": ["600"],
+      "evidence_sets": [["P-api-limit"]]
+    },
+    {
+      "case_id": "q-limit-ambiguous", "group_id": "g-limits", "split": "holdout",
+      "kind": "ambiguous", "critical": false,
+      "question": "What is the limit?",
+      "expected_behavior": "clarify", "required_facts": [], "evidence_sets": []
+    },
+    {
+      "case_id": "q-hipaa", "group_id": "g-hipaa", "split": "holdout",
+      "kind": "unanswerable", "critical": true,
+      "question": "Is Tidepool HIPAA certified?",
+      "expected_behavior": "abstain", "required_facts": [], "evidence_sets": []
+    },
+    {
+      "case_id": "q-seat-price", "group_id": "g-price", "split": "dev",
+      "kind": "unanswerable", "critical": false,
+      "question": "How much does one Enterprise seat cost?",
+      "expected_behavior": "abstain", "required_facts": [], "evidence_sets": []
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+[project]
+name = "membership-benchmark"
+version = "0.1.0"
+description = "A small, fair benchmark: list scan versus set build plus membership"
+requires-python = ">=3.12"
+dependencies = []

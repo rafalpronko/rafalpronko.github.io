@@ -1,0 +1,15 @@
+{
+  "corpus_id": "tidepool-docs",
+  "corpus_version": "2024-05-01",
+  "passages": [
+    {"passage_id": "P-ret-ent", "text": "On the Enterprise plan, audit logs are retained for 400 days."},
+    {"passage_id": "P-ret-team", "text": "On the Team plan, audit logs are retained for 90 days."},
+    {"passage_id": "P-change-team", "text": "Changelog 2024-05-01: Team plan audit log retention increased from 30 days to 90 days."},
+    {"passage_id": "P-export-retry", "text": "A failed nightly export is retried three times, 15 minutes apart."},
+    {"passage_id": "P-sso-plan", "text": "SAML single sign-on is available on the Enterprise plan."},
+    {"passage_id": "P-sso-role", "text": "Only a user with the organization owner role can configure SAML single sign-on."},
+    {"passage_id": "P-eu-region", "text": "Data for workspaces created in the EU region is stored in Frankfurt."},
+    {"passage_id": "P-api-limit", "text": "Each API token may send up to 600 requests per minute."},
+    {"passage_id": "P-upload-limit", "text": "A single file upload may not exceed 2 GB."}
+  ]
+}

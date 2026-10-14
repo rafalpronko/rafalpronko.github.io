@@ -1,0 +1,13 @@
+[project]
+name = "rag-test-set-regression"
+version = "0.1.0"
+description = "Offline regression report for stored RAG responses on a synthetic test set"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest==8.2.2"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

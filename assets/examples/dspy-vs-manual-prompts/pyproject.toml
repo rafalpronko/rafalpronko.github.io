@@ -1,0 +1,14 @@
+[project]
+name = "dspy-fair-comparison-harness"
+version = "0.1.0"
+description = "Offline budget, split and holdout harness for comparing prompt arms. Uses hand-authored fixtures, no model calls."
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "tests"]
+addopts = "-p no:cacheprovider"

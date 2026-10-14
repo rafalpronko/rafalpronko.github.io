@@ -1,0 +1,9 @@
+{
+  "policy_version": "support-intent-release/3",
+  "eval_corpus": {"id": "support-intents-synthetic", "version": "3"},
+  "overall_floor": 0.85,
+  "critical_floor": 0.8,
+  "critical_slices": ["lang=pl", "channel=phone"],
+  "max_regression": 0.02,
+  "min_slice_total": 100
+}

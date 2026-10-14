@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 440" width="1180" height="440" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title id="title">Autograd graph of linear regression: forward pass to the loss, backward pass to w.grad and b.grad</title>
+  <desc id="desc">The leaf tensors w with shape 3 and b, a scalar, both with requires_grad, enter a chain of recorded operations: matrix-vector product X at w (MvBackward0), adding b (AddBackward0), subtracting the target y (SubBackward0), squaring (PowBackward0) and a mean (MeanBackward0), producing the scalar loss L. X and y are constants without gradients. Dashed arrows show the backward pass running from right to left: it starts at L with v equal to 1, becomes 1 over n after the mean, 2 r over n with shape 16 after the square, passes unchanged through subtraction and addition, then splits: X transposed times 2 r over n accumulates into w.grad with shape 3, and the sum of 2 r over n accumulates into b.grad. A note explains that backward is reverse-mode automatic differentiation in which each node maps v to the vector-Jacobian product v transposed J, with no separate J built here, and that by default results are added into the grad attribute of leaf tensors.</desc>
+
+  <defs>
+    <marker id="fwd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="bwd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c2410c"/>
+    </marker>
+  </defs>
+
+  <rect width="1180" height="440" fill="#ffffff"/>
+
+  <!-- Heading and legend -->
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#111827">Forward builds the graph; backward flows from the scalar loss to the leaves</text>
+  <line x1="820" y1="62" x2="860" y2="62" stroke="#2563eb" stroke-width="2.5" marker-end="url(#fwd)"/>
+  <text x="868" y="67" font-size="13" fill="#1f2937">forward: op recorded as grad_fn</text>
+  <line x1="820" y1="86" x2="860" y2="86" stroke="#c2410c" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#bwd)"/>
+  <text x="868" y="91" font-size="13" fill="#1f2937">backward: chain rule, right to left</text>
+
+  <!-- Constants (no gradient) -->
+  <rect x="200" y="50" width="130" height="46" rx="6" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="265" y="70" font-size="14" text-anchor="middle" fill="#374151">X  (16, 3)</text>
+  <text x="265" y="88" font-size="11" text-anchor="middle" fill="#6b7280">constant, no grad</text>
+  <line x1="265" y1="96" x2="265" y2="128" stroke="#2563eb" stroke-width="2" marker-end="url(#fwd)"/>
+
+  <rect x="540" y="50" width="130" height="46" rx="6" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="605" y="70" font-size="14" text-anchor="middle" fill="#374151">y  (16,)</text>
+  <text x="605" y="88" font-size="11" text-anchor="middle" fill="#6b7280">constant, no grad</text>
+  <line x1="605" y1="96" x2="605" y2="128" stroke="#2563eb" stroke-width="2" marker-end="url(#fwd)"/>
+
+  <!-- Leaf w -->
+  <rect x="20" y="130" width="140" height="56" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="90" y="152" font-size="15" font-weight="700" text-anchor="middle" fill="#065f46">w  (3,)  leaf</text>
+  <text x="90" y="166" font-size="11" text-anchor="middle" fill="#065f46">requires_grad</text>
+  <text x="90" y="179" font-size="11" text-anchor="middle" fill="#065f46">AccumulateGrad</text>
+
+  <!-- Operation nodes -->
+  <g font-size="15" text-anchor="middle" fill="#1e3a8a">
+    <rect x="200" y="130" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="265" y="153" font-weight="700">X @ w</text>
+    <text x="265" y="174" font-size="11">MvBackward0</text>
+
+    <rect x="370" y="130" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="435" y="153" font-weight="700">+ b</text>
+    <text x="435" y="174" font-size="11">AddBackward0</text>
+
+    <rect x="540" y="130" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="605" y="153" font-weight="700">− y</text>
+    <text x="605" y="174" font-size="11">SubBackward0</text>
+
+    <rect x="710" y="130" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="775" y="153" font-weight="700">( · )²</text>
+    <text x="775" y="174" font-size="11">PowBackward0</text>
+
+    <rect x="880" y="130" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="945" y="153" font-weight="700">mean</text>
+    <text x="945" y="174" font-size="11">MeanBackward0</text>
+  </g>
+
+  <!-- Loss -->
+  <rect x="1050" y="130" width="110" height="56" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+  <text x="1105" y="153" font-size="15" font-weight="700" text-anchor="middle" fill="#78350f">L  ()</text>
+  <text x="1105" y="174" font-size="11" text-anchor="middle" fill="#78350f">scalar loss</text>
+
+  <!-- Forward arrows -->
+  <g stroke="#2563eb" stroke-width="2.5" marker-end="url(#fwd)">
+    <line x1="160" y1="158" x2="198" y2="158"/>
+    <line x1="330" y1="158" x2="368" y2="158"/>
+    <line x1="500" y1="158" x2="538" y2="158"/>
+    <line x1="670" y1="158" x2="708" y2="158"/>
+    <line x1="840" y1="158" x2="878" y2="158"/>
+    <line x1="1010" y1="158" x2="1048" y2="158"/>
+    <line x1="410" y1="340" x2="410" y2="188"/>
+  </g>
+  <g font-size="11" fill="#1d4ed8" text-anchor="middle">
+    <text x="349" y="124">(16,)</text>
+    <text x="519" y="124">pred</text>
+    <text x="689" y="124">r (16,)</text>
+    <text x="859" y="124">r² (16,)</text>
+    <text x="1029" y="124">()</text>
+  </g>
+
+  <!-- Backward: stubs from each node down to the backward rail -->
+  <g stroke="#c2410c" stroke-width="2" stroke-dasharray="6 4" fill="none">
+    <line x1="1105" y1="186" x2="1105" y2="225"/>
+    <line x1="945" y1="186" x2="945" y2="225"/>
+    <line x1="775" y1="186" x2="775" y2="225"/>
+    <line x1="605" y1="186" x2="605" y2="225"/>
+    <line x1="460" y1="186" x2="460" y2="225"/>
+    <line x1="265" y1="186" x2="265" y2="225"/>
+  </g>
+  <!-- Backward rail: arrows right to left between node centres -->
+  <g stroke="#c2410c" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#bwd)">
+    <line x1="1105" y1="225" x2="951" y2="225"/>
+    <line x1="945" y1="225" x2="781" y2="225"/>
+    <line x1="775" y1="225" x2="611" y2="225"/>
+    <line x1="605" y1="225" x2="466" y2="225"/>
+    <line x1="460" y1="225" x2="271" y2="225"/>
+    <path d="M265,225 H90 V190" fill="none"/>
+    <line x1="460" y1="225" x2="460" y2="338"/>
+  </g>
+  <g font-size="12" fill="#9a3412" text-anchor="middle">
+    <text x="1028" y="246">v = 1</text>
+    <text x="860" y="246">1/n  (16,)</text>
+    <text x="690" y="246">2r/n  (16,)</text>
+    <text x="535" y="246">2r/n</text>
+    <text x="365" y="246">2r/n  (16,)</text>
+  </g>
+  <text x="90" y="246" font-size="12" font-weight="700" text-anchor="middle" fill="#9a3412">w.grad += Xᵀ(2r/n)</text>
+  <text x="90" y="263" font-size="11" text-anchor="middle" fill="#9a3412">shape (3,)</text>
+  <text x="470" y="300" font-size="12" fill="#9a3412">Σᵢ 2rᵢ/n</text>
+
+  <!-- Leaf b -->
+  <rect x="370" y="340" width="130" height="56" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="435" y="362" font-size="15" font-weight="700" text-anchor="middle" fill="#065f46">b  ()  leaf</text>
+  <text x="435" y="376" font-size="11" text-anchor="middle" fill="#065f46">requires_grad</text>
+  <text x="435" y="389" font-size="11" text-anchor="middle" fill="#065f46">AccumulateGrad</text>
+  <text x="435" y="418" font-size="12" font-weight="700" text-anchor="middle" fill="#9a3412">b.grad += Σᵢ 2rᵢ/n</text>
+
+  <!-- Note: reverse-mode VJP -->
+  <rect x="560" y="290" width="600" height="128" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+  <text x="578" y="314" font-size="14" font-weight="700" fill="#7c2d12">backward() = reverse-mode automatic differentiation</text>
+  <text x="578" y="338" font-size="12.5" fill="#431407">Each node receives v = ∂L/∂(its output) and returns a vector-Jacobian product.</text>
+  <text x="578" y="356" font-size="12.5" fill="#431407">Column gradient Jᵀv; row-vector VJP vᵀJ. No separate J is built here.</text>
+  <text x="578" y="378" font-size="12.5" fill="#431407">One pass from the scalar loss (v = 1) yields ∂L/∂w and ∂L/∂b together.</text>
+  <text x="578" y="400" font-size="12.5" fill="#431407">By default results are added (+=) to .grad of leaves; zero them between steps.</text>
+</svg>

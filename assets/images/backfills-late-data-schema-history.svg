@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="470" viewBox="0 0 760 470" role="img" aria-labelledby="bf-title bf-desc">
+  <title id="bf-title">Backfills and late data on a revision ledger</title>
+  <desc id="bf-desc">Raw revisions in schema v1 (amount_cents) and schema v2 (amount_minor plus currency) are stored exactly as received, then normalized: a missing amount stays unknown and a v1 currency is filled only by an explicit source contract. Unknown schemas and conflicting payloads for an existing version are rejected loudly and kept in a rejected-records table. Accepted revisions are appended to a ledger keyed by source, entity and version, with event time and first observed time kept separately. Each new revision marks UTC days as dirty: a late arrival marks its own day, and a correction marks both the old and the new day. A rebuild then recomputes the recent lookback window plus all dirty days, or a bounded half-open backfill range, in one all-or-nothing transaction. The output is daily partitions tagged with a transformation version, with unknown values counted rather than treated as zero. A legend distinguishes current state, effective-time history and what was known at a given time.</desc>
+  <defs>
+    <marker id="bf-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#8b99a5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect width="760" height="470" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <text x="24" y="34" font-size="15" font-weight="600">Append revisions, normalize, invalidate days, rebuild</text>
+
+    <!-- Row 1 -->
+    <rect x="24" y="56" width="220" height="100" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="40" y="72" width="4" height="68" rx="2" fill="#168a87"/>
+    <text x="56" y="86" font-size="14" font-weight="600">Raw revisions</text>
+    <text x="56" y="110" font-size="12" fill="#52606b">v1: amount_cents</text>
+    <text x="56" y="128" font-size="12" fill="#52606b">v2: amount_minor + currency</text>
+    <text x="56" y="146" font-size="12" fill="#52606b">stored as received</text>
+
+    <path d="M246 106 H266" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#bf-arrow)"/>
+
+    <rect x="270" y="56" width="220" height="100" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="286" y="72" width="4" height="68" rx="2" fill="#7b5aad"/>
+    <text x="302" y="86" font-size="14" font-weight="600">Normalize</text>
+    <text x="302" y="110" font-size="12" fill="#52606b">missing amount → unknown</text>
+    <text x="302" y="128" font-size="12" fill="#52606b">v1 currency only by contract</text>
+    <text x="302" y="146" font-size="12" fill="#52606b">times converted to UTC</text>
+
+    <path d="M492 106 H512" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#bf-arrow)"/>
+
+    <rect x="516" y="56" width="220" height="100" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="532" y="72" width="4" height="68" rx="2" fill="#168a87"/>
+    <text x="548" y="86" font-size="14" font-weight="600">Revision ledger</text>
+    <text x="548" y="110" font-size="12" fill="#52606b">key: source, entity, version</text>
+    <text x="548" y="128" font-size="12" fill="#52606b">event time ≠ first observed</text>
+    <text x="548" y="146" font-size="12" fill="#52606b">append only, never overwrite</text>
+
+    <!-- Reject branch -->
+    <path d="M380 158 V172" fill="none" stroke="#b5532a" stroke-width="2" marker-end="url(#bf-arrow)"/>
+    <rect x="270" y="176" width="220" height="56" rx="12" fill="#fff7f3" stroke="#e7b9a4"/>
+    <text x="286" y="198" font-size="13" font-weight="600" fill="#8a3b1c">Rejected records</text>
+    <text x="286" y="218" font-size="12" fill="#6b4a3c">unknown schema, version conflict</text>
+
+    <!-- Ledger to dirty days -->
+    <path d="M626 158 V252 H134 V268" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linejoin="round" marker-end="url(#bf-arrow)"/>
+
+    <!-- Row 2 -->
+    <rect x="24" y="272" width="220" height="100" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="40" y="288" width="4" height="68" rx="2" fill="#c08a1e"/>
+    <text x="56" y="302" font-size="14" font-weight="600">Dirty UTC days</text>
+    <text x="56" y="326" font-size="12" fill="#52606b">late arrival → its own day</text>
+    <text x="56" y="344" font-size="12" fill="#52606b">correction → old + new day</text>
+    <text x="56" y="362" font-size="12" fill="#52606b">even outside the cutoff</text>
+
+    <path d="M246 322 H266" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#bf-arrow)"/>
+
+    <rect x="270" y="272" width="220" height="100" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="286" y="288" width="4" height="68" rx="2" fill="#7b5aad"/>
+    <text x="302" y="302" font-size="14" font-weight="600">Rebuild, all or nothing</text>
+    <text x="302" y="326" font-size="12" fill="#52606b">lookback window ∪ dirty days</text>
+    <text x="302" y="344" font-size="12" fill="#52606b">or backfill [start, end)</text>
+    <text x="302" y="362" font-size="12" fill="#52606b">one transaction, replayable</text>
+
+    <path d="M492 322 H512" fill="none" stroke="#8b99a5" stroke-width="2" marker-end="url(#bf-arrow)"/>
+
+    <rect x="516" y="272" width="220" height="100" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="532" y="288" width="4" height="68" rx="2" fill="#168a87"/>
+    <text x="548" y="302" font-size="14" font-weight="600">Daily partitions</text>
+    <text x="548" y="326" font-size="12" fill="#52606b">transformation_version</text>
+    <text x="548" y="344" font-size="12" fill="#52606b">unknowns counted, not as 0</text>
+    <text x="548" y="362" font-size="12" fill="#52606b">empty day = rebuilt, empty</text>
+
+    <!-- Legend -->
+    <rect x="24" y="390" width="712" height="62" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="40" y="413" font-size="12"><tspan font-weight="600">Current state:</tspan><tspan fill="#52606b"> latest accepted version per key.</tspan><tspan font-weight="600" dx="10">Effective-time history:</tspan><tspan fill="#52606b"> by UTC event day.</tspan></text>
+    <text x="40" y="436" font-size="12"><tspan font-weight="600">Known then:</tspan><tspan fill="#52606b"> revisions with first_observed_at ≤ T. A toy revision ledger, not a full bitemporal model.</tspan></text>
+  </g>
+</svg>
