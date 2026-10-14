@@ -1,0 +1,24 @@
+[project]
+name = "reproducible-mlflow-pipeline"
+version = "0.1.0"
+description = "Article 42 companion: scaler + Ridge pipeline tracked with MLflow and guarded by a pytest regression gate."
+requires-python = "==3.11.*"
+dependencies = [
+    "mlflow==2.14.3",
+    "scikit-learn==1.5.1",
+    "numpy==1.26.4",
+    # mlflow 2.14.3 imports pkg_resources but does not declare setuptools.
+    "setuptools==72.1.0",
+]
+
+[dependency-groups]
+dev = ["pytest==8.3.2"]
+
+[tool.uv]
+# Resolve transitive dependencies only from releases published before the
+# editorial date. The lock itself is produced by the current uv at execution time.
+exclude-newer = "2024-08-01T00:00:00Z"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

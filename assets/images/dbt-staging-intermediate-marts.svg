@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="520" viewBox="0 0 680 520" role="img" aria-labelledby="dbt-layers-title dbt-layers-desc">
+  <title id="dbt-layers-title">dbt layers: seeds, staging, intermediate and marts, with the grain of each layer</title>
+  <desc id="dbt-layers-desc">Four stacked layers connected by arrows. Seeds: three CSV files loaded as text, one row per raw record. Staging: three views that rename and cast columns and keep the grain of their seed: customer, order and order line. Intermediate: one view that sums order lines to one row per order that has lines. Marts: two tables, orders with one row per order including canceled orders, and customers with one row per customer including customers without orders. On the right, the tests for each layer: unique, not null and relationships on keys, and singular reconciliation tests on the marts. There are 35 tests. Per-entity reconciliation checks keys, counts and amounts. Tests wait for all their dependencies and can block eligible downstream builds. Failed tests do not roll back built tables; existing downstream views still read new data.</desc>
+  <rect width="680" height="520" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="24" y="24" width="420" height="78" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="44" y="40" width="4" height="46" rx="2" fill="#8b99a5"/>
+    <text x="64" y="56" font-size="14" font-weight="600">Seeds · ref('raw_*')</text>
+    <text x="64" y="78" font-size="12" fill="#52606b">3 CSV files loaded as VARCHAR · grain: raw record</text>
+
+    <path d="M234 104 V121" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M229 120 L234 126 L239 120" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="24" y="130" width="420" height="78" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="44" y="146" width="4" height="46" rx="2" fill="#168a87"/>
+    <text x="64" y="162" font-size="14" font-weight="600">Staging · 3 views</text>
+    <text x="64" y="184" font-size="12" fill="#52606b">rename, cast · grain kept: customer, order, line</text>
+
+    <path d="M234 210 V227" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M229 226 L234 232 L239 226" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="24" y="236" width="420" height="78" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="44" y="252" width="4" height="46" rx="2" fill="#7b5aad"/>
+    <text x="64" y="268" font-size="14" font-weight="600">Intermediate · 1 view</text>
+    <text x="64" y="290" font-size="12" fill="#52606b">grain change: line → order (orders with lines)</text>
+
+    <path d="M234 316 V333" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M229 332 L234 338 L239 332" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="24" y="342" width="420" height="92" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="44" y="358" width="4" height="60" rx="2" fill="#c0682b"/>
+    <text x="64" y="374" font-size="14" font-weight="600">Marts · 2 tables</text>
+    <text x="64" y="396" font-size="12" fill="#52606b">orders: every order, canceled → recognized 0.00</text>
+    <text x="64" y="416" font-size="12" fill="#52606b">order → customer · includes customers with no orders</text>
+
+    <g font-size="12" fill="#52606b">
+      <text x="468" y="56" font-weight="600" fill="#26323d">Tests</text>
+      <text x="468" y="78">none: raw text, cast later</text>
+      <text x="468" y="162">unique · not_null</text>
+      <text x="468" y="182">relationships, accepted_values</text>
+      <text x="468" y="268">unique order_id</text>
+      <text x="468" y="288">relationships to stg orders</text>
+      <text x="468" y="374">unique keys (fan-out alarm)</text>
+      <text x="468" y="394">per-entity keys, amounts, counts</text>
+      <text x="468" y="414">canceled-order policy</text>
+    </g>
+    <path d="M456 40 V430" fill="none" stroke="#dce3e8" stroke-width="2"/>
+
+    <text x="340" y="462" text-anchor="middle" font-size="12" fill="#52606b">35 tests · tests wait for their dependencies and block eligible downstream builds.</text>
+    <text x="340" y="482" text-anchor="middle" font-size="12" fill="#52606b">Built tables stay readable after failed tests; there is no rollback.</text>
+    <text x="340" y="502" text-anchor="middle" font-size="12" fill="#52606b">Skipped downstream views still read new data.</text>
+  </g>
+</svg>

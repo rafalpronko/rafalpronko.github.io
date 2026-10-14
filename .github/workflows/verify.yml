@@ -1,0 +1,28 @@
+name: verify
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Testy porównują tłumaczenie z przypiętym commitem bazowym (git show).
+          fetch-depth: 0
+      # Ten sam builder co GitHub Pages (gem github-pages), bez własnego Gemfile.
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - uses: astral-sh/setup-uv@v6
+      - name: Static and rendered-site tests
+        env:
+          RENDERED_SITE: ${{ github.workspace }}/_site
+        run: uv run --with pyyaml python -m unittest discover -s tests -v

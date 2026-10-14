@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" width="1100" height="600" role="img" aria-labelledby="title desc">
+  <title id="title">TF-IDF versus a from-scratch embedding classifier</title>
+  <desc id="desc">Both pipelines share an ASCII tokenizer and a fixed split of synthetic shared-template data. Top: train-only vocabulary and IDF produce selected unigram TF-IDF features; bigrams are also tried in the validation grid. Bottom: train-only PAD and UNK ids feed a randomly initialised embedding, masked mean and linear layer. Full-precision validation F1 selects candidates and epochs; exact ties retain the first. Test is scored once per model.</desc>
+  <style>
+    text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #1f2933; }
+    .h { font-size: 15px; font-weight: 700; }
+    .s { font-size: 13px; }
+    .xs { font-size: 12px; fill: #52606d; }
+    .heading-tf { fill: #2457a6; }
+    .heading-em { fill: #a35412; }
+    .box { fill: #fff; stroke: #1f2933; stroke-width: 1.5; }
+    .tf { fill: #e6f0ff; stroke: #2457a6; }
+    .em { fill: #fff1e0; stroke: #a35412; }
+    .arrow { stroke: #1f2933; stroke-width: 1.5; fill: none; marker-end: url(#a); }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f2933"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="600" fill="#f8f9fa"/>
+  <g id="raw">
+    <rect class="box" x="20" y="240" width="125" height="85" rx="6"/>
+    <text class="h" x="32" y="267">raw text</text>
+    <text class="xs" x="32" y="290">"lost my visa"</text>
+  </g>
+  <g id="tokenizer">
+    <rect class="box" x="175" y="240" width="140" height="85" rx="6"/>
+    <text class="h" x="188" y="265">tokenize()</text>
+    <text class="xs" x="188" y="287">lowercase</text>
+    <text class="xs" x="188" y="307">ASCII [a-z0-9]+</text>
+  </g>
+  <path class="arrow" d="M145,282 H172"/>
+  <path class="arrow" d="M315,270 C330,270 330,150 347,150"/>
+  <path class="arrow" d="M315,295 C330,295 330,380 347,380"/>
+  <text class="h heading-tf" x="350" y="75">A. TF-IDF + logistic regression (scikit-learn)</text>
+  <g id="tf-vocab">
+    <rect class="box tf" x="350" y="105" width="220" height="90" rx="6"/>
+    <text class="s" x="365" y="131">vocabulary + IDF</text>
+    <text class="xs" x="365" y="156">fit on train only</text>
+    <text class="xs" x="365" y="179">unseen term: dropped</text>
+  </g>
+  <g id="tf-vector">
+    <rect class="box tf" x="595" y="105" width="220" height="90" rx="6"/>
+    <text class="s" x="610" y="131">sparse, L2-normalised</text>
+    <text class="xs" x="610" y="156">selected: unigrams</text>
+    <text class="xs" x="610" y="179">bigrams also in grid</text>
+  </g>
+  <g id="tf-classifier">
+    <rect class="box tf" x="840" y="105" width="240" height="90" rx="6"/>
+    <text class="s" x="855" y="131">LogisticRegression</text>
+    <text class="xs" x="855" y="156">empty / all unseen:</text>
+    <text class="xs" x="855" y="179">intercept-only logits</text>
+  </g>
+  <path class="arrow" d="M570,150 H592"/>
+  <path class="arrow" d="M815,150 H837"/>
+  <text class="h heading-em" x="350" y="305">B. nn.Embedding + masked mean + linear (PyTorch)</text>
+  <g id="em-vocab">
+    <rect class="box em" x="350" y="335" width="220" height="90" rx="6"/>
+    <text class="s" x="365" y="361">vocab, min_freq=2</text>
+    <text class="xs" x="365" y="386">train only; PAD=0</text>
+    <text class="xs" x="365" y="409">UNK=1: rare + unseen</text>
+  </g>
+  <g id="em-vector">
+    <rect class="box em" x="595" y="335" width="220" height="90" rx="6"/>
+    <text class="s" x="610" y="361">nn.Embedding</text>
+    <text class="xs" x="610" y="386">random init; learned UNK</text>
+    <text class="xs" x="610" y="409">PAD row stays zero</text>
+  </g>
+  <g id="em-classifier">
+    <rect class="box em" x="840" y="335" width="240" height="90" rx="6"/>
+    <text class="s" x="855" y="361">non-PAD mean -&gt; Linear</text>
+    <text class="xs" x="855" y="386">empty: bias-only logits</text>
+    <text class="xs" x="855" y="409">all UNK: learned vector</text>
+  </g>
+  <path class="arrow" d="M570,380 H592"/>
+  <path class="arrow" d="M815,380 H837"/>
+  <text class="h" x="20" y="474">One fixed stratified split; exact deduplication leaves shared-template near-duplicates</text>
+  <g id="train">
+    <rect x="20" y="490" width="636" height="45" fill="#d9e2ec" stroke="#1f2933"/>
+    <text class="s" x="32" y="518">train 60%: fit vocabulary, IDF and weights</text>
+  </g>
+  <g id="val">
+    <rect x="656" y="490" width="212" height="45" fill="#fce8b2" stroke="#1f2933"/>
+    <text class="s" x="668" y="518">validation 20%: tune</text>
+  </g>
+  <g id="test">
+    <rect x="868" y="490" width="212" height="45" fill="#f8d7da" stroke="#1f2933"/>
+    <text class="s" x="880" y="518">test 20%: score once</text>
+  </g>
+  <text class="xs" x="20" y="568">Selection: full-precision macro-F1; exact ties retain the first candidate / epoch.</text>
+</svg>

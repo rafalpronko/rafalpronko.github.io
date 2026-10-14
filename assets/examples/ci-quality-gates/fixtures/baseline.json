@@ -1,0 +1,11 @@
+{
+  "artifact_sha256": "digest-of-the-currently-deployed-artifact",
+  "eval_corpus": {"id": "support-intents-synthetic", "version": "3"},
+  "slices": {
+    "overall": {"correct": 860, "total": 1000},
+    "lang=en": {"correct": 520, "total": 600},
+    "lang=pl": {"correct": 340, "total": 400},
+    "channel=email": {"correct": 600, "total": 700},
+    "channel=phone": {"correct": 260, "total": 300}
+  }
+}

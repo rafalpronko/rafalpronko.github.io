@@ -1,0 +1,827 @@
+{
+  "config": {
+    "k": 16,
+    "d": 8,
+    "shift_rank": 2,
+    "shift_scale": 1.0,
+    "dense_shift_scale": 0.05,
+    "noise": 0.5,
+    "n_source": 400,
+    "n_train": 32,
+    "n_val": 200,
+    "n_test": 2000,
+    "ranks": [
+      1,
+      2,
+      4
+    ],
+    "alpha": 2.0,
+    "lrs": [
+      0.01,
+      0.03,
+      0.1,
+      0.3
+    ],
+    "steps": 300,
+    "eval_every": 10,
+    "replicates": 5
+  },
+  "environment": {
+    "python": "3.11.12",
+    "numpy": "1.26.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64"
+  },
+  "true_shift_singular_values": [
+    9.563384088662458,
+    3.983627444580045,
+    0.2252057855697232,
+    0.19011271608049046,
+    0.1696216688157042,
+    0.1488179571242763,
+    0.12551931335477837,
+    0.07738211868134426
+  ],
+  "replicates": [
+    {
+      "replicate": 0,
+      "seeds": {
+        "world": 1000,
+        "source_train": 2000,
+        "source_test": 3000,
+        "target_train": 4000,
+        "target_val": 5000,
+        "target_test": 6000,
+        "lora_init": 7000
+      },
+      "chosen": "lora_r2",
+      "chosen_lora": "lora_r2",
+      "methods": {
+        "frozen_base": {
+          "n_trainable": 0,
+          "lr": null,
+          "step": 0,
+          "val_mse": 13.409939453979657,
+          "target_test_mse": 13.80526672984473,
+          "source_test_mse": 0.26413054188907353,
+          "checkpoint": "checkpoints/rep0_frozen_base.npz",
+          "diverged_at": null,
+          "lr_grid": null
+        },
+        "full": {
+          "n_trainable": 128,
+          "lr": 0.3,
+          "step": 290,
+          "val_mse": 0.48365273959427113,
+          "target_test_mse": 0.4851347292765737,
+          "source_test_mse": 14.177485751988275,
+          "checkpoint": "checkpoints/rep0_full.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 5.56465454345277,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 2.645504289766026,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.7276906461361466,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.48365273959427113,
+              "best_step": 290,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r1": {
+          "n_trainable": 24,
+          "lr": 0.1,
+          "step": 110,
+          "val_mse": 2.15911049860593,
+          "target_test_mse": 2.5281305523837365,
+          "source_test_mse": 11.891845896123378,
+          "checkpoint": "checkpoints/rep0_lora_r1.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 2.3197708916965967,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 2.159161288579801,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 2.15911049860593,
+              "best_step": 110,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 10.328913850742145,
+              "best_step": 10,
+              "diverged_at": 16
+            }
+          }
+        },
+        "lora_r2": {
+          "n_trainable": 48,
+          "lr": 0.3,
+          "step": 300,
+          "val_mse": 0.32947012802689424,
+          "target_test_mse": 0.33741945059278733,
+          "source_test_mse": 14.142544708050123,
+          "checkpoint": "checkpoints/rep0_lora_r2.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 2.211874019842985,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 0.43612985564775314,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.33250982193806544,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.32947012802689424,
+              "best_step": 300,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r4": {
+          "n_trainable": 96,
+          "lr": 0.1,
+          "step": 290,
+          "val_mse": 0.35733801463249315,
+          "target_test_mse": 0.36319338966459686,
+          "source_test_mse": 14.089096413274005,
+          "checkpoint": "checkpoints/rep0_lora_r4.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 4.483319192730236,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 0.5916047219463942,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.35733801463249315,
+              "best_step": 290,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.35749264503337214,
+              "best_step": 100,
+              "diverged_at": null
+            }
+          }
+        }
+      },
+      "reference_true_W_target_test_mse": 0.25142071558713064
+    },
+    {
+      "replicate": 1,
+      "seeds": {
+        "world": 1000,
+        "source_train": 2001,
+        "source_test": 3001,
+        "target_train": 4001,
+        "target_val": 5001,
+        "target_test": 6001,
+        "lora_init": 7001
+      },
+      "chosen": "lora_r2",
+      "chosen_lora": "lora_r2",
+      "methods": {
+        "frozen_base": {
+          "n_trainable": 0,
+          "lr": null,
+          "step": 0,
+          "val_mse": 13.708365107070126,
+          "target_test_mse": 13.894700651062344,
+          "source_test_mse": 0.2613441518708031,
+          "checkpoint": "checkpoints/rep1_frozen_base.npz",
+          "diverged_at": null,
+          "lr_grid": null
+        },
+        "full": {
+          "n_trainable": 128,
+          "lr": 0.3,
+          "step": 300,
+          "val_mse": 0.527784804725458,
+          "target_test_mse": 0.5241767535027163,
+          "source_test_mse": 14.80563335714395,
+          "checkpoint": "checkpoints/rep1_full.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 5.159270201937915,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 1.7232822733261077,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.6225162687593533,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.527784804725458,
+              "best_step": 300,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r1": {
+          "n_trainable": 24,
+          "lr": 0.1,
+          "step": 300,
+          "val_mse": 2.2637787807017635,
+          "target_test_mse": 2.403107462838645,
+          "source_test_mse": 12.617984699504024,
+          "checkpoint": "checkpoints/rep1_lora_r1.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 2.303315471076753,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 2.2642531003017763,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 2.2637787807017635,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 7.567928181549819,
+              "best_step": 10,
+              "diverged_at": 17
+            }
+          }
+        },
+        "lora_r2": {
+          "n_trainable": 48,
+          "lr": 0.3,
+          "step": 300,
+          "val_mse": 0.3395885200642178,
+          "target_test_mse": 0.33453621587127863,
+          "source_test_mse": 14.595210765869643,
+          "checkpoint": "checkpoints/rep1_lora_r2.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 1.6854254204316774,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 0.44122356009084107,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.3400107433635612,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.3395885200642178,
+              "best_step": 300,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r4": {
+          "n_trainable": 96,
+          "lr": 0.3,
+          "step": 110,
+          "val_mse": 0.3726054169186645,
+          "target_test_mse": 0.3715870953499029,
+          "source_test_mse": 14.583015625666608,
+          "checkpoint": "checkpoints/rep1_lora_r4.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 8.553345915586183,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 0.7210402730531328,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.3728665083463214,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.3726054169186645,
+              "best_step": 110,
+              "diverged_at": null
+            }
+          }
+        }
+      },
+      "reference_true_W_target_test_mse": 0.248759169381052
+    },
+    {
+      "replicate": 2,
+      "seeds": {
+        "world": 1000,
+        "source_train": 2002,
+        "source_test": 3002,
+        "target_train": 4002,
+        "target_val": 5002,
+        "target_test": 6002,
+        "lora_init": 7002
+      },
+      "chosen": "lora_r2",
+      "chosen_lora": "lora_r2",
+      "methods": {
+        "frozen_base": {
+          "n_trainable": 0,
+          "lr": null,
+          "step": 0,
+          "val_mse": 15.330024025994266,
+          "target_test_mse": 13.329392609094551,
+          "source_test_mse": 0.2699732086000198,
+          "checkpoint": "checkpoints/rep2_frozen_base.npz",
+          "diverged_at": null,
+          "lr_grid": null
+        },
+        "full": {
+          "n_trainable": 128,
+          "lr": 0.3,
+          "step": 300,
+          "val_mse": 0.43047360851377287,
+          "target_test_mse": 0.4377310393957429,
+          "source_test_mse": 14.263109586575615,
+          "checkpoint": "checkpoints/rep2_full.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 5.200035981621995,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 2.0553045798119887,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.6471554085712988,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.43047360851377287,
+              "best_step": 300,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r1": {
+          "n_trainable": 24,
+          "lr": 0.1,
+          "step": 90,
+          "val_mse": 2.493484508219761,
+          "target_test_mse": 2.3373218403694187,
+          "source_test_mse": 12.528650717034738,
+          "checkpoint": "checkpoints/rep2_lora_r1.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 3.065992073579109,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 2.493507807725119,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 2.493484508219761,
+              "best_step": 90,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 8.4432878886542,
+              "best_step": 10,
+              "diverged_at": 29
+            }
+          }
+        },
+        "lora_r2": {
+          "n_trainable": 48,
+          "lr": 0.3,
+          "step": 300,
+          "val_mse": 0.338902373437619,
+          "target_test_mse": 0.3529866334436709,
+          "source_test_mse": 14.25172604174473,
+          "checkpoint": "checkpoints/rep2_lora_r2.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 2.274915866419089,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 0.42534062537801737,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.3402480328272803,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.338902373437619,
+              "best_step": 300,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r4": {
+          "n_trainable": 96,
+          "lr": 0.3,
+          "step": 170,
+          "val_mse": 0.36029640380643274,
+          "target_test_mse": 0.37436663664436204,
+          "source_test_mse": 14.256319744115869,
+          "checkpoint": "checkpoints/rep2_lora_r4.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 5.101111647411579,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 0.9526820443181382,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.3662208170620617,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.36029640380643274,
+              "best_step": 170,
+              "diverged_at": null
+            }
+          }
+        }
+      },
+      "reference_true_W_target_test_mse": 0.24969565468321894
+    },
+    {
+      "replicate": 3,
+      "seeds": {
+        "world": 1000,
+        "source_train": 2003,
+        "source_test": 3003,
+        "target_train": 4003,
+        "target_val": 5003,
+        "target_test": 6003,
+        "lora_init": 7003
+      },
+      "chosen": "lora_r2",
+      "chosen_lora": "lora_r2",
+      "methods": {
+        "frozen_base": {
+          "n_trainable": 0,
+          "lr": null,
+          "step": 0,
+          "val_mse": 14.145295115863059,
+          "target_test_mse": 13.935995154208879,
+          "source_test_mse": 0.2603189075283614,
+          "checkpoint": "checkpoints/rep3_frozen_base.npz",
+          "diverged_at": null,
+          "lr_grid": null
+        },
+        "full": {
+          "n_trainable": 128,
+          "lr": 0.3,
+          "step": 110,
+          "val_mse": 0.6154633190329919,
+          "target_test_mse": 0.6181738085456556,
+          "source_test_mse": 13.288592037453498,
+          "checkpoint": "checkpoints/rep3_full.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 4.027324517419908,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 1.2014176457461516,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.617347857173832,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.6154633190329919,
+              "best_step": 110,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r1": {
+          "n_trainable": 24,
+          "lr": 0.1,
+          "step": 40,
+          "val_mse": 2.35438120113227,
+          "target_test_mse": 2.28778721495673,
+          "source_test_mse": 11.630534404070026,
+          "checkpoint": "checkpoints/rep3_lora_r1.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 2.368229990933993,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 2.35445520068382,
+              "best_step": 130,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 2.35438120113227,
+              "best_step": 40,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 2.783135621459713,
+              "best_step": 10,
+              "diverged_at": 24
+            }
+          }
+        },
+        "lora_r2": {
+          "n_trainable": 48,
+          "lr": 0.1,
+          "step": 240,
+          "val_mse": 0.39819352701190935,
+          "target_test_mse": 0.408814472546527,
+          "source_test_mse": 13.542865750145614,
+          "checkpoint": "checkpoints/rep3_lora_r2.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 1.3453175360363048,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 0.44991556386546017,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.39819352701190935,
+              "best_step": 240,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.39823093405234206,
+              "best_step": 80,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r4": {
+          "n_trainable": 96,
+          "lr": 0.3,
+          "step": 150,
+          "val_mse": 0.4115060502546835,
+          "target_test_mse": 0.42557289979801183,
+          "source_test_mse": 13.560587975844001,
+          "checkpoint": "checkpoints/rep3_lora_r4.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 6.805618712162527,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 0.7149621935879056,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.42006207300473036,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.4115060502546835,
+              "best_step": 150,
+              "diverged_at": null
+            }
+          }
+        }
+      },
+      "reference_true_W_target_test_mse": 0.24839713558167772
+    },
+    {
+      "replicate": 4,
+      "seeds": {
+        "world": 1000,
+        "source_train": 2004,
+        "source_test": 3004,
+        "target_train": 4004,
+        "target_val": 5004,
+        "target_test": 6004,
+        "lora_init": 7004
+      },
+      "chosen": "lora_r2",
+      "chosen_lora": "lora_r2",
+      "methods": {
+        "frozen_base": {
+          "n_trainable": 0,
+          "lr": null,
+          "step": 0,
+          "val_mse": 13.021957770287468,
+          "target_test_mse": 13.167014204337015,
+          "source_test_mse": 0.2639923387254065,
+          "checkpoint": "checkpoints/rep4_frozen_base.npz",
+          "diverged_at": null,
+          "lr_grid": null
+        },
+        "full": {
+          "n_trainable": 128,
+          "lr": 0.3,
+          "step": 300,
+          "val_mse": 0.5000721830639189,
+          "target_test_mse": 0.49420828158375,
+          "source_test_mse": 13.927361257840523,
+          "checkpoint": "checkpoints/rep4_full.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 5.380570436048653,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 2.4300223549631736,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.803188414333943,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.5000721830639189,
+              "best_step": 300,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r1": {
+          "n_trainable": 24,
+          "lr": 0.03,
+          "step": 240,
+          "val_mse": 2.5441945753764257,
+          "target_test_mse": 2.3503712651267286,
+          "source_test_mse": 11.949505044417867,
+          "checkpoint": "checkpoints/rep4_lora_r1.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 2.783372427729127,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 2.5441945753764257,
+              "best_step": 240,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 2.5446548328089413,
+              "best_step": 80,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 12.180098894496409,
+              "best_step": 10,
+              "diverged_at": 16
+            }
+          }
+        },
+        "lora_r2": {
+          "n_trainable": 48,
+          "lr": 0.1,
+          "step": 300,
+          "val_mse": 0.3681774306795536,
+          "target_test_mse": 0.3473965605064094,
+          "source_test_mse": 14.248367049239517,
+          "checkpoint": "checkpoints/rep4_lora_r2.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 3.343643189429347,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 0.5618791559116754,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.3681774306795536,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.36890801032523024,
+              "best_step": 140,
+              "diverged_at": null
+            }
+          }
+        },
+        "lora_r4": {
+          "n_trainable": 96,
+          "lr": 0.3,
+          "step": 140,
+          "val_mse": 0.38000703122504703,
+          "target_test_mse": 0.36556021095939667,
+          "source_test_mse": 14.159093331394784,
+          "checkpoint": "checkpoints/rep4_lora_r4.npz",
+          "diverged_at": null,
+          "lr_grid": {
+            "0.01": {
+              "best_val_mse": 5.826281285498593,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.03": {
+              "best_val_mse": 1.0912736081602126,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.1": {
+              "best_val_mse": 0.38712213061409256,
+              "best_step": 300,
+              "diverged_at": null
+            },
+            "0.3": {
+              "best_val_mse": 0.38000703122504703,
+              "best_step": 140,
+              "diverged_at": null
+            }
+          }
+        }
+      },
+      "reference_true_W_target_test_mse": 0.25003701500932607
+    }
+  ]
+}

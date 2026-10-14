@@ -1,0 +1,8 @@
+[
+  {"query": "restore snapshot", "relevant": [["runbook-backup", 1]]},
+  {"query": "invoices retained", "relevant": [["policy-retention", 0]]},
+  {"query": "rolled back error rate", "relevant": [["guide-deploy", 1]]},
+  {"query": "escalate incident commander", "relevant": [["faq-oncall", 1]]},
+  {"query": "logs deleted", "relevant": [["policy-retention", 1]]},
+  {"query": "kubernetes autoscaling", "relevant": []}
+]

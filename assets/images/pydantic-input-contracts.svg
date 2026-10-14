@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="520" viewBox="0 0 680 520" role="img" aria-labelledby="pic-title pic-desc">
+  <title id="pic-title">Input contract versus policy decision</title>
+  <desc id="pic-desc">A raw refund request passes three checks enforced by Pydantic: JSON syntax, strict types without coercion, and field plus cross-field rules. Failing any of them exits as invalid input. Passing all of them yields a RefundRequest. A separate policy gate then combines that request with trusted context, the caller from the authenticated session and the order from our own store, and returns either an allowed decision, with the amount checked against stored state, or a denied decision with a reason.</desc>
+  <rect width="680" height="520" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <text x="40" y="44" font-size="14" font-weight="600">Raw request body</text>
+    <text x="40" y="64" font-size="12" fill="#52606b">bytes from the client, untrusted</text>
+
+    <rect x="28" y="84" width="420" height="232" rx="12" fill="none" stroke="#168a87" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <text x="44" y="104" font-size="12" font-weight="600" fill="#11706d">Pydantic input contract</text>
+
+    <rect x="44" y="116" width="388" height="52" rx="10" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="58" y="128" width="4" height="28" rx="2" fill="#168a87"/>
+    <text x="74" y="139" font-size="13" font-weight="600">1. JSON syntax</text>
+    <text x="74" y="157" font-size="11" fill="#52606b">json_invalid</text>
+
+    <rect x="44" y="176" width="388" height="52" rx="10" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="58" y="188" width="4" height="28" rx="2" fill="#168a87"/>
+    <text x="74" y="199" font-size="13" font-weight="600">2. Strict types, no coercion</text>
+    <text x="74" y="217" font-size="11" fill="#52606b">"1500", true, 1500.0 → int_type; unknown key → extra_forbidden</text>
+
+    <rect x="44" y="236" width="388" height="64" rx="10" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="58" y="248" width="4" height="40" rx="2" fill="#168a87"/>
+    <text x="74" y="259" font-size="13" font-weight="600">3. Field and cross-field rules</text>
+    <text x="74" y="277" font-size="11" fill="#52606b">Literal, gt=0, pattern; model_validator(mode="after"):</text>
+    <text x="74" y="292" font-size="11" fill="#52606b">action and amount_minor must agree</text>
+
+    <path d="M448 200 H520" fill="none" stroke="#b5483c" stroke-width="2" stroke-linecap="round"/>
+    <path d="M514 195 L521 200 L514 205" fill="none" stroke="#b5483c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="528" y="172" width="128" height="56" rx="10" fill="#ffffff" stroke="#b5483c"/>
+    <text x="592" y="196" font-size="13" font-weight="600" text-anchor="middle">Invalid input</text>
+    <text x="592" y="214" font-size="11" fill="#52606b" text-anchor="middle">422, type + loc only</text>
+
+    <path d="M238 318 V338" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M233 333 L238 339 L243 333" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="250" y="334" font-size="11" fill="#52606b">RefundRequest: shape is right</text>
+
+    <rect x="28" y="346" width="420" height="70" rx="12" fill="#ffffff" stroke="#7b5aad" stroke-width="1.5"/>
+    <rect x="44" y="360" width="4" height="42" rx="2" fill="#7b5aad"/>
+    <text x="60" y="374" font-size="13" font-weight="600">4. Policy gate on trusted context</text>
+    <text x="60" y="392" font-size="11" fill="#52606b">role, order state, currency, remaining amount, agent limit</text>
+    <text x="60" y="407" font-size="11" fill="#52606b">never from the request body</text>
+
+    <rect x="28" y="440" width="200" height="56" rx="10" fill="#eef1f4" stroke="#dce3e8"/>
+    <text x="128" y="463" font-size="12" font-weight="600" text-anchor="middle">Caller</text>
+    <text x="128" y="481" font-size="11" fill="#52606b" text-anchor="middle">authenticated session</text>
+    <rect x="248" y="440" width="200" height="56" rx="10" fill="#eef1f4" stroke="#dce3e8"/>
+    <text x="348" y="463" font-size="12" font-weight="600" text-anchor="middle">Order</text>
+    <text x="348" y="481" font-size="11" fill="#52606b" text-anchor="middle">our own store</text>
+    <path d="M128 438 V420 M348 438 V420" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+
+    <path d="M448 370 H508 M508 326 V416 M508 326 H520 M508 416 H520" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M514 321 L521 326 L514 331 M514 411 L521 416 L514 421" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="528" y="294" width="128" height="64" rx="10" fill="#ffffff" stroke="#168a87"/>
+    <text x="592" y="314" font-size="13" font-weight="600" text-anchor="middle">Allowed</text>
+    <text x="592" y="332" font-size="11" fill="#52606b" text-anchor="middle">amount checked</text>
+    <text x="592" y="347" font-size="11" fill="#52606b" text-anchor="middle">against state</text>
+    <rect x="528" y="388" width="128" height="56" rx="10" fill="#ffffff" stroke="#b5483c"/>
+    <text x="592" y="411" font-size="13" font-weight="600" text-anchor="middle">Denied</text>
+    <text x="592" y="429" font-size="11" fill="#52606b" text-anchor="middle">reason, audit</text>
+  </g>
+</svg>

@@ -1,0 +1,18 @@
+# Verification harness; the example uses only the standard library.
+# uv is modern tooling, not claimed available in February 2024.
+[project]
+name = "article-17-aliasing"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest==8.0.0", "mypy==1.8.0"]
+
+[tool.uv]
+package = false
+# Resolve dependencies uploaded before the editorial date.
+exclude-newer = "2024-02-08T00:00:00Z"
+
+[tool.pytest.ini_options]
+addopts = "-p no:cacheprovider"

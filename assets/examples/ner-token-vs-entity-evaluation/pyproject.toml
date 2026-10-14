@@ -1,0 +1,17 @@
+[project]
+name = "ner-token-vs-entity-evaluation"
+version = "0.1.0"
+description = "Strict IOB2 scorer: token accuracy, token micro F1 and exact entity F1 on synthetic data"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest==8.2.1"]
+
+[tool.uv]
+package = false
+# Resolve only distributions published before the article's editorial date.
+exclude-newer = "2024-05-23T00:00:00Z"
+
+[tool.pytest.ini_options]
+addopts = "-q"

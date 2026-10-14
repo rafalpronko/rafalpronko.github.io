@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" width="960" height="520" role="img" aria-labelledby="title desc">
+  <title id="title">Controlled retrieval pipeline: chunking, two first-stage channels, rank fusion, reranking (after RRF or directly after BM25) and evidence metrics</title>
+  <desc id="desc">The same eight synthetic documents are chunked either into single sentences or into three-sentence windows that overlap by one sentence. Each query goes to two first-stage channels: lexical BM25 and a hand-built synonym concept channel. Their candidate lists, each cut at depth five, are merged with Reciprocal Rank Fusion. A rule-based reranker may reorder only the five candidates of whichever first-stage list it is applied to, either the fused RRF list or a single BM25 list, so complete evidence inside the candidates is the ceiling for anything reranking can reach. The top three chunks are scored against sentence-level evidence labels that are stored separately and never seen by the retrieval code.</desc>
+  <style>
+    .box { fill: #ffffff; stroke: #1f2937; stroke-width: 2; }
+    .accent { fill: #eef6ff; stroke: #1d4ed8; stroke-width: 2; }
+    .label { fill: #fff7ed; stroke: #c2410c; stroke-width: 2; stroke-dasharray: 6 4; }
+    .t { font-family: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #111827; font-size: 15px; }
+    .small { font-size: 12.5px; fill: #374151; }
+    .head { font-size: 17px; font-weight: 700; }
+    .arrow { stroke: #1f2937; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .bypass { stroke: #4b5563; stroke-width: 1.5; fill: none; stroke-dasharray: 3 3; marker-end: url(#arrowhead); }
+    .note { font-size: 12.5px; fill: #4b5563; font-style: italic; }
+    .dash { stroke: #c2410c; stroke-width: 2; fill: none; stroke-dasharray: 6 4; marker-end: url(#arrowhead-orange); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#1f2937"/>
+    </marker>
+    <marker id="arrowhead-orange" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#c2410c"/>
+    </marker>
+  </defs>
+  <rect width="960" height="520" fill="#f9fafb"/>
+
+  <text class="t head" x="30" y="38">One corpus, one query set, one change at a time</text>
+
+  <rect class="box" x="30" y="70" width="190" height="150" rx="8"/>
+  <text class="t head" x="45" y="98">Chunking</text>
+  <text class="t small" x="45" y="125">A: 1 sentence per chunk</text>
+  <text class="t small" x="45" y="145">   (30 chunks)</text>
+  <text class="t small" x="45" y="172">B: 3-sentence window,</text>
+  <text class="t small" x="45" y="192">   stride 2 (13 chunks)</text>
+
+  <rect class="accent" x="270" y="70" width="200" height="66" rx="8"/>
+  <text class="t head" x="285" y="97">BM25 (lexical)</text>
+  <text class="t small" x="285" y="120">exact terms and identifiers</text>
+
+  <rect class="accent" x="270" y="154" width="200" height="66" rx="8"/>
+  <text class="t head" x="285" y="181">Concept channel</text>
+  <text class="t small" x="285" y="204">hand-built synonym table</text>
+
+  <rect class="box" x="520" y="104" width="160" height="82" rx="8"/>
+  <text class="t head" x="535" y="132">RRF</text>
+  <text class="t small" x="535" y="155">sum of 1/(60 + rank)</text>
+  <text class="t small" x="535" y="174">depth = 5 candidates</text>
+
+  <rect class="box" x="730" y="104" width="200" height="82" rx="8"/>
+  <text class="t head" x="745" y="132">Rule reranker</text>
+  <text class="t small" x="745" y="155">reorders the 5 candidates</text>
+  <text class="t small" x="745" y="174">final k = 3 chunks</text>
+
+  <path class="arrow" d="M220,120 L266,103"/>
+  <path class="arrow" d="M220,170 L266,187"/>
+  <path class="arrow" d="M470,103 L516,132"/>
+  <path class="arrow" d="M470,187 L516,158"/>
+  <path class="arrow" d="M680,145 L726,145"/>
+  <path class="bypass" d="M470,82 L830,82 L830,100"/>
+  <text class="t note" x="490" y="74">also tested: BM25 list straight to the reranker (BM25 + rerank)</text>
+
+  <rect class="box" x="520" y="250" width="410" height="120" rx="8"/>
+  <text class="t head" x="535" y="278">Ceiling</text>
+  <text class="t small" x="535" y="302">A reranker sees only first-stage candidates.</text>
+  <text class="t small" x="535" y="322">If complete evidence is not among the 5,</text>
+  <text class="t small" x="535" y="342">no reordering can put it in the top 3.</text>
+  <path class="arrow" d="M600,186 L600,246"/>
+
+  <rect class="label" x="30" y="250" width="440" height="120" rx="8"/>
+  <text class="t head" x="45" y="278">Evidence labels (kept separate)</text>
+  <text class="t small" x="45" y="302">(document, sentence) pairs, identical for both chunkings.</text>
+  <text class="t small" x="45" y="322">Read only by the metrics, never by retrieval code.</text>
+  <text class="t small" x="45" y="342">Overlapping chunks carrying the same sentence count once.</text>
+
+  <rect class="box" x="30" y="400" width="900" height="96" rx="8"/>
+  <text class="t head" x="45" y="428">Measured per query</text>
+  <text class="t small" x="45" y="452">evidence recall@3 · full support@3 · MRR of complete evidence · single chunk self-contained</text>
+  <text class="t small" x="45" y="474">parent document hit (weaker than evidence) · ceiling at depth 5 · sentences handed over (cost)</text>
+  <path class="dash" d="M250,370 L250,396"/>
+  <path class="arrow" d="M725,370 L725,396"/>
+</svg>

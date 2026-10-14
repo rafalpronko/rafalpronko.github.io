@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="400" viewBox="0 0 680 400" role="img" aria-labelledby="causal-title causal-desc">
+  <title id="causal-title">Square causal attention mask for four tokens</title>
+  <desc id="causal-desc">A four by four grid of attention scores. Rows are query positions i and columns are key positions j, both labelled with the tokens bos, the, cat and sat. Cells on and below the diagonal are allowed and marked with a check: each position may read earlier tokens and itself, so the diagonal is allowed. Cells above the diagonal are future keys and are set to minus infinity before the softmax. The softmax runs across each row, over the keys. Position i is trained to predict token i plus one.</desc>
+  <rect width="680" height="400" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <text x="40" y="42" font-size="16" font-weight="600">Square causal mask, T = 4</text>
+
+    <text x="254" y="76" text-anchor="middle" font-size="12" fill="#52606b">keys (columns, j)</text>
+    <text x="176" y="100" text-anchor="middle" font-size="11">&lt;bos&gt;</text>
+    <text x="228" y="100" text-anchor="middle" font-size="11">the</text>
+    <text x="280" y="100" text-anchor="middle" font-size="11">cat</text>
+    <text x="332" y="100" text-anchor="middle" font-size="11">sat</text>
+
+    <text x="70" y="214" text-anchor="middle" font-size="12" fill="#52606b" transform="rotate(-90 70 214)">queries (rows, i)</text>
+    <text x="140" y="140" text-anchor="end" font-size="11">&lt;bos&gt;</text>
+    <text x="140" y="192" text-anchor="end" font-size="11">the</text>
+    <text x="140" y="244" text-anchor="end" font-size="11">cat</text>
+    <text x="140" y="296" text-anchor="end" font-size="11">sat</text>
+
+    <g stroke="#ffffff" stroke-width="2">
+      <!-- row 0 -->
+      <rect x="150" y="110" width="52" height="52" fill="#0f6f6c"/>
+      <rect x="202" y="110" width="52" height="52" fill="#e3e8ec"/>
+      <rect x="254" y="110" width="52" height="52" fill="#e3e8ec"/>
+      <rect x="306" y="110" width="52" height="52" fill="#e3e8ec"/>
+      <!-- row 1 -->
+      <rect x="150" y="162" width="52" height="52" fill="#cdeae8"/>
+      <rect x="202" y="162" width="52" height="52" fill="#0f6f6c"/>
+      <rect x="254" y="162" width="52" height="52" fill="#e3e8ec"/>
+      <rect x="306" y="162" width="52" height="52" fill="#e3e8ec"/>
+      <!-- row 2 -->
+      <rect x="150" y="214" width="52" height="52" fill="#cdeae8"/>
+      <rect x="202" y="214" width="52" height="52" fill="#cdeae8"/>
+      <rect x="254" y="214" width="52" height="52" fill="#0f6f6c"/>
+      <rect x="306" y="214" width="52" height="52" fill="#e3e8ec"/>
+      <!-- row 3 -->
+      <rect x="150" y="266" width="52" height="52" fill="#cdeae8"/>
+      <rect x="202" y="266" width="52" height="52" fill="#cdeae8"/>
+      <rect x="254" y="266" width="52" height="52" fill="#cdeae8"/>
+      <rect x="306" y="266" width="52" height="52" fill="#0f6f6c"/>
+    </g>
+
+    <g text-anchor="middle" font-size="14">
+      <text x="176" y="141" fill="#ffffff">✓</text>
+      <text x="228" y="141" fill="#52606b">−∞</text>
+      <text x="280" y="141" fill="#52606b">−∞</text>
+      <text x="332" y="141" fill="#52606b">−∞</text>
+      <text x="176" y="193" fill="#0f5f5d">✓</text>
+      <text x="228" y="193" fill="#ffffff">✓</text>
+      <text x="280" y="193" fill="#52606b">−∞</text>
+      <text x="332" y="193" fill="#52606b">−∞</text>
+      <text x="176" y="245" fill="#0f5f5d">✓</text>
+      <text x="228" y="245" fill="#0f5f5d">✓</text>
+      <text x="280" y="245" fill="#ffffff">✓</text>
+      <text x="332" y="245" fill="#52606b">−∞</text>
+      <text x="176" y="297" fill="#0f5f5d">✓</text>
+      <text x="228" y="297" fill="#0f5f5d">✓</text>
+      <text x="280" y="297" fill="#0f5f5d">✓</text>
+      <text x="332" y="297" fill="#ffffff">✓</text>
+    </g>
+
+    <path d="M150 338 H350" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M344 333 L351 338 L344 343" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="254" y="360" text-anchor="middle" font-size="12" fill="#52606b">softmax across each row (over keys)</text>
+
+    <rect x="400" y="110" width="250" height="184" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="420" y="132" width="20" height="20" fill="#cdeae8"/>
+    <text x="450" y="141" font-size="12" font-weight="600">j &lt; i: past key</text>
+    <text x="450" y="158" font-size="11" fill="#52606b">allowed</text>
+    <rect x="420" y="190" width="20" height="20" fill="#0f6f6c"/>
+    <text x="450" y="199" font-size="12" font-weight="600">j = i: the token itself</text>
+    <text x="450" y="216" font-size="11" fill="#52606b">allowed (diagonal)</text>
+    <rect x="420" y="248" width="20" height="20" fill="#e3e8ec"/>
+    <text x="450" y="257" font-size="12" font-weight="600">j &gt; i: future key</text>
+    <text x="450" y="274" font-size="11" fill="#52606b">score set to −∞ before softmax</text>
+
+    <text x="340" y="388" text-anchor="middle" font-size="12" fill="#52606b">Row i reads tokens 0..i; its training target is token i + 1.</text>
+  </g>
+</svg>

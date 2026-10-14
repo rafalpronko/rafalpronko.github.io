@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" role="img" aria-labelledby="t d">
+  <title id="t">Host-side model routing: proposal, guards, staging, full-request check, commit or rollback</title>
+  <desc id="d">A classifier proposal containing only a route alias and a confidence enters the host. The host checks policy, the turn marker, confidence and the alternatives container; a failure there ends routing immediately and keeps the current route. Each candidate is then looked up in the allowlist and checked for tools, attachments and history replay; a rejected candidate is recorded and the next alternative is tried. A candidate that is already the live route is kept at once, without a size check and without trying further alternatives. Any other passing candidate is staged as a copy of the runtime, and the full destination request, including the destination system prompt, history, tool schemas and output budget, is checked against the destination window. If it fits, a single assignment commits the new route in memory. Persistence runs afterwards as a separate best-effort step that is not atomic with the commit: persisted true means the store acknowledged the write, false means no acknowledgement, and the write may still have happened, so retries must be idempotent. An interruption during persistence propagates without a decision while the new route stays live. If an exception occurs before the commit, the staged copy is discarded and the old route stays live.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="960" height="560" fill="#f8fafc"/>
+  <g font-family="system-ui, -apple-system, Segoe UI, sans-serif" fill="#0f172a">
+    <text x="480" y="38" font-size="22" font-weight="700" text-anchor="middle">The classifier proposes. The host decides.</text>
+
+    <rect x="24" y="80" width="170" height="120" rx="10" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+    <text x="109" y="108" font-size="16" font-weight="700" text-anchor="middle">1. Proposal</text>
+    <text x="109" y="134" font-size="13" text-anchor="middle">alias: "fast-text"</text>
+    <text x="109" y="154" font-size="13" text-anchor="middle">confidence: 0.91</text>
+    <text x="109" y="180" font-size="12" text-anchor="middle" fill="#475569">no model ids, no URLs</text>
+
+    <rect x="232" y="70" width="200" height="140" rx="10" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+    <text x="332" y="98" font-size="16" font-weight="700" text-anchor="middle">2. Host guards</text>
+    <text x="332" y="122" font-size="13" text-anchor="middle">enabled? manual pin?</text>
+    <text x="332" y="142" font-size="13" text-anchor="middle">turn not already switched</text>
+    <text x="332" y="162" font-size="13" text-anchor="middle">confidence finite, in [0,1]</text>
+    <text x="332" y="182" font-size="13" text-anchor="middle">allowlist lookup</text>
+    <text x="332" y="202" font-size="13" text-anchor="middle">tools · attachments · replay</text>
+
+    <rect x="470" y="80" width="180" height="120" rx="10" fill="#e2e8f0" stroke="#334155" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="560" y="108" font-size="16" font-weight="700" text-anchor="middle">3. Stage</text>
+    <text x="560" y="134" font-size="13" text-anchor="middle">copy of runtime</text>
+    <text x="560" y="154" font-size="13" text-anchor="middle">live state untouched</text>
+
+    <rect x="688" y="70" width="248" height="140" rx="10" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+    <text x="812" y="98" font-size="16" font-weight="700" text-anchor="middle">4. Full request check</text>
+    <text x="812" y="122" font-size="13" text-anchor="middle">destination system prompt</text>
+    <text x="812" y="142" font-size="13" text-anchor="middle">+ history + user message</text>
+    <text x="812" y="162" font-size="13" text-anchor="middle">+ tool schemas + output budget</text>
+    <text x="812" y="186" font-size="13" text-anchor="middle" font-weight="700">≤ destination window?</text>
+
+    <line x1="194" y1="140" x2="228" y2="140" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+    <line x1="432" y1="140" x2="466" y2="140" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+    <line x1="650" y1="140" x2="684" y2="140" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+
+    <line x1="812" y1="210" x2="812" y2="268" stroke="#15803d" stroke-width="2" marker-end="url(#a)"/>
+    <text x="824" y="246" font-size="13" fill="#15803d" font-weight="700">fits</text>
+    <rect x="688" y="272" width="248" height="96" rx="10" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>
+    <text x="812" y="302" font-size="16" font-weight="700" text-anchor="middle">5. Commit (RAM)</text>
+    <text x="812" y="326" font-size="13" text-anchor="middle">one assignment:</text>
+    <text x="812" y="346" font-size="13" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">runtime = staged</text>
+
+    <line x1="812" y1="368" x2="812" y2="396" stroke="#334155" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#a)"/>
+    <rect x="688" y="400" width="248" height="140" rx="10" fill="#ffffff" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="812" y="424" font-size="16" font-weight="700" text-anchor="middle">6. Persist (separate)</text>
+    <text x="812" y="446" font-size="13" text-anchor="middle">best-effort, NOT atomic</text>
+    <text x="812" y="464" font-size="12" text-anchor="middle">new route stays live in RAM</text>
+    <text x="812" y="482" font-size="12" text-anchor="middle">persisted=True: store acknowledged</text>
+    <text x="812" y="498" font-size="12" text-anchor="middle">False: no ack; a write may exist,</text>
+    <text x="812" y="514" font-size="12" text-anchor="middle">so retries must be idempotent</text>
+    <text x="812" y="530" font-size="12" text-anchor="middle" fill="#475569">interrupt: re-raised, no Decision</text>
+
+    <rect x="232" y="290" width="420" height="222" rx="10" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+    <text x="442" y="316" font-size="16" font-weight="700" text-anchor="middle">Keep current route / rollback</text>
+    <text x="442" y="340" font-size="13" text-anchor="middle" font-weight="700">Terminal, no alternative tried:</text>
+    <text x="442" y="358" font-size="13" text-anchor="middle">disabled · manual pin · turn already switched</text>
+    <text x="442" y="376" font-size="13" text-anchor="middle">bad or low confidence · alternatives not a tuple</text>
+    <text x="442" y="394" font-size="13" text-anchor="middle">candidate is the live route → kept, no size check</text>
+    <text x="442" y="418" font-size="13" text-anchor="middle" font-weight="700">Candidate rejected → reason recorded, next tried:</text>
+    <text x="442" y="436" font-size="13" text-anchor="middle">not allowlisted · capability · request too large</text>
+    <text x="442" y="454" font-size="13" text-anchor="middle">(too large: no compaction to fit a cheaper route)</text>
+    <text x="442" y="478" font-size="13" text-anchor="middle">BaseException before commit → staged copy discarded,</text>
+    <text x="442" y="496" font-size="13" text-anchor="middle">old route still live, exception re-raised</text>
+
+    <path d="M332 210 L332 286" stroke="#b91c1c" stroke-width="2" marker-end="url(#a)"/>
+    <path d="M560 200 L560 286" stroke="#b91c1c" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#a)"/>
+    <path d="M740 210 L740 240 L640 240 L640 286" stroke="#b91c1c" stroke-width="2" fill="none" marker-end="url(#a)"/>
+    <text x="664" y="262" font-size="13" fill="#b91c1c" font-weight="700">too large</text>
+    <text x="24" y="554" font-size="12" fill="#475569">Synthetic illustration. Route aliases are fictional host-local names; token numbers in the example are configured, not measured.</text>
+  </g>
+</svg>

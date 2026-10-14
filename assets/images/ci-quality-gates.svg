@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="500" viewBox="0 0 680 500" role="img" aria-labelledby="gate-title gate-desc">
+  <title id="gate-title">A release gate between a successful build and deployment</title>
+  <desc id="gate-desc">A successful build produces one immutable artifact identified by its SHA-256 digest. An evaluation report is bound to that digest, to a versioned evaluation corpus and to a policy version. The release gate checks quality floors and baseline regression on every slice and treats missing or malformed evidence as a failure. A non-zero gate exit means the deploy job does not run. A zero exit allows the same artifact digest, without a rebuild, to go to a staged rollout with a rollback path.</desc>
+  <rect width="680" height="500" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="100" y="24" width="480" height="70" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="38" width="4" height="42" rx="2" fill="#168a87"/>
+    <text x="146" y="54" font-size="14" font-weight="600">Build succeeded</text>
+    <text x="146" y="76" font-size="12" fill="#52606b">Packaging and execution work. Nothing about quality yet.</text>
+
+    <path d="M340 96 V108" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 107 L340 113 L345 107" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="100" y="116" width="480" height="70" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="130" width="4" height="42" rx="2" fill="#7b5aad"/>
+    <text x="146" y="146" font-size="14" font-weight="600">One immutable candidate artifact</text>
+    <text x="146" y="168" font-size="12" fill="#52606b">Identified by sha256 digest; built once, never rebuilt for deploy</text>
+
+    <path d="M340 188 V200" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 199 L340 205 L345 199" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="100" y="208" width="480" height="70" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="222" width="4" height="42" rx="2" fill="#168a87"/>
+    <text x="146" y="238" font-size="14" font-weight="600">Evaluation report</text>
+    <text x="146" y="260" font-size="12" fill="#52606b">Bound to: artifact digest + corpus id/version + policy version</text>
+
+    <path d="M340 280 V292" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335 291 L340 297 L345 291" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="100" y="300" width="480" height="78" rx="12" fill="#ffffff" stroke="#b25e09" stroke-width="2"/>
+    <rect x="122" y="314" width="4" height="50" rx="2" fill="#b25e09"/>
+    <text x="146" y="330" font-size="14" font-weight="600">Release gate (fail closed)</text>
+    <text x="146" y="350" font-size="12" fill="#52606b">Aggregate and critical-slice floors, regression on every slice</text>
+    <text x="146" y="368" font-size="12" fill="#52606b">Missing, non-finite or mistyped evidence counts as failure</text>
+
+    <path d="M250 380 L190 404" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M196 398 L188 405 L199 406" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M430 380 L490 404" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M481 406 L492 405 L484 398" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="410" width="290" height="66" rx="12" fill="#ffffff" stroke="#b42318" stroke-width="2"/>
+    <text x="60" y="436" font-size="14" font-weight="600" fill="#b42318">Exit code ≠ 0: blocked</text>
+    <text x="60" y="458" font-size="12" fill="#52606b">Deploy job never starts</text>
+
+    <rect x="350" y="410" width="290" height="66" rx="12" fill="#ffffff" stroke="#1f7a3a" stroke-width="2"/>
+    <text x="370" y="436" font-size="14" font-weight="600" fill="#1f7a3a">Exit code 0: eligible</text>
+    <text x="370" y="458" font-size="12" fill="#52606b">Same digest; staged rollout, rollback</text>
+  </g>
+</svg>

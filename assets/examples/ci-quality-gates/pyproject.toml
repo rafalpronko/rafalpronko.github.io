@@ -1,0 +1,6 @@
+[project]
+name = "ci-quality-gates-example"
+version = "0.1.0"
+description = "Toy release gate for an evaluated ML artifact (synthetic fixtures)"
+requires-python = ">=3.12"
+dependencies = []

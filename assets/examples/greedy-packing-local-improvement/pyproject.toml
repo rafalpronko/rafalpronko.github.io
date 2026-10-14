@@ -1,0 +1,17 @@
+[project]
+name = "greedy-packing-local-improvement"
+version = "0.1.0"
+description = "First-fit decreasing versus a bounded local repair for 1-D bin packing"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest==8.3.3"]
+
+[tool.uv]
+package = false
+exclude-newer = "2024-09-26T00:00:00Z"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

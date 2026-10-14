@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="600" viewBox="0 0 680 600" role="img" aria-labelledby="repro-title repro-desc">
+  <title id="repro-title">Reproducible MLflow pipeline with a pytest regression gate</title>
+  <desc id="repro-desc">Three committed inputs, the CSV data with its split fingerprint, the source code and uv.lock, feed one training run. The run fits StandardScaler and Ridge on training rows only and logs parameters, metrics, hashes, artifacts and the model to MLflow. The logged model is reloaded and must give exactly the same predictions. The run and the approved fixture, approved_baseline.json with the approved predictions, metrics and tolerances, both feed two separate checks: reproducibility, where the same configuration must match the approved predictions within 1e-9, and quality, where any candidate must keep test RMSE at or below 1.05 times the approved value and beat the train-mean predictor. MLflow records the evidence; the gate decides. The evaluation rows are a reused regression fixture, not an untouched holdout.</desc>
+  <rect width="680" height="600" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="30" y="28" width="200" height="72" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="48" y="44" width="4" height="40" rx="2" fill="#168a87"/>
+    <text x="66" y="60" font-size="14" font-weight="600">Committed CSV</text>
+    <text x="66" y="81" font-size="12" fill="#52606b">data + split SHA-256</text>
+
+    <rect x="240" y="28" width="200" height="72" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="258" y="44" width="4" height="40" rx="2" fill="#168a87"/>
+    <text x="276" y="60" font-size="14" font-weight="600">Source code</text>
+    <text x="276" y="81" font-size="12" fill="#52606b">repro_pipeline.py</text>
+
+    <rect x="450" y="28" width="200" height="72" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="468" y="44" width="4" height="40" rx="2" fill="#168a87"/>
+    <text x="486" y="60" font-size="14" font-weight="600">uv.lock</text>
+    <text x="486" y="81" font-size="12" fill="#52606b">pinned environment</text>
+
+    <g fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M130 102 V119"/><path d="M125 118 L130 124 L135 118"/>
+      <path d="M340 102 V119"/><path d="M335 118 L340 124 L345 118"/>
+      <path d="M550 102 V119"/><path d="M545 118 L550 124 L555 118"/>
+    </g>
+
+    <rect x="100" y="129" width="480" height="82" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="147" width="4" height="46" rx="2" fill="#7b5aad"/>
+    <text x="146" y="163" font-size="14" font-weight="600">Train and log one MLflow run</text>
+    <text x="146" y="186" font-size="12" fill="#52606b">Scaler + Ridge fit on training rows only; params, metrics,</text>
+    <text x="146" y="202" font-size="12" fill="#52606b">hashes, artifacts and model are recorded</text>
+
+    <g fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M340 213 V230"/><path d="M335 229 L340 235 L345 229"/>
+    </g>
+
+    <rect x="100" y="240" width="480" height="72" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="122" y="256" width="4" height="40" rx="2" fill="#7b5aad"/>
+    <text x="146" y="272" font-size="14" font-weight="600">Reload the logged model</text>
+    <text x="146" y="293" font-size="12" fill="#52606b">Predictions must equal the in-run predictions exactly</text>
+
+    <rect x="215" y="336" width="250" height="72" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="233" y="352" width="4" height="40" rx="2" fill="#168a87"/>
+    <text x="251" y="368" font-size="14" font-weight="600">approved_baseline.json</text>
+    <text x="251" y="389" font-size="12" fill="#52606b">predictions, metrics, tolerances</text>
+
+    <g fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M180 314 V435"/><path d="M175 434 L180 440 L185 434"/>
+      <path d="M500 314 V435"/><path d="M495 434 L500 440 L505 434"/>
+      <path d="M290 410 V422 H250 V435"/><path d="M245 434 L250 440 L255 434"/>
+      <path d="M390 410 V422 H430 V435"/><path d="M425 434 L430 440 L435 434"/>
+    </g>
+    <text x="172" y="380" text-anchor="end" font-size="11" fill="#52606b">run</text>
+    <text x="508" y="380" font-size="11" fill="#52606b">run</text>
+
+    <rect x="30" y="445" width="300" height="88" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="48" y="461" width="4" height="56" rx="2" fill="#b4541a"/>
+    <text x="66" y="477" font-size="14" font-weight="600">Reproducibility check</text>
+    <text x="66" y="498" font-size="12" fill="#52606b">Same data, split and config:</text>
+    <text x="66" y="514" font-size="12" fill="#52606b">|Δ prediction| ≤ 1e-9</text>
+
+    <rect x="350" y="445" width="300" height="88" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="368" y="461" width="4" height="56" rx="2" fill="#b4541a"/>
+    <text x="386" y="477" font-size="14" font-weight="600">Quality check</text>
+    <text x="386" y="498" font-size="12" fill="#52606b">Any candidate: RMSE ≤ 1.05 × approved</text>
+    <text x="386" y="514" font-size="12" fill="#52606b">and beats the train-mean predictor</text>
+
+    <text x="340" y="561" text-anchor="middle" font-size="12" fill="#52606b">MLflow records the evidence; the pytest gate decides.</text>
+    <text x="340" y="579" text-anchor="middle" font-size="12" fill="#52606b">Evaluation rows are a reused regression fixture, not an untouched holdout.</text>
+  </g>
+</svg>

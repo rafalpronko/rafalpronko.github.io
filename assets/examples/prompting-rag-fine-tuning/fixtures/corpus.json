@@ -1,0 +1,59 @@
+{
+  "_note": "Synthetic policy corpus for a fictional company (Kestrel Logistics). Written for this example; not a real policy.",
+  "passages": [
+    {
+      "id": "P-TRV-2",
+      "title": "Travel policy v2: hotels",
+      "status": "retired",
+      "text": "Travel policy version 2. The nightly hotel cap for domestic business trips is 150 EUR per night, including capital cities."
+    },
+    {
+      "id": "P-TRV-3",
+      "title": "Travel policy v3: hotels",
+      "status": "current",
+      "text": "Travel policy version 3. The nightly hotel cap for domestic business trips is 180 EUR per night. For trips to a capital city the nightly cap is 220 EUR."
+    },
+    {
+      "id": "P-HTL-DISC",
+      "title": "Partner hotel discounts",
+      "status": "current",
+      "text": "Partner hotels in most cities offer employees a discount when the stay is booked through the travel portal for a business trip."
+    },
+    {
+      "id": "P-MEAL-1",
+      "title": "Meals and per diem",
+      "status": "current",
+      "text": "The meal allowance is 45 EUR for each full travel day. Alcoholic drinks are never reimbursable, including at client meals."
+    },
+    {
+      "id": "P-ENT-1",
+      "title": "Client entertainment",
+      "status": "current",
+      "text": "Hosting a client lunch or dinner requires prior approval from a budget holder. The limit is 60 EUR per attendee."
+    },
+    {
+      "id": "P-EQP-1",
+      "title": "Home office equipment",
+      "status": "current",
+      "text": "Employees may buy home office equipment such as a monitor or chair up to 300 EUR every 36 months. Manager approval is required before the purchase."
+    },
+    {
+      "id": "P-TRN-1",
+      "title": "Training budget",
+      "status": "current",
+      "text": "The annual training budget is 1200 EUR and covers course and conference registration fees. Flights, trains and hotels for a conference are reimbursed under the travel policy and are not charged to the training budget."
+    },
+    {
+      "id": "P-RAIL-1",
+      "title": "Rail travel",
+      "status": "current",
+      "text": "First class rail tickets are allowed when the train journey is longer than 4 hours. Shorter journeys are booked in second class."
+    },
+    {
+      "id": "P-GIFT-1",
+      "title": "Gifts from suppliers",
+      "status": "current",
+      "text": "Gifts from a supplier worth up to 50 EUR may be accepted and must be recorded in the gifts register. Cash or vouchers are never accepted."
+    }
+  ]
+}

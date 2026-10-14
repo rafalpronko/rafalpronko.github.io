@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="470" viewBox="0 0 680 470" role="img" aria-labelledby="fa-title fa-desc">
+  <title id="fa-title">Freshness and approval gate before a conditional write</title>
+  <desc id="fa-desc">Four steps from top to bottom. One: observe the target and record state version 7 with the time it was received on the gate's own clock. Two: a human approves a command bound to the exact target, action, parameters, state version 7 and policy. Three: at dispatch the gate checks again: state age, approval expiry, revocation, single use and clock domain. Four: the target applies the write only if its version is still 7. On the right, a side note: meanwhile someone else changes the target to version 8, so the conditional write fails with precondition failed and nothing is applied.</desc>
+  <rect width="680" height="470" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="32" y="28" width="410" height="82" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="54" y="46" width="4" height="46" rx="2" fill="#168a87"/>
+    <text x="78" y="62" font-size="14" font-weight="600">1. Observe</text>
+    <text x="78" y="85" font-size="12" fill="#52606b">version 7, received at t on clock boot-A</text>
+
+    <path d="M237 112 V129" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M232 128 L237 134 L242 128" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="32" y="139" width="410" height="82" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="54" y="157" width="4" height="46" rx="2" fill="#7b5aad"/>
+    <text x="78" y="173" font-size="14" font-weight="600">2. Approve exactly this</text>
+    <text x="78" y="196" font-size="12" fill="#52606b">target + action + params + version 7 + policy</text>
+
+    <path d="M237 223 V240" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M232 239 L237 245 L242 239" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="32" y="250" width="410" height="82" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="54" y="268" width="4" height="46" rx="2" fill="#c27c0e"/>
+    <text x="78" y="284" font-size="14" font-weight="600">3. Check again at dispatch</text>
+    <text x="78" y="307" font-size="12" fill="#52606b">state age, expiry, revoked, used, clock domain</text>
+
+    <path d="M237 334 V351" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M232 350 L237 356 L242 350" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="32" y="361" width="410" height="82" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="54" y="379" width="4" height="46" rx="2" fill="#2f6fb5"/>
+    <text x="78" y="395" font-size="14" font-weight="600">4. Conditional write on the target</text>
+    <text x="78" y="418" font-size="12" fill="#52606b">applied only if the version is still 7</text>
+
+    <rect x="470" y="250" width="180" height="82" rx="12" fill="#fff7ec" stroke="#e8c9a0" stroke-dasharray="5 4"/>
+    <text x="486" y="274" font-size="13" font-weight="600">Meanwhile</text>
+    <text x="486" y="295" font-size="12" fill="#52606b">someone else changes</text>
+    <text x="486" y="313" font-size="12" fill="#52606b">the target: version 8</text>
+
+    <path d="M560 334 V382 H452" fill="none" stroke="#c27c0e" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4"/>
+    <path d="M454 377 L447 382 L454 387" fill="none" stroke="#c27c0e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <text x="470" y="412" font-size="12" font-weight="600" fill="#a0321e">8 ≠ 7: precondition failed,</text>
+    <text x="470" y="430" font-size="12" font-weight="600" fill="#a0321e">nothing is applied</text>
+  </g>
+</svg>

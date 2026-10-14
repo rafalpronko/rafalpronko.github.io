@@ -19,6 +19,9 @@ layout: default
   </div>
   <div class="hud post-card">
     <div class="prose">
+{%- unless content contains "<h1" %}
+<h1>{{ page.title | escape }}</h1>
+{%- endunless %}
 {{ content }}
     </div>
   </div>

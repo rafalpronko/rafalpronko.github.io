@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">Joining two child tables multiplies rows; aggregating to the order grain first does not</title>
+  <desc id="svg-desc">Left and centre: order A has two order lines and three payments. Joining lines directly to payments on order_id produces two times three, six rows, so line totals are counted three times and payments twice. Right: each table is first aggregated to one row per order, then joined one to one, so order A appears once with 3000 cents of lines and 3000 cents paid.</desc>
+  <rect width="1200" height="630" fill="#0B1424"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" fill="#E6F1FF">
+    <text x="40" y="52" font-size="26" font-weight="700">Grain decides what a join returns</text>
+    <text x="40" y="82" font-size="16" fill="#9FB3C8">synthetic order A · amounts in integer cents</text>
+
+    <!-- Wrong path -->
+    <text x="40" y="128" font-size="17" fill="#FF9F8A" font-weight="700">✗ lines JOIN payments ON order_id</text>
+    <g font-size="15">
+      <rect x="40" y="146" width="250" height="118" rx="6" fill="#12213A" stroke="#38E1FF" stroke-width="2"/>
+      <text x="56" y="172" fill="#38E1FF">order_lines · 1 row/line</text>
+      <text x="56" y="204">A · line 1 · 1000</text>
+      <text x="56" y="234">A · line 2 · 2000</text>
+
+      <rect x="40" y="280" width="250" height="148" rx="6" fill="#12213A" stroke="#38E1FF" stroke-width="2"/>
+      <text x="56" y="306" fill="#38E1FF">payments · 1 row/payment</text>
+      <text x="56" y="338">A · P1 · 1000</text>
+      <text x="56" y="368">A · P2 · 1000</text>
+      <text x="56" y="398">A · P3 · 1000</text>
+    </g>
+    <path d="M300 280 L380 280" stroke="#9FB3C8" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="306" y="268" font-size="14" fill="#9FB3C8">2 × 3</text>
+    <g font-size="14">
+      <rect x="392" y="146" width="330" height="282" rx="6" fill="#2A1620" stroke="#FF9F8A" stroke-width="2"/>
+      <text x="408" y="172" fill="#FF9F8A">joined result · 6 rows for A</text>
+      <text x="408" y="204">line 1 · 1000 │ P1 · 1000</text>
+      <text x="408" y="230">line 1 · 1000 │ P2 · 1000</text>
+      <text x="408" y="256">line 1 · 1000 │ P3 · 1000</text>
+      <text x="408" y="282">line 2 · 2000 │ P1 · 1000</text>
+      <text x="408" y="308">line 2 · 2000 │ P2 · 1000</text>
+      <text x="408" y="334">line 2 · 2000 │ P3 · 1000</text>
+      <text x="408" y="372" fill="#FF9F8A">SUM(line)  = 9000, not 3000</text>
+      <text x="408" y="400" fill="#FF9F8A">SUM(paid)  = 6000, not 3000</text>
+    </g>
+
+    <!-- Right path -->
+    <text x="760" y="128" font-size="17" fill="#7CF0B4" font-weight="700">✓ aggregate to order grain, then 1:1</text>
+    <g font-size="15">
+      <rect x="760" y="146" width="400" height="58" rx="6" fill="#12213A" stroke="#38E1FF" stroke-width="2"/>
+      <text x="776" y="181">lines → GROUP BY order_id → A · 3000</text>
+      <rect x="760" y="220" width="400" height="58" rx="6" fill="#12213A" stroke="#38E1FF" stroke-width="2"/>
+      <text x="776" y="255">payments → GROUP BY order_id → A · 3000</text>
+      <path d="M960 286 L960 318" stroke="#9FB3C8" stroke-width="2" marker-end="url(#arrow)"/>
+      <rect x="760" y="330" width="400" height="98" rx="6" fill="#10291F" stroke="#7CF0B4" stroke-width="2"/>
+      <text x="776" y="358" fill="#7CF0B4">validate="one_to_one" · 1 row for A</text>
+      <text x="776" y="388">A · line 3000 · paid 3000 · open 0</text>
+      <text x="776" y="414" fill="#9FB3C8">coverage: both</text>
+    </g>
+
+    <!-- Footer: vocabulary -->
+    <line x1="40" y1="470" x2="1160" y2="470" stroke="#25405F" stroke-width="2"/>
+    <g font-size="15">
+      <text x="40" y="508"><tspan fill="#38E1FF">grain</tspan>: what one row means (a line, a payment, an order)</text>
+      <text x="40" y="540"><tspan fill="#38E1FF">join key</tspan>: the columns compared (order_id)</text>
+      <text x="40" y="572"><tspan fill="#38E1FF">cardinality</tspan>: how many rows per key on each side (2 and 3 here)</text>
+      <text x="40" y="604" fill="#9FB3C8">rows out per key = left rows × right rows</text>
+    </g>
+  </g>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#9FB3C8"/>
+    </marker>
+  </defs>
+</svg>

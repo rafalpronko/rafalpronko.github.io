@@ -1,0 +1,16 @@
+[project]
+name = "checkpoint-recovery-demo"
+version = "0.1.0"
+description = "Synthetic SQLite checkpoint and crash-recovery demo (single worker)."
+requires-python = ">=3.11,<3.12"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest==7.4.4"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

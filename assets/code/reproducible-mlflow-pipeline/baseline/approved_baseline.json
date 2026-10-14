@@ -1,0 +1,81 @@
+{
+  "status": "APPROVED",
+  "approval": {
+    "reviewed_on": "2026-10-12",
+    "reviewed_by": "article author executor (Claude Opus 5.5); not an independent review",
+    "checked": "test_rmse 0.451 vs train-mean predictor 2.166; train_rmse 0.568 close to the generating noise sd 0.5; two consecutive runs gave identical metrics; 43 test rows were not used for any choice of alpha or features"
+  },
+  "config": {
+    "alpha": 1.0,
+    "features": [
+      "x0",
+      "x1",
+      "x2",
+      "x3"
+    ]
+  },
+  "data_sha256": "c36980992b4b3cee7860c41ab3ff3a9735085f80a1468ac8e4f72e602d183de6",
+  "split_sha256": "4d11d21636a003393ab6472a1f9ce3c8c959fd04e12478acb67a5e425a5e0504",
+  "n_train": 197,
+  "n_test": 43,
+  "metrics": {
+    "train_rmse": 0.5684998397570937,
+    "test_rmse": 0.4509685768589758,
+    "test_mae": 0.3632111295696121,
+    "naive_test_rmse": 2.1660715355372946
+  },
+  "test_predictions": [
+    9.131652420161654,
+    3.818068713900444,
+    3.1720187007129765,
+    5.34927411930843,
+    7.894385409425505,
+    5.979490721184857,
+    8.671585673426852,
+    4.762152447954559,
+    1.590814107997967,
+    7.508110855384247,
+    2.9923790806808794,
+    4.916531059135695,
+    6.045359854261458,
+    8.779419471078468,
+    6.695221412077392,
+    9.276435202350442,
+    5.5773493340951275,
+    7.038528687825897,
+    7.938650381832111,
+    3.67566475299735,
+    6.831169124980739,
+    4.488632900102196,
+    2.1886673342386236,
+    2.069857602144144,
+    5.852487390973228,
+    3.493943204410322,
+    8.943671089117242,
+    9.534619739908596,
+    5.673624076392454,
+    5.871291385765103,
+    3.453007183801294,
+    5.820274268449486,
+    7.453766263610866,
+    7.282811911503572,
+    2.3399002301324785,
+    5.024417257970958,
+    4.328275147456413,
+    6.619602492867965,
+    4.675125254566103,
+    4.945247973347021,
+    3.4816192779057413,
+    8.172070336224847,
+    7.316286768047098
+  ],
+  "tolerances": {
+    "prediction_atol": 1e-09,
+    "max_test_rmse_ratio": 1.05
+  },
+  "tolerance_reasons": {
+    "prediction_atol": "Approved test predictions lie between about 1.5 and 10; one float64 ulp there is at most about 1.8e-15. Another BLAS, CPU or summation order may move the last few bits, so exact equality across machines is not promised. 1e-9 leaves about five orders of magnitude for that noise, while a real change such as alpha 1.0 -> 1.01 moves predictions by far more (checked by the tests).",
+    "max_test_rmse_ratio": "A deliberate model change may cost at most 5% test RMSE. This is a product decision, not a statistical test: with 43 test rows the gate only catches clear degradation, and the test split is evaluated once per proposed candidate."
+  },
+  "source_run_id": "e4f4913a929d4cd38ea22ed845c177fe"
+}

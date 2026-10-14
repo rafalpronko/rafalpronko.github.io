@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="1200" height="700" role="img" aria-labelledby="title desc">
+  <title id="title">LLM-as-judge with swapped answer order, three routes and a random human audit</title>
+  <desc id="desc">A case with a question, evidence and two candidate answers with stable IDs v1 and v2 is judged twice. Run 1 shows v1 as A and v2 as B; run 2 swaps them. Each verdict must be exactly A, B or tie, otherwise it is invalid, and each valid verdict is mapped back to a candidate ID. If both runs name the same candidate, or both say tie, the verdict is auto-accepted; an accepted verdict is not a release approval. If they name different candidates, or one says win and the other tie, it is a conflict sent to human review. Invalid outputs also go to human review. A seeded random sample of auto-accepted cases is audited by humans too, and reported as sampled cases out of accepted cases. Human labels feed calibration and drift control: labels collected blind to the judge, recorded disagreement, an untouched holdout, and versioned rubric, prompt and judge model.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#9FB3C8"/>
+    </marker>
+    <style>
+      .bg { fill: #0B1426; }
+      .panel { fill: #111D33; stroke: #38E1FF; stroke-width: 1.5; }
+      .agree { stroke: #4ADE80; }
+      .conflict { stroke: #FBBF24; }
+      .invalid { stroke: #F87171; }
+      .human { stroke: #C4B5FD; }
+      .h { font: 700 18px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill: #E6F1FF; }
+      .t { font: 400 14px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill: #C9D6E5; }
+      .m { font: 400 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #38E1FF; }
+      .s { font: 400 12px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill: #9FB3C8; }
+      .title { font: 700 26px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill: #E6F1FF; }
+      .sub { font: 400 15px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; fill: #9FB3C8; }
+      .line { fill: none; stroke: #9FB3C8; stroke-width: 2; }
+      .dash { stroke-dasharray: 6 5; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="700"/>
+  <text class="title" x="40" y="50">LLM-as-judge: two swapped runs, three routes</text>
+  <text class="sub" x="40" y="76">Normalize slot letters to stable candidate IDs before comparing. Humans see escalations and a random audit sample.</text>
+
+  <!-- Input -->
+  <g>
+    <rect class="panel" x="40" y="130" width="230" height="200" rx="10"/>
+    <text class="h" x="58" y="162">Case q01</text>
+    <text class="t" x="58" y="192">question + evidence</text>
+    <text class="t" x="58" y="216">candidates</text>
+    <text class="m" x="134" y="216">v1</text>
+    <text class="t" x="156" y="216">and</text>
+    <text class="m" x="186" y="216">v2</text>
+    <text class="s" x="58" y="256">stable IDs, never the</text>
+    <text class="s" x="58" y="274">slot letters A / B</text>
+  </g>
+
+  <!-- Runs -->
+  <g>
+    <rect class="panel" x="330" y="110" width="250" height="100" rx="10"/>
+    <text class="h" x="348" y="140">Run 1</text>
+    <text class="m" x="348" y="166">A = v1   B = v2</text>
+    <text class="t" x="348" y="192">judge returns A | B | tie</text>
+  </g>
+  <g>
+    <rect class="panel" x="330" y="240" width="250" height="100" rx="10"/>
+    <text class="h" x="348" y="270">Run 2 · order swapped</text>
+    <text class="m" x="348" y="296">A = v2   B = v1</text>
+    <text class="t" x="348" y="322">judge returns A | B | tie</text>
+  </g>
+
+  <!-- Normalize -->
+  <g>
+    <rect class="panel" x="640" y="130" width="250" height="200" rx="10"/>
+    <text class="h" x="658" y="162">Parse + normalize</text>
+    <text class="t" x="658" y="192">accept only</text>
+    <text class="m" x="738" y="192">A  B  tie</text>
+    <text class="t" x="658" y="216">anything else → invalid</text>
+    <text class="t" x="658" y="250">map slot to candidate ID:</text>
+    <text class="m" x="658" y="274">run 2 "A" → v2</text>
+    <text class="m" x="658" y="298">run 2 "B" → v1</text>
+  </g>
+
+  <!-- Routes -->
+  <g>
+    <rect class="panel conflict" x="950" y="95" width="210" height="80" rx="10"/>
+    <text class="h" x="968" y="125">Conflict</text>
+    <text class="t" x="968" y="151">v1 vs v2, or win vs tie</text>
+  </g>
+  <g>
+    <rect class="panel invalid" x="950" y="195" width="210" height="80" rx="10"/>
+    <text class="h" x="968" y="225">Invalid</text>
+    <text class="t" x="968" y="251">malformed or injected text</text>
+  </g>
+  <g>
+    <rect class="panel agree" x="950" y="295" width="210" height="80" rx="10"/>
+    <text class="h" x="968" y="325">Agree → auto-accept</text>
+    <text class="t" x="968" y="351">same ID twice, or tie twice</text>
+  </g>
+
+  <!-- Bottom row -->
+  <g>
+    <rect class="panel human" x="40" y="470" width="540" height="120" rx="10"/>
+    <text class="h" x="58" y="502">Calibration and drift control</text>
+    <text class="t" x="58" y="530">human labels collected blind to the judge · disagreement kept</text>
+    <text class="t" x="58" y="554">holdout never used for tuning · rubric, prompt, judge versioned</text>
+    <text class="s" x="58" y="576">re-run the calibration set whenever any of them changes</text>
+  </g>
+  <g>
+    <rect class="panel agree" x="640" y="470" width="250" height="120" rx="10"/>
+    <text class="h" x="658" y="502">Random audit</text>
+    <text class="t" x="658" y="530">seeded sample of</text>
+    <text class="t" x="658" y="554">auto-accepted cases</text>
+    <text class="s" x="658" y="576">report sampled / accepted</text>
+  </g>
+  <g>
+    <rect class="panel human" x="950" y="470" width="210" height="120" rx="10"/>
+    <text class="h" x="968" y="502">Human review</text>
+    <text class="t" x="968" y="530">escalations and</text>
+    <text class="t" x="968" y="554">audit sample</text>
+    <text class="s" x="968" y="576">no majority vote shortcut</text>
+  </g>
+
+  <!-- Arrows -->
+  <path class="line" d="M270 200 H300 V160 H322" marker-end="url(#arrow)"/>
+  <path class="line" d="M270 260 H300 V290 H322" marker-end="url(#arrow)"/>
+  <path class="line" d="M580 160 H610 V210 H632" marker-end="url(#arrow)"/>
+  <path class="line" d="M580 290 H610 V250 H632" marker-end="url(#arrow)"/>
+  <path class="line" d="M890 200 H920 V135 H942" marker-end="url(#arrow)"/>
+  <path class="line" d="M890 235 H942" marker-end="url(#arrow)"/>
+  <path class="line" d="M890 270 H920 V335 H942" marker-end="url(#arrow)"/>
+  <path class="line" d="M1160 135 H1182 V530 H1168" marker-end="url(#arrow)"/>
+  <path class="line" d="M1160 235 H1182"/>
+  <path class="line" d="M1000 375 V420 H765 V462" marker-end="url(#arrow)"/>
+  <path class="line" d="M890 530 H942" marker-end="url(#arrow)"/>
+  <path class="line" d="M1055 590 V640 H310 V598" marker-end="url(#arrow)"/>
+  <path class="line dash" d="M310 470 V420 H455 V348" marker-end="url(#arrow)"/>
+  <text class="s" x="466" y="404">new rubric / prompt version</text>
+  <text class="s" x="790" y="412">sample size fixed in advance</text>
+  <text class="s" x="560" y="660">labels and resolutions feed calibration</text>
+</svg>

@@ -1,0 +1,226 @@
+{
+  "steps=300 lrs=[0.01, 0.03, 0.1, 0.3] eval_every=10": [
+    {
+      "full": {
+        "val_mse": 0.4837,
+        "lr": 0.3,
+        "step": 290
+      },
+      "lora_r1": {
+        "val_mse": 2.1591,
+        "lr": 0.1,
+        "step": 110
+      },
+      "lora_r2": {
+        "val_mse": 0.3295,
+        "lr": 0.3,
+        "step": 300
+      },
+      "lora_r4": {
+        "val_mse": 0.3573,
+        "lr": 0.1,
+        "step": 290
+      }
+    },
+    {
+      "full": {
+        "val_mse": 0.5278,
+        "lr": 0.3,
+        "step": 300
+      },
+      "lora_r1": {
+        "val_mse": 2.2638,
+        "lr": 0.1,
+        "step": 300
+      },
+      "lora_r2": {
+        "val_mse": 0.3396,
+        "lr": 0.3,
+        "step": 300
+      },
+      "lora_r4": {
+        "val_mse": 0.3726,
+        "lr": 0.3,
+        "step": 110
+      }
+    },
+    {
+      "full": {
+        "val_mse": 0.4305,
+        "lr": 0.3,
+        "step": 300
+      },
+      "lora_r1": {
+        "val_mse": 2.4935,
+        "lr": 0.1,
+        "step": 90
+      },
+      "lora_r2": {
+        "val_mse": 0.3389,
+        "lr": 0.3,
+        "step": 300
+      },
+      "lora_r4": {
+        "val_mse": 0.3603,
+        "lr": 0.3,
+        "step": 170
+      }
+    },
+    {
+      "full": {
+        "val_mse": 0.6155,
+        "lr": 0.3,
+        "step": 110
+      },
+      "lora_r1": {
+        "val_mse": 2.3544,
+        "lr": 0.1,
+        "step": 40
+      },
+      "lora_r2": {
+        "val_mse": 0.3982,
+        "lr": 0.1,
+        "step": 240
+      },
+      "lora_r4": {
+        "val_mse": 0.4115,
+        "lr": 0.3,
+        "step": 150
+      }
+    },
+    {
+      "full": {
+        "val_mse": 0.5001,
+        "lr": 0.3,
+        "step": 300
+      },
+      "lora_r1": {
+        "val_mse": 2.5442,
+        "lr": 0.03,
+        "step": 240
+      },
+      "lora_r2": {
+        "val_mse": 0.3682,
+        "lr": 0.1,
+        "step": 300
+      },
+      "lora_r4": {
+        "val_mse": 0.38,
+        "lr": 0.3,
+        "step": 140
+      }
+    }
+  ],
+  "steps=3000 lrs=[0.01, 0.03, 0.1, 0.3, 0.6] eval_every=50": [
+    {
+      "full": {
+        "val_mse": 0.4837,
+        "lr": 0.03,
+        "step": 2950
+      },
+      "lora_r1": {
+        "val_mse": 2.1591,
+        "lr": 0.1,
+        "step": 100
+      },
+      "lora_r2": {
+        "val_mse": 0.3295,
+        "lr": 0.3,
+        "step": 2000
+      },
+      "lora_r4": {
+        "val_mse": 0.3573,
+        "lr": 0.01,
+        "step": 2900
+      }
+    },
+    {
+      "full": {
+        "val_mse": 0.5278,
+        "lr": 0.6,
+        "step": 150
+      },
+      "lora_r1": {
+        "val_mse": 2.2638,
+        "lr": 0.1,
+        "step": 600
+      },
+      "lora_r2": {
+        "val_mse": 0.3396,
+        "lr": 0.3,
+        "step": 900
+      },
+      "lora_r4": {
+        "val_mse": 0.3726,
+        "lr": 0.03,
+        "step": 1050
+      }
+    },
+    {
+      "full": {
+        "val_mse": 0.4296,
+        "lr": 0.1,
+        "step": 1150
+      },
+      "lora_r1": {
+        "val_mse": 2.4935,
+        "lr": 0.03,
+        "step": 300
+      },
+      "lora_r2": {
+        "val_mse": 0.3389,
+        "lr": 0.3,
+        "step": 2250
+      },
+      "lora_r4": {
+        "val_mse": 0.3602,
+        "lr": 0.03,
+        "step": 1650
+      }
+    },
+    {
+      "full": {
+        "val_mse": 0.6155,
+        "lr": 0.03,
+        "step": 1100
+      },
+      "lora_r1": {
+        "val_mse": 2.3546,
+        "lr": 0.01,
+        "step": 400
+      },
+      "lora_r2": {
+        "val_mse": 0.3982,
+        "lr": 0.01,
+        "step": 2400
+      },
+      "lora_r4": {
+        "val_mse": 0.4114,
+        "lr": 0.03,
+        "step": 1450
+      }
+    },
+    {
+      "full": {
+        "val_mse": 0.5,
+        "lr": 0.03,
+        "step": 2950
+      },
+      "lora_r1": {
+        "val_mse": 2.5442,
+        "lr": 0.03,
+        "step": 250
+      },
+      "lora_r2": {
+        "val_mse": 0.368,
+        "lr": 0.03,
+        "step": 1100
+      },
+      "lora_r4": {
+        "val_mse": 0.3798,
+        "lr": 0.03,
+        "step": 1350
+      }
+    }
+  ]
+}

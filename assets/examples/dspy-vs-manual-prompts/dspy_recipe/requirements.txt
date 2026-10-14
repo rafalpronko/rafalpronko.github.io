@@ -1,0 +1,4 @@
+# Historical primary pins for the unexecuted provider recipe.
+# This is not a tested or fully locked SDK integration environment.
+dspy-ai==2.4.9
+openai==1.30.5

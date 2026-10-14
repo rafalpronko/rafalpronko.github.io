@@ -1,0 +1,7 @@
+[project]
+name = "batching-serving-simulation"
+version = "0.1.0"
+description = "Deterministic virtual-time simulation of single-worker dynamic batching"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []

@@ -1,0 +1,5 @@
+{
+  "_note": "Hypothetical cost units per 1000 tokens, hand-designed for the fixture. Not any vendor's price list.",
+  "candidate_a": {"input_per_1k": 0.5, "output_per_1k": 1.5},
+  "candidate_b": {"input_per_1k": 0.1, "output_per_1k": 0.4}
+}

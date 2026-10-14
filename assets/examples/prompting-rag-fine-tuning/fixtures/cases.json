@@ -1,0 +1,141 @@
+{
+  "_note": "HAND-AUTHORED ILLUSTRATIVE FIXTURES. The observation strings were written by the author to demonstrate failure patterns. They are NOT outputs of any language model, were not produced by inference, and say nothing about the quality of prompting, RAG or fine-tuning.",
+  "holdout_groups": ["equipment", "training", "uncovered"],
+  "fewshot_exemplars": ["C02", "C11"],
+  "cases": [
+    {
+      "id": "C01",
+      "group": "hotel",
+      "question": "Can I book a hotel at 200 EUR per night for a business trip to a capital city?",
+      "expected": {"decision": "allowed", "limit_eur": 220},
+      "gold_ids": ["P-TRV-3"],
+      "observations": {
+        "closed_book": "{\"decision\": \"not_allowed\", \"limit_eur\": 150, \"citations\": []}",
+        "retrieved": "{\"decision\": \"not_allowed\", \"limit_eur\": 150, \"citations\": [\"P-TRV-2\"]}",
+        "oracle": "{\"decision\": \"allowed\", \"limit_eur\": 220, \"citations\": [\"P-TRV-3\"]}"
+      }
+    },
+    {
+      "id": "C02",
+      "group": "hotel",
+      "question": "Can I book a hotel at 170 EUR per night in a domestic city that is not a capital?",
+      "expected": {"decision": "allowed", "limit_eur": 180},
+      "gold_ids": ["P-TRV-3"],
+      "observations": {
+        "closed_book": "{\"decision\": \"not_allowed\", \"limit_eur\": 150, \"citations\": []}",
+        "retrieved": "{\"decision\": \"allowed\", \"limit_eur\": 180, \"citations\": [\"P-TRV-3\"]}",
+        "oracle": "{\"decision\": \"allowed\", \"limit_eur\": 180, \"citations\": [\"P-TRV-3\"]}"
+      }
+    },
+    {
+      "id": "C03",
+      "group": "meals",
+      "question": "Can I expense the wine I ordered at dinner with a customer?",
+      "expected": {"decision": "not_allowed", "limit_eur": null},
+      "gold_ids": ["P-MEAL-1"],
+      "observations": {
+        "closed_book": "{\"decision\": \"allowed\", \"limit_eur\": null, \"citations\": []}",
+        "retrieved": "{\"decision\": \"needs_approval\", \"limit_eur\": 60, \"citations\": [\"P-ENT-1\"]}",
+        "oracle": "{\"decision\": \"not_allowed\", \"limit_eur\": null, \"citations\": [\"P-MEAL-1\"]}"
+      }
+    },
+    {
+      "id": "C04",
+      "group": "meals",
+      "question": "Can I claim 40 EUR for meals on a full travel day?",
+      "expected": {"decision": "allowed", "limit_eur": 45},
+      "gold_ids": ["P-MEAL-1"],
+      "observations": {
+        "closed_book": "{\"decision\": \"allowed\", \"limit_eur\": 50, \"citations\": []}",
+        "retrieved": "{\"decision\": \"allowed\", \"limit_eur\": 45, \"citations\": [\"P-MEAL-1\"]}",
+        "oracle": "{\"decision\": \"allowed\", \"limit_eur\": 45, \"citations\": [\"P-MEAL-1\"]}"
+      }
+    },
+    {
+      "id": "C05",
+      "group": "equipment",
+      "question": "Can I buy a 250 EUR monitor for my home office and claim it afterwards?",
+      "expected": {"decision": "needs_approval", "limit_eur": 300},
+      "gold_ids": ["P-EQP-1"],
+      "observations": {
+        "closed_book": "{\"decision\": \"allowed\", \"limit_eur\": null, \"citations\": []}",
+        "retrieved": "{\"decision\": \"allowed\", \"limit_eur\": 300, \"citations\": [\"P-EQP-1\"]}",
+        "oracle": "{\"decision\": \"allowed\", \"limit_eur\": 300, \"citations\": [\"P-EQP-1\"]}",
+        "oracle_fewshot": "{\"decision\": \"needs_approval\", \"limit_eur\": 300, \"citations\": [\"P-EQP-1\"]}"
+      }
+    },
+    {
+      "id": "C06",
+      "group": "equipment",
+      "question": "I want a 280 EUR chair for working from home. Do I need sign-off first?",
+      "expected": {"decision": "needs_approval", "limit_eur": 300},
+      "gold_ids": ["P-EQP-1"],
+      "observations": {
+        "closed_book": "{\"decision\": \"needs_approval\", \"limit_eur\": null, \"citations\": []}",
+        "retrieved": "{\"decision\": \"needs_approval\", \"limit_eur\": 300, \"citations\": [\"P-EQP-1\"]}",
+        "oracle": "{\"decision\": \"needs_approval\", \"limit_eur\": 300, \"citations\": [\"P-EQP-1\"]}"
+      }
+    },
+    {
+      "id": "C07",
+      "group": "training",
+      "question": "Can I charge the flights to a conference to my training budget?",
+      "expected": {"decision": "not_allowed", "limit_eur": null},
+      "gold_ids": ["P-TRN-1"],
+      "observations": {
+        "closed_book": "{\"decision\": \"allowed\", \"limit_eur\": 1000, \"citations\": []}",
+        "retrieved": "{\"decision\": \"allowed\", \"limit_eur\": 1200, \"citations\": [\"P-TRN-1\"]}",
+        "oracle": "{\"decision\": \"allowed\", \"limit_eur\": 1200, \"citations\": [\"P-TRN-1\"]}",
+        "oracle_fewshot": "{\"decision\": \"allowed\", \"limit_eur\": 1200, \"citations\": [\"P-TRN-1\"]}"
+      }
+    },
+    {
+      "id": "C08",
+      "group": "rail",
+      "question": "Can I book a first class ticket for a 5 hour train journey?",
+      "expected": {"decision": "allowed", "limit_eur": null},
+      "gold_ids": ["P-RAIL-1"],
+      "observations": {
+        "closed_book": "{\"decision\": \"allowed\", \"limit_eur\": null, \"citations\": []}",
+        "retrieved": "Yes. First class is allowed for journeys over 4 hours (P-RAIL-1).",
+        "oracle": "{\"decision\": \"allowed\", \"limit_eur\": null}"
+      }
+    },
+    {
+      "id": "C09",
+      "group": "gifts",
+      "question": "A supplier offered me a cash gift. May I accept it?",
+      "expected": {"decision": "not_allowed", "limit_eur": null},
+      "gold_ids": ["P-GIFT-1"],
+      "observations": {
+        "closed_book": "{\"decision\": \"not_allowed\", \"limit_eur\": null, \"citations\": []}",
+        "retrieved": "{\"decision\": \"not_allowed\", \"limit_eur\": null, \"citations\": [\"P-GIFT-1\"]}",
+        "oracle": "{\"decision\": \"not_allowed\", \"limit_eur\": null, \"citations\": [\"P-GIFT-1\"]}"
+      }
+    },
+    {
+      "id": "C10",
+      "group": "uncovered",
+      "question": "Will the company reimburse a pet sitter while I am on a business trip?",
+      "expected": {"decision": "insufficient_context", "limit_eur": null},
+      "gold_ids": [],
+      "observations": {
+        "closed_book": "{\"decision\": \"insufficient_context\", \"limit_eur\": null, \"citations\": []}",
+        "retrieved": "{\"decision\": \"allowed\", \"limit_eur\": 180, \"citations\": [\"P-TRV-3\"]}",
+        "oracle": "{\"decision\": \"insufficient_context\", \"limit_eur\": null, \"citations\": []}"
+      }
+    },
+    {
+      "id": "C11",
+      "group": "entertainment",
+      "question": "Can I take a client to lunch, and what is the limit per person?",
+      "expected": {"decision": "needs_approval", "limit_eur": 60},
+      "gold_ids": ["P-ENT-1"],
+      "observations": {
+        "closed_book": "{\"decision\": \"allowed\", \"limit_eur\": 50, \"citations\": []}",
+        "retrieved": "{\"decision\": \"needs_approval\", \"limit_eur\": 60, \"citations\": [\"P-ENT-1\"]}",
+        "oracle": "{\"decision\": \"needs_approval\", \"limit_eur\": 60, \"citations\": [\"P-ENT-1\"]}"
+      }
+    }
+  ]
+}

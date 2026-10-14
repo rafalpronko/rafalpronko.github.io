@@ -1,0 +1,16 @@
+{"case_id": "c01", "slice": "billing", "expected": "billing", "status": "ok", "output": "billing", "elapsed_ms": 610, "input_tokens": 312, "output_tokens": 21}
+{"case_id": "c02", "slice": "billing", "expected": "billing", "status": "ok", "output": "billing", "elapsed_ms": 640, "input_tokens": 298, "output_tokens": 20}
+{"case_id": "c03", "slice": "billing", "expected": "billing", "status": "ok", "output": "billing", "elapsed_ms": 590, "input_tokens": 341, "output_tokens": 19}
+{"case_id": "c04", "slice": "billing", "expected": "billing", "status": "timeout", "output": null, "elapsed_ms": 4000, "input_tokens": 305, "output_tokens": 160}
+{"case_id": "c05", "slice": "billing", "expected": "billing", "status": "ok", "output": "billing", "elapsed_ms": 700, "input_tokens": 327, "output_tokens": 22}
+{"case_id": "c06", "slice": "shipping", "expected": "shipping", "status": "ok", "output": "shipping", "elapsed_ms": 620, "input_tokens": 289, "output_tokens": 21}
+{"case_id": "c07", "slice": "shipping", "expected": "shipping", "status": "malformed", "output": "Queue: shipping", "elapsed_ms": 580, "input_tokens": 336, "output_tokens": 18}
+{"case_id": "c08", "slice": "shipping", "expected": "shipping", "status": "ok", "output": "shipping", "elapsed_ms": 660, "input_tokens": 318, "output_tokens": 21}
+{"case_id": "c09", "slice": "shipping", "expected": "shipping", "status": "ok", "output": "shipping", "elapsed_ms": 690, "input_tokens": 344, "output_tokens": 23}
+{"case_id": "c10", "slice": "shipping", "expected": "shipping", "status": "ok", "output": "billing", "elapsed_ms": 600, "input_tokens": 301, "output_tokens": 20}
+{"case_id": "c11", "slice": "account", "expected": "account", "status": "ok", "output": "account", "elapsed_ms": 650, "input_tokens": 296, "output_tokens": 21}
+{"case_id": "c12", "slice": "account", "expected": "account", "status": "timeout", "output": null, "elapsed_ms": 4000, "input_tokens": 322, "output_tokens": 155}
+{"case_id": "c13", "slice": "account", "expected": "account", "status": "ok", "output": "account", "elapsed_ms": 720, "input_tokens": 351, "output_tokens": 22}
+{"case_id": "c14", "slice": "out_of_scope", "expected": null, "status": "abstain", "output": null, "elapsed_ms": 540, "input_tokens": 284, "output_tokens": 17}
+{"case_id": "c15", "slice": "out_of_scope", "expected": null, "status": "ok", "output": "account", "elapsed_ms": 610, "input_tokens": 309, "output_tokens": 20}
+{"case_id": "c16", "slice": "out_of_scope", "expected": null, "status": "ok", "output": "billing", "elapsed_ms": 630, "input_tokens": 315, "output_tokens": 21}

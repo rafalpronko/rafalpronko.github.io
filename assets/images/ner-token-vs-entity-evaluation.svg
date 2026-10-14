@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="430" viewBox="0 0 680 430" role="img" aria-labelledby="ner-title ner-desc">
+  <title id="ner-title">Missed entity boundary versus exact span match</title>
+  <desc id="ner-desc">Top panel: the gold ORG entity Nordwave Data Labs covers tokens 4 to 7, half-open. The prediction stops after Data and covers tokens 4 to 6. At token level two of three ORG tokens are correct, but at entity level the prediction is one false positive and the gold entity is one false negative. Bottom panel: the gold and predicted LOC entity Gdańsk both cover tokens 8 to 9 in the same document, so it is one true positive.</desc>
+  <rect width="680" height="430" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <rect x="20" y="20" width="640" height="208" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="40" y="48" font-size="14" font-weight="600">Missed boundary: the prediction truncates ORG</text>
+
+    <g font-size="13" text-anchor="middle">
+      <rect x="40" y="62" width="105" height="30" rx="6" fill="#f6f7f9" stroke="#dce3e8"/>
+      <text x="92" y="82">Nordwave</text>
+      <rect x="155" y="62" width="105" height="30" rx="6" fill="#f6f7f9" stroke="#dce3e8"/>
+      <text x="207" y="82">Data</text>
+      <rect x="270" y="62" width="105" height="30" rx="6" fill="#f6f7f9" stroke="#dce3e8"/>
+      <text x="322" y="82">Labs</text>
+      <rect x="385" y="62" width="105" height="30" rx="6" fill="#f6f7f9" stroke="#dce3e8"/>
+      <text x="437" y="82">in</text>
+    </g>
+
+    <rect x="40" y="104" width="335" height="10" rx="5" fill="#168a87"/>
+    <text x="505" y="114" font-size="12">gold ORG [4, 7)</text>
+    <rect x="40" y="128" width="220" height="10" rx="5" fill="#7b5aad"/>
+    <text x="505" y="138" font-size="12">pred ORG [4, 6)</text>
+
+    <g font-size="11" text-anchor="middle" fill="#52606b">
+      <text x="92" y="166">B-ORG = B-ORG</text>
+      <text x="207" y="166">I-ORG = I-ORG</text>
+      <text x="322" y="166" fill="#b5483b" font-weight="600">I-ORG ≠ O</text>
+      <text x="437" y="166">O = O</text>
+    </g>
+
+    <text x="40" y="200" font-size="12">Token view: 2 of 3 ORG tokens correct</text>
+    <text x="640" y="200" font-size="12" text-anchor="end" fill="#b5483b" font-weight="600">Entity view: TP 0 · FP 1 · FN 1</text>
+
+    <rect x="20" y="242" width="640" height="150" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="40" y="270" font-size="14" font-weight="600">Exact span match: document, start, end and type agree</text>
+
+    <g font-size="13" text-anchor="middle">
+      <rect x="40" y="284" width="105" height="30" rx="6" fill="#f6f7f9" stroke="#dce3e8"/>
+      <text x="92" y="304">in</text>
+      <rect x="155" y="284" width="105" height="30" rx="6" fill="#f6f7f9" stroke="#dce3e8"/>
+      <text x="207" y="304">Gdańsk</text>
+      <rect x="270" y="284" width="105" height="30" rx="6" fill="#f6f7f9" stroke="#dce3e8"/>
+      <text x="322" y="304">.</text>
+    </g>
+
+    <rect x="155" y="324" width="105" height="10" rx="5" fill="#168a87"/>
+    <text x="505" y="334" font-size="12">gold LOC [8, 9)</text>
+    <rect x="155" y="346" width="105" height="10" rx="5" fill="#7b5aad"/>
+    <text x="505" y="356" font-size="12">pred LOC [8, 9)</text>
+
+    <text x="640" y="380" font-size="12" text-anchor="end" fill="#168a87" font-weight="600">Entity view: TP 1 · FP 0 · FN 0</text>
+
+    <text x="340" y="416" text-anchor="middle" font-size="12" fill="#52606b">Synthetic document 0, token offsets within the document, half-open [start, end).</text>
+  </g>
+</svg>

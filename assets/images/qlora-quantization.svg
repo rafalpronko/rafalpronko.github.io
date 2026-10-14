@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="460" viewBox="0 0 800 460" role="img" aria-labelledby="qlora-title qlora-desc">
+  <title id="qlora-title">One QLoRA linear layer: frozen 4-bit base, 16-bit computation, trainable adapters</title>
+  <desc id="qlora-desc">The input X in BF16 takes two paths. On the upper path the frozen base weight W is stored as 4-bit NF4 codes with quantization constants, is dequantized to BF16 only for the computation, and is multiplied with X. On the lower path X passes through two small trainable LoRA matrices, L1 of shape h by r and L2 of shape r by o, scaled by s. The two results are added to give the output Y. In the backward pass gradients update only L1 and L2; the gradient with respect to X still flows through the dequantized W to adapters in earlier layers, while W itself is never updated. Optimizer state exists only for the adapters and can be paged between GPU and CPU memory.</desc>
+  <defs>
+    <marker id="qlora-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#52606d"/>
+    </marker>
+  </defs>
+  <rect width="800" height="460" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <text x="400" y="38" text-anchor="middle" font-size="16" font-weight="600">QLoRA layer: 4-bit storage, 16-bit computation</text>
+
+    <!-- input -->
+    <rect x="24" y="172" width="100" height="70" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="74" y="203" text-anchor="middle" font-size="15" font-weight="600">X</text>
+    <text x="74" y="224" text-anchor="middle" font-size="12" fill="#52606b">BF16 input</text>
+
+    <!-- frozen path -->
+    <rect x="160" y="70" width="180" height="78" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="174" y="86" width="4" height="46" rx="2" fill="#7b5aad"/>
+    <text x="188" y="98" font-size="14" font-weight="600">Frozen base W</text>
+    <text x="188" y="117" font-size="12" fill="#52606b">NF4 codes + constants</text>
+    <text x="188" y="135" font-size="12" fill="#52606b">never updated</text>
+
+    <rect x="370" y="70" width="140" height="78" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="440" y="103" text-anchor="middle" font-size="14" font-weight="600">Dequantize</text>
+    <text x="440" y="124" text-anchor="middle" font-size="12" fill="#52606b">temporary BF16</text>
+
+    <rect x="540" y="70" width="110" height="78" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="595" y="103" text-anchor="middle" font-size="14" font-weight="600">X · W</text>
+    <text x="595" y="124" text-anchor="middle" font-size="12" fill="#52606b">BF16 matmul</text>
+
+    <!-- adapter path -->
+    <rect x="160" y="270" width="140" height="78" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="174" y="286" width="4" height="46" rx="2" fill="#168a87"/>
+    <text x="188" y="303" font-size="14" font-weight="600">L1: h × r</text>
+    <text x="188" y="324" font-size="12" fill="#52606b">trainable</text>
+
+    <rect x="330" y="270" width="140" height="78" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="344" y="286" width="4" height="46" rx="2" fill="#168a87"/>
+    <text x="358" y="303" font-size="14" font-weight="600">L2: r × o</text>
+    <text x="358" y="324" font-size="12" fill="#52606b">trainable</text>
+
+    <rect x="540" y="270" width="110" height="78" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="595" y="303" text-anchor="middle" font-size="14" font-weight="600">s · X·L1·L2</text>
+    <text x="595" y="324" text-anchor="middle" font-size="12" fill="#52606b">low-rank update</text>
+
+    <!-- sum and output -->
+    <circle cx="694" cy="207" r="18" fill="#ffffff" stroke="#52606d" stroke-width="2"/>
+    <text x="694" y="213" text-anchor="middle" font-size="18" font-weight="600">+</text>
+    <rect x="728" y="180" width="54" height="54" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="755" y="213" text-anchor="middle" font-size="15" font-weight="600">Y</text>
+
+    <!-- arrows -->
+    <g fill="none" stroke="#52606d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#qlora-arrow)">
+      <path d="M340 109 H364"/>
+      <path d="M510 109 H534"/>
+      <path d="M124 207 H595 V154"/>
+      <path d="M142 207 V309 H154"/>
+      <path d="M300 309 H324"/>
+      <path d="M470 309 H534"/>
+      <path d="M650 109 H694 V183"/>
+      <path d="M650 309 H694 V231"/>
+      <path d="M712 207 H722"/>
+    </g>
+
+    <!-- legend -->
+    <rect x="24" y="372" width="752" height="70" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="40" y="388" width="10" height="10" rx="2" fill="#7b5aad"/>
+    <text x="58" y="397" font-size="12" fill="#52606b">Frozen: stored in 4 bits, no weight gradient, no optimizer state.</text>
+    <rect x="40" y="410" width="10" height="10" rx="2" fill="#168a87"/>
+    <text x="58" y="419" font-size="12" fill="#52606b">Trainable: parameter gradients and optimizer state (pageable to CPU RAM) exist only here.</text>
+    <text x="58" y="436" font-size="12" fill="#52606b">Backward: the gradient for X still flows through the dequantized W to adapters in earlier layers.</text>
+  </g>
+</svg>

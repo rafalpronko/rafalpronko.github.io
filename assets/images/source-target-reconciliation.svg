@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="460" viewBox="0 0 680 460" role="img" aria-labelledby="recon-title recon-desc">
+  <title id="recon-title">Source-to-target reconciliation: equal totals, different rows</title>
+  <desc id="recon-desc">The reference holds six rows from one fixed snapshot and one event-time window from start inclusive to end exclusive, in UTC: t1, t2, t3 and t4 in retail and t5 and t6 in business. The target also holds six rows, but t4 is missing and t2 was loaded twice. Because t2 and t4 have the same amount, 4900 cents, the row count and the sum per segment are equal and the weak check passes. The row difference made with Counter finds t4 only in the reference and one extra t2 only in the target, and the key checks report key t4 missing and key t2 duplicated in the target, so the gate blocks publication and the last approved window stays visible.</desc>
+  <rect width="680" height="460" rx="16" fill="#f6f7f9"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#26323d">
+    <text x="340" y="38" text-anchor="middle" font-size="13" fill="#52606b">Same fixed snapshot · event time [start, end) in UTC · amounts in cents</text>
+
+    <rect x="40" y="56" width="280" height="176" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="60" y="74" width="4" height="140" rx="2" fill="#168a87"/>
+    <text x="80" y="88" font-size="14" font-weight="600">Reference (source)</text>
+    <g font-family="Menlo, Consolas, monospace" font-size="12" fill="#26323d">
+      <text x="80" y="114">t1</text><text x="110" y="114">retail</text><text x="280" y="114" text-anchor="end">4900</text>
+      <text x="80" y="134">t2</text><text x="110" y="134">retail</text><text x="280" y="134" text-anchor="end">4900</text>
+      <text x="80" y="154">t3</text><text x="110" y="154">retail</text><text x="280" y="154" text-anchor="end">12550</text>
+      <text x="80" y="174" font-weight="700" fill="#9c3d2e">t4</text><text x="110" y="174" font-weight="700" fill="#9c3d2e">retail</text><text x="280" y="174" text-anchor="end" font-weight="700" fill="#9c3d2e">4900</text>
+      <text x="80" y="194">t5</text><text x="110" y="194">business</text><text x="280" y="194" text-anchor="end">120000</text>
+      <text x="80" y="214">t6</text><text x="110" y="214">business</text><text x="280" y="214" text-anchor="end">30000</text>
+    </g>
+
+    <rect x="360" y="56" width="280" height="176" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <rect x="380" y="74" width="4" height="140" rx="2" fill="#7b5aad"/>
+    <text x="400" y="88" font-size="14" font-weight="600">Target</text>
+    <g font-family="Menlo, Consolas, monospace" font-size="12" fill="#26323d">
+      <text x="400" y="114">t1</text><text x="430" y="114">retail</text><text x="600" y="114" text-anchor="end">4900</text>
+      <text x="400" y="134">t2</text><text x="430" y="134">retail</text><text x="600" y="134" text-anchor="end">4900</text>
+      <text x="400" y="154" font-weight="700" fill="#9c3d2e">t2</text><text x="430" y="154" font-weight="700" fill="#9c3d2e">retail</text><text x="600" y="154" text-anchor="end" font-weight="700" fill="#9c3d2e">4900</text>
+      <text x="400" y="174">t3</text><text x="430" y="174">retail</text><text x="600" y="174" text-anchor="end">12550</text>
+      <text x="400" y="194">t5</text><text x="430" y="194">business</text><text x="600" y="194" text-anchor="end">120000</text>
+      <text x="400" y="214">t6</text><text x="430" y="214">business</text><text x="600" y="214" text-anchor="end">30000</text>
+    </g>
+
+    <path d="M180 234 V256 M500 234 V256" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M175 251 L180 257 L185 251 M495 251 L500 257 L505 251" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="264" width="280" height="84" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="60" y="290" font-size="14" font-weight="600">Weak check: count + sum</text>
+    <text x="60" y="313" font-size="12" fill="#52606b">retail 4 / 27250 · business 2 / 150000</text>
+    <text x="60" y="333" font-size="12" fill="#52606b">Equal on both sides, so it passes</text>
+
+    <rect x="360" y="264" width="280" height="84" rx="12" fill="#ffffff" stroke="#dce3e8"/>
+    <text x="380" y="290" font-size="14" font-weight="600">Row difference + key checks</text>
+    <text x="380" y="313" font-size="12" fill="#52606b">Missing from target: t4</text>
+    <text x="380" y="333" font-size="12" fill="#52606b">Duplicated in target: t2 ×2</text>
+
+    <path d="M500 350 V372" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round"/>
+    <path d="M495 367 L500 373 L505 367" fill="none" stroke="#8b99a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="40" y="380" width="600" height="56" rx="12" fill="#ffffff" stroke="#9c3d2e" stroke-width="1.5"/>
+    <rect x="60" y="394" width="4" height="28" rx="2" fill="#9c3d2e"/>
+    <text x="80" y="413" font-size="14" font-weight="600">Gate: BLOCK (fail closed)</text>
+    <text x="300" y="413" font-size="12" fill="#52606b">The last approved window stays published</text>
+  </g>
+</svg>

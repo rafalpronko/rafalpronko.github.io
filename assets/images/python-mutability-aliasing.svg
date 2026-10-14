@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">Shallow copy versus owned reconstruction of tags lists</title>
+  <desc id="svg-desc">Left panel, shallow copy: the input order and two results, eu and vip, are three separate dictionaries, but all three tags keys point to one shared list that now contains raw, eu and vip. Right panel, owned reconstruction: the same three dictionaries each point to their own list — the input keeps raw, eu holds raw and eu, vip holds raw and vip — so the input stays unchanged and the sibling results are independent.</desc>
+  <defs>
+    <marker id="arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#FFB454"/>
+    </marker>
+    <marker id="arrow-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7CE38B"/>
+    </marker>
+    <style>
+      .h { font: 600 22px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #E6EDF7; }
+      .ph { font: 600 17px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #38E1FF; }
+      .lbl { font: 14px system-ui, -apple-system, "Segoe UI", sans-serif; fill: #C9D4E5; }
+      .code { font: 14px ui-monospace, Menlo, Consolas, monospace; fill: #E6EDF7; }
+      .cap { font: 14px ui-monospace, Menlo, Consolas, monospace; }
+      .box { fill: #13213A; stroke: #5B7396; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect width="960" height="540" fill="#0B1426"/>
+  <text x="480" y="42" text-anchor="middle" class="h">Same annotated types, different ownership</text>
+
+  <!-- Left panel: shallow copy -->
+  <g>
+    <rect x="20" y="66" width="450" height="454" rx="10" fill="none" stroke="#FFB454" stroke-width="1.5" stroke-dasharray="6 5"/>
+    <text x="40" y="100" class="ph">Shallow: row = order.copy()</text>
+
+    <rect x="40" y="130" width="180" height="70" rx="6" class="box"/>
+    <text x="54" y="157" class="lbl">batch[0] (input)</text>
+    <text x="54" y="184" class="code">dict · "tags" →</text>
+
+    <rect x="40" y="235" width="180" height="70" rx="6" class="box"/>
+    <text x="54" y="262" class="lbl">eu[0] (result)</text>
+    <text x="54" y="289" class="code">dict · "tags" →</text>
+
+    <rect x="40" y="340" width="180" height="70" rx="6" class="box"/>
+    <text x="54" y="367" class="lbl">vip[0] (result)</text>
+    <text x="54" y="394" class="code">dict · "tags" →</text>
+
+    <rect x="270" y="225" width="185" height="90" rx="6" fill="#2A1F0E" stroke="#FFB454" stroke-width="2"/>
+    <text x="284" y="254" class="lbl" style="fill:#FFB454">one shared list</text>
+    <text x="284" y="284" class="code">['raw', 'eu',</text>
+    <text x="284" y="304" class="code"> 'vip']</text>
+
+    <path d="M220 165 C 245 165, 245 245, 266 255" fill="none" stroke="#FFB454" stroke-width="2" marker-end="url(#arrow-warn)"/>
+    <path d="M220 270 L 266 270" fill="none" stroke="#FFB454" stroke-width="2" marker-end="url(#arrow-warn)"/>
+    <path d="M220 375 C 245 375, 245 295, 266 285" fill="none" stroke="#FFB454" stroke-width="2" marker-end="url(#arrow-warn)"/>
+
+    <text x="40" y="452" class="cap" style="fill:#FFB454">3 outer dicts, 1 tags list</text>
+    <text x="40" y="476" class="cap" style="fill:#E6EDF7">eu[0]["tags"] is vip[0]["tags"]</text>
+    <text x="40" y="498" class="cap" style="fill:#E6EDF7">→ True; input was changed</text>
+  </g>
+
+  <!-- Right panel: owned reconstruction -->
+  <g>
+    <rect x="490" y="66" width="450" height="454" rx="10" fill="none" stroke="#7CE38B" stroke-width="1.5"/>
+    <text x="510" y="100" class="ph">Owned: tags=[*order["tags"], tag]</text>
+
+    <rect x="510" y="130" width="180" height="70" rx="6" class="box"/>
+    <text x="524" y="157" class="lbl">batch[0] (input)</text>
+    <text x="524" y="184" class="code">dict · "tags" →</text>
+
+    <rect x="510" y="235" width="180" height="70" rx="6" class="box"/>
+    <text x="524" y="262" class="lbl">eu[0] (result)</text>
+    <text x="524" y="289" class="code">dict · "tags" →</text>
+
+    <rect x="510" y="340" width="180" height="70" rx="6" class="box"/>
+    <text x="524" y="367" class="lbl">vip[0] (result)</text>
+    <text x="524" y="394" class="code">dict · "tags" →</text>
+
+    <rect x="745" y="140" width="175" height="50" rx="6" fill="#102A1C" stroke="#7CE38B" stroke-width="2"/>
+    <text x="759" y="171" class="code">['raw']</text>
+    <rect x="745" y="245" width="175" height="50" rx="6" fill="#102A1C" stroke="#7CE38B" stroke-width="2"/>
+    <text x="759" y="276" class="code">['raw', 'eu']</text>
+    <rect x="745" y="350" width="175" height="50" rx="6" fill="#102A1C" stroke="#7CE38B" stroke-width="2"/>
+    <text x="759" y="381" class="code">['raw', 'vip']</text>
+
+    <path d="M690 165 L 741 165" fill="none" stroke="#7CE38B" stroke-width="2" marker-end="url(#arrow-ok)"/>
+    <path d="M690 270 L 741 270" fill="none" stroke="#7CE38B" stroke-width="2" marker-end="url(#arrow-ok)"/>
+    <path d="M690 375 L 741 375" fill="none" stroke="#7CE38B" stroke-width="2" marker-end="url(#arrow-ok)"/>
+
+    <text x="510" y="452" class="cap" style="fill:#7CE38B">3 outer dicts, 3 tags lists</text>
+    <text x="510" y="476" class="cap" style="fill:#E6EDF7">input unchanged; mutating eu[0]</text>
+    <text x="510" y="498" class="cap" style="fill:#E6EDF7">does not reach vip[0]</text>
+  </g>
+</svg>

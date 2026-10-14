@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-labelledby="t d">
+  <title id="t">Building a benchmark: from decision contract to bounded conclusion</title>
+  <desc id="d">Five steps from left to right. 1, contract: fix the decision, a competent baseline and what sits inside the timer. 2, same cases: fixed seeds and identical inputs for every variant. 3, correctness gate: outputs must equal the baseline; failing variants go to a failure log and are not timed. 4, paired timing: every repetition times all variants on the same case in a shuffled order. 5, bounded conclusion: a per-case verdict that holds only for the measured cases. Example: list scan versus building a set plus lookup.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f2933"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="630" fill="#f7f8fa"/>
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" fill="#1f2933" text-anchor="middle">
+    <text x="600" y="70" font-size="42" font-weight="700">A benchmark you can defend</text>
+
+    <g font-size="23">
+      <rect x="20" y="120" width="210" height="250" rx="16" fill="#ffffff" stroke="#3e4c59" stroke-width="3"/>
+      <text x="125" y="172" font-size="30" font-weight="700">1</text>
+      <text x="125" y="214" font-size="28" font-weight="700">Contract</text>
+      <text x="125" y="276">decision,</text>
+      <text x="125" y="306">baseline,</text>
+      <text x="125" y="336">timer scope</text>
+
+      <rect x="255" y="120" width="210" height="250" rx="16" fill="#ffffff" stroke="#3e4c59" stroke-width="3"/>
+      <text x="360" y="172" font-size="30" font-weight="700">2</text>
+      <text x="360" y="214" font-size="28" font-weight="700">Same cases</text>
+      <text x="360" y="276">fixed seeds,</text>
+      <text x="360" y="306">same inputs</text>
+
+      <rect x="490" y="120" width="210" height="250" rx="16" fill="#e6f4ea" stroke="#1e7a3c" stroke-width="4"/>
+      <text x="595" y="172" font-size="30" font-weight="700">3</text>
+      <text x="595" y="214" font-size="28" font-weight="700">Correctness</text>
+      <text x="595" y="248" font-size="28" font-weight="700">gate</text>
+      <text x="595" y="306">outputs equal</text>
+      <text x="595" y="336">the baseline</text>
+
+      <rect x="725" y="120" width="210" height="250" rx="16" fill="#ffffff" stroke="#3e4c59" stroke-width="3"/>
+      <text x="830" y="172" font-size="30" font-weight="700">4</text>
+      <text x="830" y="214" font-size="28" font-weight="700">Paired</text>
+      <text x="830" y="248" font-size="28" font-weight="700">timing</text>
+      <text x="830" y="306">same round,</text>
+      <text x="830" y="336">shuffled order</text>
+
+      <rect x="960" y="120" width="220" height="250" rx="16" fill="#e8f0fb" stroke="#1d4f91" stroke-width="4"/>
+      <text x="1070" y="172" font-size="30" font-weight="700">5</text>
+      <text x="1070" y="214" font-size="28" font-weight="700">Bounded</text>
+      <text x="1070" y="248" font-size="28" font-weight="700">conclusion</text>
+      <text x="1070" y="306">per case,</text>
+      <text x="1070" y="336">these cases only</text>
+    </g>
+
+    <g stroke="#1f2933" stroke-width="4" fill="none" marker-end="url(#arrow)">
+      <line x1="231" y1="245" x2="252" y2="245"/>
+      <line x1="466" y1="245" x2="487" y2="245"/>
+      <line x1="701" y1="245" x2="722" y2="245"/>
+      <line x1="936" y1="245" x2="957" y2="245"/>
+      <path d="M595,372 L595,428"/>
+    </g>
+
+    <rect x="435" y="434" width="320" height="96" rx="14" fill="#fdecea" stroke="#b42318" stroke-width="3"/>
+    <text x="595" y="474" font-size="28" font-weight="700">Failure log</text>
+    <text x="595" y="510" font-size="23">reported, not timed</text>
+
+    <text x="600" y="590" font-size="25" fill="#3e4c59">Example: list scan vs. set build + lookup</text>
+  </g>
+</svg>
